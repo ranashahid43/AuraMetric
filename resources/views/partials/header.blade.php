@@ -1,7 +1,6 @@
 <header class="site-header">
-  <div class="container header-inner">
+  <div class="header-container">
     
-    <!-- Logo -->
     <a href="/" class="logo">
       <svg width="70" height="70" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -30,38 +29,34 @@
         <text x="50" y="58" font-family="Poppins, sans-serif" font-size="30" font-weight="900" fill="url(#grad)" text-anchor="middle" filter="url(#neon) url(#glow)">AM</text>
         <path d="M20 50 Q50 20 80 50 Q50 80 20 50" stroke="url(#grad)" stroke-width="5" fill="none" stroke-linecap="round" filter="url(#neon) url(#glow)"/>
       </svg>
-      <div class="logo-text">
-        AuraMetric
-      </div>
+      <div class="logo-text">AuraMetric</div>
     </a>
 
-    <!-- Navigation -->
-    <nav class="nav">
-      <a href="/" class="nav-link">{{ __('messages.nav_home') }}</a>
-      <a href="/services" class="nav-link">{{ __('messages.nav_services') }}</a>
+    <nav class="nav-menu" id="navMenu">
+      <ul class="nav-list">
+        <li><a href="/" class="nav-link">{{ __('messages.nav_home') }}</a></li>
+        <li><a href="/services" class="nav-link">{{ __('messages.nav_services') }}</a></li>
+        
+        <li class="dropdown">
+          <a href="#" class="nav-link dropdown-toggle">
+            {{ __('messages.nav_about') }} <i class="fa-solid fa-chevron-down"></i>
+          </a>
+          <ul class="dropdown-content">
+            <li><a href="/about" class="dropdown-item">{{ __('messages.nav_about') }}</a></li>
+            <li><a href="/contact" class="dropdown-item">{{ __('messages.nav_contact') }}</a></li>
+          </ul>
+        </li>
 
-      <!-- About Dropdown -->
-      <div class="dropdown">
-        <a href="#" class="nav-link dropdown-toggle">
-          {{ __('messages.nav_about') }} <i class="fa-solid fa-chevron-down"></i>
-        </a>
-        <div class="dropdown-content">
-          <a href="/about" class="dropdown-item">{{ __('messages.nav_about') }}</a>
-          <a href="/contact" class="dropdown-item">{{ __('messages.nav_contact') }}</a>
-        </div>
-      </div>
-
-      <a href="/careers" class="nav-link">{{ __('messages.nav_careers') }}</a>
-
-      <!-- Language Switcher -->
-      <div class="lang-switcher">
-        <a href="{{ route('lang.switch', 'en') }}" class="{{ session('locale', 'en') == 'en' ? 'active' : '' }}">EN</a>
-        <a href="{{ route('lang.switch', 'it') }}" class="{{ session('locale', 'en') == 'it' ? 'active' : '' }}">IT</a>
-      </div>
+        <li><a href="/careers" class="nav-link">{{ __('messages.nav_careers') }}</a></li>
+        
+        <li class="lang-switcher">
+          <a href="{{ route('lang.switch', 'en') }}" class="{{ session('locale', 'en') == 'en' ? 'active' : '' }}">EN</a>
+          <a href="{{ route('lang.switch', 'it') }}" class="{{ session('locale', 'en') == 'it' ? 'active' : '' }}">IT</a>
+        </li>
+      </ul>
     </nav>
 
-    <!-- Hamburger Icon -->
-    <div class="hamburger">
+    <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
@@ -69,56 +64,38 @@
   </div>
 </header>
 
-<script>
-  const hamburger = document.querySelector('.hamburger');
-  const nav = document.querySelector('.nav');
-
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('active');
-  });
-
-  document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      nav.classList.remove('active');
-    });
-  });
-
-  // Desktop hover dropdown
-  document.querySelectorAll('.dropdown').forEach(drop => {
-    drop.addEventListener('mouseenter', () => {
-      drop.querySelector('.dropdown-content').style.display = 'flex';
-    });
-    drop.addEventListener('mouseleave', () => {
-      drop.querySelector('.dropdown-content').style.display = 'none';
-    });
-  });
-</script>
-
 <style>
-  /* Remove any default body margin/padding that causes black space */
-  body {
+  /* 1. Reset Global Spacing (Removes Black Portions) */
+  * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
 
+  body {
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+
+  /* 2. Header Container */
   .site-header {
     background: linear-gradient(135deg, #4a148c, #7b1fa2, #9c27b0);
-    padding: 15px 5%;
+    padding: 10px 5%;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    position: relative;
+    position: sticky;
+    top: 0;
+    width: 100%;
     z-index: 1000;
   }
 
-  .header-inner {
+  .header-container {
+    max-width: 1400px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
   }
 
+  /* 3. Logo & Text Effects */
   .logo {
     display: flex;
     align-items: center;
@@ -126,15 +103,11 @@
   }
 
   .logo svg {
-    width: 70px;
-    height: 70px;
     filter: drop-shadow(0 0 10px rgba(186, 104, 200, 0.6));
     transition: transform 0.4s ease;
   }
 
-  .logo:hover svg {
-    transform: rotate(10deg);
-  }
+  .logo:hover svg { transform: rotate(10deg); }
 
   .logo-text {
     margin-left: 10px;
@@ -144,12 +117,15 @@
     background: linear-gradient(135deg, #ba68c8, #e1bee7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(186,104,200,0.3));
   }
 
-  .nav {
+  /* 4. Desktop Navigation */
+  .nav-list {
     display: flex;
     align-items: center;
     gap: 28px;
+    list-style: none;
   }
 
   .nav-link {
@@ -173,42 +149,33 @@
     transform: translateX(-50%);
   }
 
-  .nav-link:hover::after {
-    width: 100%;
-  }
+  .nav-link:hover::after { width: 100%; }
+  .nav-link:hover { color: #e1bee7; }
 
-  .nav-link:hover {
-    color: #e1bee7;
-  }
-
-  .dropdown {
-    position: relative;
-  }
-
+  /* Dropdown Styles */
+  .dropdown { position: relative; }
   .dropdown-content {
     display: none;
     position: absolute;
-    top: 100%;
+    top: 120%;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(74, 20, 140, 0.95);
     backdrop-filter: blur(10px);
-    min-width: 160px;
+    min-width: 180px;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    flex-direction: column;
-    z-index: 99;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: flex;
+    list-style: none;
+    overflow: hidden;
   }
 
   .dropdown-item {
-    padding: 10px 20px;
+    display: block;
+    padding: 12px 20px;
     color: #e0e0e0;
     text-decoration: none;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
   }
 
   .dropdown-item:hover {
@@ -217,6 +184,7 @@
     padding-left: 28px;
   }
 
+  /* Language Switcher Styling */
   .lang-switcher {
     display: flex;
     gap: 8px;
@@ -224,131 +192,120 @@
 
   .lang-switcher a {
     color: #fff;
-    font-size: 0.9rem;
-    padding: 5px 10px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 5px 12px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    transition: 0.3s;
   }
 
-  .lang-switcher a.active {
-    background: #ba68c8;
-  }
+  .lang-switcher a.active { background: #ba68c8; font-weight: bold; }
 
-  /* Hamburger - Small & compact */
+  /* 5. Hamburger Menu Icon */
   .hamburger {
     display: none;
     flex-direction: column;
-    justify-content: center;
     gap: 5px;
-    width: 28px;
-    height: 20px;
     cursor: pointer;
+    z-index: 1001;
   }
 
   .hamburger span {
-    width: 100%;
+    width: 28px;
     height: 3px;
     background: #fff;
     border-radius: 3px;
-    transition: all 0.3s ease;
+    transition: 0.3s;
   }
 
-  .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
-  }
-
-  /* Mobile View - Side menu, no extra space */
+  /* 6. Responsive Logic (Mobile & Tablet) */
   @media (max-width: 992px) {
-    .hamburger {
-      display: flex;
+    .hamburger { display: flex; }
+
+    /* Show dropdown on hover only for Desktop */
+    .dropdown:hover .dropdown-content { display: none; } 
+
+    .nav-menu {
+      position: absolute;
+      top: 100%;
+      right: 5%; /* Aligned with right padding of header */
+      width: 240px; /* Clean, compact width */
+      background: rgba(74, 20, 140, 0.98);
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      display: none; /* Hidden by JS */
+      border: 1px solid rgba(186, 104, 200, 0.2);
     }
 
-    .nav {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      height: 100vh;
-      width: 280px;
-      background: linear-gradient(135deg, #4a148c, #7b1fa2);
+    .nav-menu.active { display: block; }
+
+    .nav-list {
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 30px;
-      transition: right 0.4s ease;
-      z-index: 999;
-      padding: 80px 20px 40px;
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .nav.active {
-      right: 0;
-    }
-
-    .nav-link {
-      font-size: 1.2rem;
-      padding: 10px 0;
+      align-items: flex-start;
+      gap: 15px;
     }
 
     .dropdown-content {
       position: static;
       transform: none;
-      background: transparent;
-      box-shadow: none;
-      display: none;
-      margin-top: 10px;
+      background: rgba(0,0,0,0.1);
       width: 100%;
+      box-shadow: none;
+      margin-top: 10px;
     }
 
-    .dropdown.active .dropdown-content {
-      display: flex;
-    }
+    .dropdown.active .dropdown-content { display: block; }
 
-    .dropdown-item {
-      padding: 10px 0;
-      text-align: center;
-    }
-
-    .lang-switcher {
-      margin-top: 20px;
-    }
-
-    .logo svg {
-      width: 60px;
-      height: 60px;
-    }
-
-    .logo-text {
-      font-size: 1.4rem;
-    }
+    /* Animation for Hamburger */
+    .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
   }
 
-  @media (max-width: 480px) {
-    .logo-text {
-      font-size: 1.3rem;
-    }
-
-    .logo svg {
-      width: 55px;
-      height: 55px;
-    }
-
-    .hamburger {
-      width: 26px;
-      height: 18px;
-      gap: 4px;
-    }
-
-    .hamburger span {
-      height: 2.5px;
-    }
+  /* Desktop Hover */
+  @media (min-width: 993px) {
+    .dropdown:hover .dropdown-content { display: block; }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+
+    // 1. Toggle Mobile Menu
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // 2. Toggle Dropdown on Mobile click
+    dropdownToggle.addEventListener('click', (e) => {
+      if (window.innerWidth <= 992) {
+        e.preventDefault();
+        dropdownToggle.parentElement.classList.toggle('active');
+      }
+    });
+
+    // 3. Close menu when clicking a link
+    document.querySelectorAll('.nav-link:not(.dropdown-toggle), .dropdown-item').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+
+    // 4. Close menu when clicking anywhere else on screen
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      }
+    });
+  });
+</script>
