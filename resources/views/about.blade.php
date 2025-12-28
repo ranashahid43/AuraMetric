@@ -92,7 +92,7 @@
 
 @push('styles')
 <style>
-  /* All original styles maintained */
+  /* Base Styles kept exactly as provided */
   .about-hero {
     min-height: 45vh;
     display: flex;
@@ -156,11 +156,11 @@
     transition: 0.6s ease;
   }
 
-  /* FIXED: Icon Flipping restored */
   .mission-card:hover .mission-icon {
     transform: rotateY(180deg);
   }
 
+  /* CHAIRMAN SECTION: Restored to Version 3 Styles */
   .chairman-container {
     display: flex;
     flex-wrap: wrap;
@@ -178,13 +178,55 @@
     border: 1px solid rgba(186, 104, 200, 0.2);
   }
 
+  /* Restored size and internal text styles for Chairman Message */
   .chairman-message {
-    flex: 1.5 1 500px;
+    flex: 1.5 1 500px; 
     padding: 60px;
     border-radius: 40px;
     border: 1px solid rgba(186, 104, 200, 0.2);
   }
 
+  .chairman-message h2 {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #fff, #ba68c8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .quote {
+    font-size: 1.35rem;
+    font-style: italic;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .quote::before {
+    content: '“';
+    font-size: 6rem;
+    color: #ba68c8;
+    opacity: 0.3;
+    position: absolute;
+    left: -40px;
+    top: -30px;
+  }
+
+  .signature h4 {
+    font-size: 1.8rem;
+    color: #ba68c8;
+    margin-bottom: 5px;
+  }
+
+  .signature p {
+    color: #aaa;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Team Section Styles kept exactly as provided */
   .team-container {
     display: flex;
     flex-wrap: wrap;
@@ -215,7 +257,6 @@
     position: relative;
   }
 
-  /* FIXED: LinkedIn alignment pushed to bottom */
   .member-info {
     display: flex;
     flex-direction: column;
