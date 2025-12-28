@@ -1,24 +1,18 @@
 @extends('layouts.app')
 
-@section('title', __('messages.privacy_title') . ' | The Testing Tech')
+@section('title', __('messages.privacy_title') . ' | AuraMetric')
 @section('meta_description', __('messages.privacy_meta_description'))
 
 @section('content')
 
-<!-- HERO SECTION - Consistent with other pages -->
-<section class="hero" style="min-height: 40vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #2da9ff;">
+<section class="hero legal-hero">
   <div class="hero-content">
-    <h1>
-      {{ __('messages.privacy_heading') }}
-    </h1>
-    <p>
-      {{ __('messages.privacy_last_updated', ['date' => 'December 27, 2025']) }}
-    </p>
+    <h1>{{ __('messages.privacy_heading') }}</h1>
+    <p>{{ __('messages.privacy_last_updated', ['date' => 'December 28, 2025']) }}</p>
   </div>
 </section>
 
-<!-- MAIN PRIVACY CONTENT -->
-<main class="legal-container">
+<main class="legal-section">
   <div class="legal-content glass">
     
     <p class="intro-text">{{ __('messages.privacy_intro') }}</p>
@@ -108,11 +102,11 @@
       <p>{{ __('messages.privacy_updates') }}</p>
     </section>
 
-    <section class="privacy-section contact-section">
+    <section class="privacy-section contact-details-section">
       <h2>{{ __('messages.privacy_section_12_title') }}</h2>
       <p>{{ __('messages.privacy_contact_intro') }}</p>
-      <div class="contact-details">
-        <p><strong>{{ __('messages.privacy_email') }}:</strong> <a href="mailto:privacy@thetestingtech.com">privacy@thetestingtech.com</a></p>
+      <div class="contact-details-box">
+        <p><strong>{{ __('messages.privacy_email') }}:</strong> <a href="mailto:privacy@aurametric.com">privacy@aurametric.com</a></p>
         <p><strong>{{ __('messages.privacy_address') }}:</strong> {{ __('messages.privacy_address_value') }}</p>
       </div>
     </section>
@@ -121,34 +115,58 @@
   </div>
 </main>
 
+@endsection
+
 @push('styles')
 <style>
-  .legal-container {
-    padding: 100px 5%;
-    max-width: 1200px;
+  /* HERO SECTION - CONSISTENT WITH ABOUT/CONTACT */
+  .legal-hero {
+    min-height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .legal-hero h1 {
+    font-size: clamp(2.5rem, 6vw, 3.8rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #ba68c8, #e1bee7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+
+  .legal-hero p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+  }
+
+  /* MAIN CONTENT LAYOUT */
+  .legal-section {
+    padding: 80px 5%;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
   .legal-content {
-    border-radius: 50px;
-    padding: 80px 100px;
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-    transition: all 0.5s ease;
+    border-radius: 40px;
+    padding: 80px;
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .legal-content:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 50px 100px rgba(45,169,255,0.2);
+    transform: translateY(-10px);
+    border-color: rgba(186, 104, 200, 0.4);
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .intro-text {
     font-size: 1.3rem;
     line-height: 1.9;
-    color: #ccc;
+    color: rgba(255, 255, 255, 0.8);
     text-align: center;
     margin-bottom: 80px;
     max-width: 900px;
@@ -156,14 +174,17 @@
     margin-right: auto;
   }
 
+  /* SECTION HEADINGS - MATCHING ABOUT PAGE CHAIRMAN BOX STYLE */
   .privacy-section {
     margin-bottom: 80px;
   }
 
   .privacy-section h2 {
-    font-size: 2.6rem;
-    color: #fff;
+    font-size: 2.2rem;
     margin-bottom: 30px;
+    background: linear-gradient(135deg, #fff, #ba68c8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     position: relative;
     padding-bottom: 15px;
   }
@@ -173,103 +194,88 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 100px;
-    height: 5px;
-    background: linear-gradient(90deg, #2da9ff, #7ed3ff);
-    border-radius: 3px;
+    width: 60px;
+    height: 4px;
+    background: #ba68c8;
+    border-radius: 10px;
   }
 
   .privacy-section p {
-    font-size: 1.2rem;
-    line-height: 1.9;
-    color: #ddd;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
     margin-bottom: 25px;
   }
 
   .privacy-section ul {
-    padding-left: 30px;
-    margin-bottom: 25px;
+    list-style: none;
+    padding-left: 0;
   }
 
   .privacy-section li {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: #ccc;
-    margin-bottom: 18px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 15px;
+    padding-left: 25px;
     position: relative;
-    padding-left: 15px;
   }
 
   .privacy-section li::before {
     content: '•';
-    color: #2da9ff;
-    font-size: 1.5rem;
+    color: #ba68c8;
+    font-size: 1.8rem;
     position: absolute;
-    left: -15px;
-    top: -2px;
+    left: 0;
+    top: -5px;
   }
 
-  .privacy-section li strong {
+  .privacy-section strong {
     color: #fff;
+    font-weight: 600;
   }
 
-  .contact-section .contact-details p {
-    font-size: 1.3rem;
-    margin-bottom: 20px;
+  /* CONTACT DETAILS BOX */
+  .contact-details-box {
+    background: rgba(186, 104, 200, 0.05);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(186, 104, 200, 0.1);
   }
 
-  .contact-section a {
-    color: #2da9ff;
+  .contact-details-box a {
+    color: #ba68c8;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: 0.3s;
   }
 
-  .contact-section a:hover {
+  .contact-details-box a:hover {
     color: #fff;
-    text-decoration: underline;
   }
 
   .copyright {
     text-align: center;
-    font-size: 1rem;
-    color: #aaa;
-    margin-top: 100px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 80px;
     padding-top: 40px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(186, 104, 200, 0.1);
   }
 
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+  }
+
+  /* RESPONSIVE */
   @media (max-width: 992px) {
-    .legal-content {
-      padding: 60px 50px;
-      border-radius: 40px;
-    }
-    .privacy-section h2 {
-      font-size: 2.3rem;
-    }
-    .intro-text {
-      font-size: 1.2rem;
-    }
+    .legal-content { padding: 50px 30px; }
+    .privacy-section h2 { font-size: 1.8rem; }
   }
 
-  @media (max-width: 768px) {
-    .legal-content {
-      padding: 50px 30px;
-      border-radius: 30px;
-    }
-    .privacy-section h2 {
-      font-size: 2rem;
-    }
-    .privacy-section h2::after {
-      width: 80px;
-    }
-    .intro-text, .privacy-section p, .privacy-section li {
-      font-size: 1.1rem;
-    }
-    .contact-section .contact-details p {
-      font-size: 1.2rem;
-    }
+  @media (max-width: 480px) {
+    .legal-hero h1 { font-size: 2.2rem; }
+    .legal-section { padding: 40px 5%; }
   }
 </style>
 @endpush
-
-@endsection
