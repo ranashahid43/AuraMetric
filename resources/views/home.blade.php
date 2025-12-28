@@ -113,7 +113,7 @@
 
 @push('styles')
 <style>
-  /* Hero Section Responsiveness */
+  /* Hero Section */
   .hero {
     min-height: 80vh; 
     display: flex;
@@ -125,7 +125,6 @@
   .hero-content {
     text-align: center;
     max-width: 900px;
-    padding: 20px;
   }
 
   /* SMALLER HERO HEADING */
@@ -138,7 +137,7 @@
   }
 
   .hero-content p {
-    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
     margin-bottom: 40px;
     color: var(--text-dim);
   }
@@ -150,7 +149,7 @@
     justify-content: center;
   }
 
-  /* Services Section */
+  /* Services Section Title */
   .services-title {
     text-align: center;
     font-weight: 700;
@@ -163,20 +162,19 @@
 
   .services-subtitle {
     text-align: center;
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
     color: var(--text-dim);
-    margin-bottom: 40px;
-    max-width: 800px;
+    margin-bottom: 50px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  /* IMPROVED CARD ALIGNMENT */
+  /* FIXED ALIGNMENT: CENTERED LAST ROW */
   .services {
-    display: grid;
-    /* This creates a centered grid that doesn't leave huge gaps on big screens */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    justify-content: center; /* Centers cards in the last row */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* This centers the items in the last row */
     gap: 30px;
     padding: 20px;
     max-width: 1400px;
@@ -184,35 +182,34 @@
   }
 
   .glass.service {
+    /* calculation: (100% / cards per row) - gap */
+    flex: 0 1 calc(25% - 30px); /* Tries to fit 4 per row on desktop */
+    min-width: 280px;
     padding: 40px 25px;
     text-align: center;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%; /* Ensures all cards in a row have same height */
   }
 
   .glass.service i {
-    font-size: clamp(2.2rem, 6vw, 2.8rem);
+    font-size: 2.5rem;
     margin-bottom: 20px;
     color: #ba68c8;
   }
 
   .glass.service h3 {
     margin-bottom: 15px;
-    font-size: clamp(1.2rem, 4vw, 1.4rem);
-    min-height: 3rem; /* Helps keep headings aligned */
-    display: flex;
-    align-items: center;
+    font-size: 1.3rem;
   }
 
   .glass.service p {
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 30px;
     color: var(--text-dim);
-    flex-grow: 1; /* Pushes the button to the bottom so they all align */
+    flex-grow: 1; /* Aligns buttons at the bottom */
   }
 
   .glass.service:hover {
@@ -220,15 +217,22 @@
     box-shadow: 0 15px 35px rgba(186, 104, 200, 0.25);
   }
 
-  @media (max-width: 480px) {
-    .services {
-      grid-template-columns: 1fr; /* Single column on very small phones */
-      padding: 10px;
-      gap: 20px;
-    }
-
+  /* Responsive Adjustments */
+  @media (max-width: 1200px) {
     .glass.service {
-      padding: 30px 20px;
+      flex: 0 1 calc(33.333% - 30px); /* 3 per row on tablets */
+    }
+  }
+
+  @media (max-width: 900px) {
+    .glass.service {
+      flex: 0 1 calc(50% - 30px); /* 2 per row on smaller tablets */
+    }
+  }
+
+  @media (max-width: 600px) {
+    .glass.service {
+      flex: 0 1 100%; /* 1 per row on phones */
     }
 
     .hero-btns {
