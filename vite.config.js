@@ -7,12 +7,14 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
+            // Add this to ensure absolute URLs are handled correctly in production
+            detectTls: false, 
         }),
         tailwindcss(),
     ],
-    server: {
-        watch: {
-            ignored: ['**/storage/framework/views/**'],
-        },
+    // Ensure the build directory is correct
+    build: {
+        outDir: 'public/build',
+        emptyOutDir: true,
     },
 });
