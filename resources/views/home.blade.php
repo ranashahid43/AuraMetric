@@ -7,38 +7,27 @@
 <!-- HERO SECTION -->
 <section class="hero">
   <div class="hero-content">
-
-    <h1>
-      {!! __('messages.hero_home_main_title') !!}
-    </h1>
-
-    <p>
-      {{ __('messages.hero_home_subtitle') }}
-    </p>
-
+    <h1>{!! __('messages.hero_home_main_title') !!}</h1>
+    <p>{{ __('messages.hero_home_subtitle') }}</p>
     <div class="hero-btns">
       <a href="/contact" class="btn learn-more-btn">
         {{ __('messages.hero_btn_consultation') }}
       </a>
-
       <a href="/services" class="btn learn-more-btn">
         {{ __('messages.hero_btn_services') }}
       </a>
     </div>
-
   </div>
 </section>
 
 <!-- SERVICES SECTION -->
 <section id="services">
-
   <h2 class="services-title">{{ __('messages.services_home_title') }}</h2>
   <p class="services-subtitle">
     {{ __('messages.services_home_subtitle') }}
   </p>
 
   <div class="services">
-
     <div class="glass service">
       <i class="fa-solid fa-bug"></i>
       <h3>{{ __('messages.service_manual_title') }}</h3>
@@ -120,7 +109,6 @@
         {{ __('messages.learn_more') }}
       </a>
     </div>
-
   </div>
 </section>
 
@@ -128,64 +116,122 @@
 
 @push('styles')
 <style>
-/* Smaller, cleaner services section header */
-.services-title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-  background: linear-gradient(135deg, #ba68c8, #e1bee7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+  /* Hero Section Responsiveness */
+  .hero {
+    min-height: 80vh; /* Reduced height on smaller screens */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
 
-.services-subtitle {
-  text-align: center;
-  font-size: 1.1rem;
-  color: var(--text-dim);
-  margin-bottom: 40px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .hero-content {
+    text-align: center;
+    max-width: 900px;
+    padding: 20px;
+  }
 
-/* Responsive grid for services cards */
-.services {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  padding: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
+  .hero-content h1 {
+    font-size: clamp(2.5rem, 8vw, 4.5rem); /* Scales fluidly between screens */
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ba68c8, #e1bee7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-.glass.service {
-  padding: 25px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
+  .hero-content p {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    margin-bottom: 40px;
+    color: var(--text-dim);
+  }
 
-.glass.service i {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-  color: #ba68c8;
-}
+  .hero-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
 
-.glass.service h3 {
-  margin-bottom: 12px;
-  font-size: 1.3rem;
-}
+  /* Services Section */
+  .services-title {
+    text-align: center;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #ba68c8, #e1bee7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-.glass.service p {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
-  color: var(--text-dim);
-}
+  .services-subtitle {
+    text-align: center;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-.glass.service:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(186, 104, 200, 0.25);
-}
+  /* Responsive grid for services cards - improved for mobile */
+  .services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly smaller min for better mobile fit */
+    gap: 30px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .glass.service {
+    padding: 30px 20px; /* More vertical padding on mobile */
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .glass.service i {
+    font-size: clamp(2.2rem, 6vw, 2.8rem);
+    margin-bottom: 15px;
+    color: #ba68c8;
+  }
+
+  .glass.service h3 {
+    margin-bottom: 12px;
+    font-size: clamp(1.2rem, 4vw, 1.4rem);
+  }
+
+  .glass.service p {
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    line-height: 1.6;
+    margin-bottom: 25px;
+    color: var(--text-dim);
+  }
+
+  .glass.service:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(186, 104, 200, 0.25);
+  }
+
+  /* Additional mobile tweaks */
+  @media (max-width: 480px) {
+    .services {
+      padding: 10px;
+      gap: 20px;
+    }
+
+    .glass.service {
+      padding: 25px 15px;
+    }
+
+    .hero-btns {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn.learn-more-btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
 </style>
 @endpush
