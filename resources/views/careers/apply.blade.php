@@ -1,325 +1,348 @@
 @extends('layouts.app')
 
-@section('title', __('messages.careers_apply_title') . ' | The Testing Tech')
+@section('title', __('messages.careers_apply_title') . ' | AuraMetric')
 
 @section('content')
 
-<!-- HERO SECTION -->
-<section class="hero" style="min-height: 40vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #2da9ff;">
+<section class="hero careers-apply-hero">
   <div class="hero-content">
-    <h1>
-      {{ __('messages.careers_apply_title') }}
-    </h1>
-    <p>
-      {{ __('messages.careers_hero_subtitle') }}
-    </p>
+    <h1>{{ __('messages.careers_apply_title') }}</h1>
+    <p>{{ __('messages.careers_hero_subtitle') }}</p>
   </div>
 </section>
 
-<!-- MAIN APPLICATION FORM -->
-<main class="careers-container">
-  <div class="form-section glass">
+<main class="apply-section">
+  <div class="apply-card glass">
     
-    <form action="{{ route('careers.submit') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('careers.submit') }}" method="POST" enctype="multipart/form-data" class="modern-form">
       @csrf
 
-      <h3 class="form-group-title">{{ __('messages.careers_personal_info') }}</h3>
-      <div class="grid-2">
+      <h3 class="form-section-title">{{ __('messages.careers_personal_info') }}</h3>
+      
+      <div class="form-row grid-2">
         <div class="form-group">
           <label>{{ __('messages.careers_first_name') }}</label>
-          <input type="text" name="first_name" placeholder="{{ __('messages.careers_first_name_placeholder') }}" required>
+          <input type="text" name="first_name" placeholder="{{ __('messages.careers_first_name_placeholder') }}" value="{{ old('first_name') }}" required>
           @error('first_name') <span class="error">{{ $message }}</span> @enderror
         </div>
         <div class="form-group">
           <label>{{ __('messages.careers_last_name') }}</label>
-          <input type="text" name="last_name" placeholder="{{ __('messages.careers_last_name_placeholder') }}" required>
+          <input type="text" name="last_name" placeholder="{{ __('messages.careers_last_name_placeholder') }}" value="{{ old('last_name') }}" required>
           @error('last_name') <span class="error">{{ $message }}</span> @enderror
         </div>
       </div>
 
-      <div class="grid-2">
+      <div class="form-row grid-2">
         <div class="form-group">
           <label>{{ __('messages.careers_email') }}</label>
-          <input type="email" name="email" placeholder="{{ __('messages.careers_email_placeholder') }}" required>
-          <small>{{ __('messages.careers_email_note') }}</small>
+          <input type="email" name="email" placeholder="{{ __('messages.careers_email_placeholder') }}" value="{{ old('email') }}" required>
+          <small class="field-note">{{ __('messages.careers_email_note') }}</small>
           @error('email') <span class="error">{{ $message }}</span> @enderror
         </div>
         <div class="form-group">
-  <label>{{ __('messages.careers_phone') }}</label>
-  <input type="tel" name="phone" 
-         placeholder="{{ __('messages.careers_phone_placeholder') }}" 
-         required
-         pattern="^\+(92|39)[0-9]{7,15}$"
-         title="Phone number must start with +92 or +39 followed by digits"
-         style="padding:18px 20px; border-radius:15px; border:2px solid rgba(45,169,255,0.3); 
-                background: rgba(255,255,255,0.05); color:#fff; font-size:1.1rem;">
-  <small>{{ __('messages.careers_phone_note') }}</small>
-  @error('phone') <span class="error">{{ $message }}</span> @enderror
-</div>
-
+          <label>{{ __('messages.careers_phone') }}</label>
+          <input type="tel" name="phone" 
+                 placeholder="{{ __('messages.careers_phone_placeholder') }}" 
+                 value="{{ old('phone') }}"
+                 required
+                 pattern="^\+(92|39)[0-9]{7,15}$"
+                 title="Phone number must start with +92 or +39 followed by digits">
+          <small class="field-note">{{ __('messages.careers_phone_note') }}</small>
+          @error('phone') <span class="error">{{ $message }}</span> @enderror
+        </div>
       </div>
 
-      <h3 class="form-group-title">{{ __('messages.careers_role_experience') }}</h3>
-      <div class="form-group">
-        <label>{{ __('messages.careers_position') }}</label>
-        <select name="position" required class="custom-select">
-          <option value="">{{ __('messages.careers_select_position') }}</option>
-          @foreach($jobs as $job)
-            <option value="{{ $job }}">{{ $job }}</option>
-          @endforeach
-          <option value="Spontaneous">{{ __('messages.careers_spontaneous_option') }}</option>
-        </select>
+      <h3 class="form-section-title">{{ __('messages.careers_role_experience') }}</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>{{ __('messages.careers_position') }}</label>
+          <select name="position" required class="custom-select">
+            <option value="" disabled selected>{{ __('messages.careers_select_position') }}</option>
+            @foreach($jobs as $job)
+              <option value="{{ $job }}" {{ old('position') == $job ? 'selected' : '' }}>{{ $job }}</option>
+            @endforeach
+            <option value="Spontaneous" {{ old('position') == 'Spontaneous' ? 'selected' : '' }}>{{ __('messages.careers_spontaneous_option') }}</option>
+          </select>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>{{ __('messages.careers_cover_letter') }}</label>
-        <textarea name="cover_letter" rows="6" placeholder="{{ __('messages.careers_cover_letter_placeholder') }}" required></textarea>
-        @error('cover_letter') <span class="error">{{ $message }}</span> @enderror
+      <div class="form-row">
+        <div class="form-group">
+          <label>{{ __('messages.careers_cover_letter') }}</label>
+          <textarea name="cover_letter" rows="6" placeholder="{{ __('messages.careers_cover_letter_placeholder') }}" required>{{ old('cover_letter') }}</textarea>
+          @error('cover_letter') <span class="error">{{ $message }}</span> @enderror
+        </div>
       </div>
 
-      <h3 class="form-group-title">{{ __('messages.careers_documents') }}</h3>
-      <div class="upload-box">
-        <label>{{ __('messages.careers_cv_label') }}</label>
-        <input type="file" name="cv" accept=".pdf,.doc,.docx" required>
-        @error('cv') <span class="error">{{ $message }}</span> @enderror
-      </div>
-      <div class="upload-box">
-        <label>{{ __('messages.careers_portfolio_label') }}</label>
-        <input type="file" name="portfolio" accept=".pdf,.zip">
-        @error('portfolio') <span class="error">{{ $message }}</span> @enderror
-      </div>
-      <div class="upload-box">
-        <label>{{ __('messages.careers_video_label') }}</label>
-        <input type="file" name="video" accept=".mp4,.mov">
-        @error('video') <span class="error">{{ $message }}</span> @enderror
+      <h3 class="form-section-title">{{ __('messages.careers_documents') }}</h3>
+      
+      <div class="form-row grid-upload">
+        <div class="upload-box glass">
+          <i class="fa-solid fa-file-pdf"></i>
+          <label>{{ __('messages.careers_cv_label') }}</label>
+          <input type="file" name="cv" accept=".pdf,.doc,.docx" required>
+          @error('cv') <span class="error">{{ $message }}</span> @enderror
+        </div>
+        
+        <div class="upload-box glass">
+          <i class="fa-solid fa-briefcase"></i>
+          <label>{{ __('messages.careers_portfolio_label') }}</label>
+          <input type="file" name="portfolio" accept=".pdf,.zip">
+          @error('portfolio') <span class="error">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="upload-box glass">
+          <i class="fa-solid fa-video"></i>
+          <label>{{ __('messages.careers_video_label') }}</label>
+          <input type="file" name="video" accept=".mp4,.mov">
+          @error('video') <span class="error">{{ $message }}</span> @enderror
+        </div>
       </div>
 
-      <div class="privacy-group">
-        <input type="checkbox" name="agree" required>
-        <label>{{ __('messages.careers_privacy_agree') }} <a href="{{ route('privacy') }}" target="_blank">({{ __('messages.careers_read_policy') }})</a></label>
-        @error('agree') <span class="error">{{ $message }}</span> @enderror
+      <div class="consent-wrapper">
+        <div class="privacy-checkbox">
+          <input type="checkbox" name="agree" id="agree" required>
+          <label for="agree">
+            {{ __('messages.careers_privacy_agree') }} 
+            <a href="{{ route('privacy') }}" target="_blank" class="text-link">({{ __('messages.careers_read_policy') }})</a>
+          </label>
+        </div>
+
+        <div class="privacy-checkbox">
+          <input type="checkbox" name="marketing" id="marketing">
+          <label for="marketing">{{ __('messages.careers_marketing_agree') }}</label>
+        </div>
       </div>
 
-      <div class="privacy-group">
-        <input type="checkbox" name="marketing">
-        <label>{{ __('messages.careers_marketing_agree') }}</label>
-      </div>
-
-      <button type="submit" class="btn learn-more-btn">
+      <button type="submit" class="btn apply-submit-btn">
         {{ __('messages.careers_submit_button') }}
       </button>
     </form>
   </div>
 </main>
 
+@endsection
+
 @push('styles')
 <style>
-  .careers-container {
-    max-width: 1000px;
-    margin: 100px auto;
-    padding: 0 5%;
-  }
-
-  .form-section {
-    border-radius: 40px;
-    padding: 80px 100px;
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    transition: all 0.5s ease;
-  }
-
-  .form-section:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 30px 80px rgba(45,169,255,0.2);
-  }
-
-  .form-group-title {
-    font-size: 2.2rem;
-    color: #fff;
-    margin: 60px 0 40px 0;
+  /* HERO SECTION */
+  .careers-apply-hero {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    position: relative;
+    padding: 60px 20px;
   }
 
-  .form-group-title::after {
-    content: '';
-    display: block;
-    width: 100px;
-    height: 4px;
-    background: linear-gradient(90deg, #2da9ff, #7ed3ff);
-    margin: 20px auto 0;
-    border-radius: 2px;
+  .careers-apply-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    background: linear-gradient(135deg, #ba68c8, #e1bee7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
   }
+
+  /* LAYOUT */
+  .apply-section {
+    padding: 60px 5% 120px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .apply-card {
+    padding: 80px;
+    border-radius: 40px;
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+  }
+
+  /* TITLES */
+  .form-section-title {
+    font-size: 1.8rem;
+    color: #fff;
+    margin: 40px 0 30px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(186, 104, 200, 0.3);
+    display: inline-block;
+  }
+
+  .form-section-title:first-of-type { margin-top: 0; }
+
+  /* FORM ELEMENTS */
+  .form-row { margin-bottom: 30px; }
 
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    margin-bottom: 40px;
+    gap: 30px;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
+    gap: 10px;
   }
 
   .form-group label {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: #fff;
-    margin-bottom: 15px;
     font-weight: 500;
   }
 
   input, textarea, select {
-    padding: 18px 20px;
+    padding: 16px 20px;
     border-radius: 15px;
-    border: 2px solid rgba(45,169,255,0.3);
-    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    background: rgba(255, 255, 255, 0.05);
     color: #fff;
-    font-size: 1.1rem;
-    transition: all 0.4s ease;
+    font-size: 1rem;
+    transition: 0.3s ease;
   }
 
   input:focus, textarea:focus, select:focus {
     outline: none;
-    border-color: #2da9ff;
-    background: rgba(45,169,255,0.1);
-    box-shadow: 0 0 25px rgba(45,169,255,0.3);
+    border-color: #ba68c8;
+    background: rgba(186, 104, 200, 0.1);
+    box-shadow: 0 0 20px rgba(186, 104, 200, 0.2);
   }
 
-  input::placeholder, textarea::placeholder {
-    color: #aaa;
+  .field-note {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 5px;
   }
 
-  small {
-    font-size: 0.9rem;
-    color: #aaa;
-    margin-top: 8px;
-    display: block;
-  }
-
-  /* FIXED: Dropdown menu now has dark background and white text */
+  /* CUSTOM SELECT */
   .custom-select {
+    cursor: pointer;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ffffff' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ba68c8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 20px center;
-    background-color: rgba(255,255,255,0.05);
-    cursor: pointer;
   }
 
   .custom-select option {
-    background: #1a1a1a !important;  /* Dark background */
-    color: #fff !important;          /* White text */
-    padding: 12px;
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  /* UPLOAD BOXES */
+  .grid-upload {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
 
   .upload-box {
-    border: 3px dashed rgba(45,169,255,0.3);
-    padding: 40px;
-    border-radius: 20px;
-    margin-bottom: 30px;
+    padding: 30px 20px;
     text-align: center;
-    background: rgba(45,169,255,0.03);
-    transition: all 0.4s ease;
-    cursor: pointer;
+    border-radius: 20px;
+    border: 2px dashed rgba(186, 104, 200, 0.3);
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .upload-box i {
+    font-size: 2rem;
+    color: #ba68c8;
   }
 
   .upload-box:hover {
-    border-color: #2da9ff;
-    background: rgba(45,169,255,0.1);
-    box-shadow: 0 0 30px rgba(45,169,255,0.2);
+    border-color: #ba68c8;
+    background: rgba(186, 104, 200, 0.05);
+    transform: translateY(-5px);
   }
 
-  .upload-box label {
-    font-size: 1.3rem;
-    color: #fff;
-    margin-bottom: 15px;
-    display: block;
+  .upload-box input[type="file"] {
+    font-size: 0.8rem;
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: 100%;
   }
 
-  .upload-box input {
-    display: block;
-    margin: 0 auto;
+  /* CHECKBOXES */
+  .consent-wrapper {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
-  .privacy-group {
+  .privacy-checkbox {
     display: flex;
     align-items: flex-start;
-    gap: 15px;
-    font-size: 1rem;
-    margin: 40px 0;
-    color: #ccc;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
   }
 
-  .privacy-group input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
-    accent-color: #2da9ff;
+  .privacy-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #ba68c8;
     margin-top: 2px;
-    flex-shrink: 0;
   }
 
-  .privacy-group a {
-    color: #2da9ff;
-    text-decoration: underline;
+  .text-link {
+    color: #ba68c8;
+    text-decoration: none;
   }
 
-  .privacy-group a:hover {
-    color: #fff;
-  }
-
-  button.learn-more-btn {
+  /* SUBMIT BUTTON */
+  .apply-submit-btn {
     display: block;
-    margin: 60px auto 0;
-    background: #2da9ff;
-    color: #000;
-    padding: 22px 80px;
-    font-size: 1.5rem;
-    font-weight: bold;
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto 0;
+    padding: 20px;
     border-radius: 50px;
+    background: #ba68c8;
+    color: #000;
+    font-weight: 800;
+    font-size: 1.2rem;
+    border: none;
     cursor: pointer;
-    box-shadow: 0 12px 40px rgba(45,169,255,0.4);
-    transition: all 0.4s ease;
+    transition: 0.4s;
+    box-shadow: 0 10px 25px rgba(186, 104, 200, 0.3);
   }
 
-  button.learn-more-btn:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(45,169,255,0.6);
-    background: #7ed3ff;
+  .apply-submit-btn:hover {
+    background: #e1bee7;
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(186, 104, 200, 0.5);
+  }
+
+  /* UTILITIES */
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
   }
 
   .error {
     color: #ff6b6b;
-    font-size: 0.95rem;
-    margin-top: 8px;
+    font-size: 0.85rem;
   }
 
+  /* RESPONSIVE */
   @media (max-width: 992px) {
-    .grid-2 {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-    .form-section {
-      padding: 60px 40px;
-    }
+    .grid-upload { grid-template-columns: 1fr; }
+    .apply-card { padding: 40px 30px; }
   }
 
   @media (max-width: 768px) {
-    .form-section {
-      padding: 50px 30px;
-      border-radius: 30px;
+    .grid-2 { 
+        grid-template-columns: 1fr; 
+        gap: 0; 
     }
-    .form-group-title {
-      font-size: 1.9rem;
-    }
-    button.learn-more-btn {
-      padding: 18px 60px;
-      font-size: 1.3rem;
-    }
+    .grid-2 .form-group:first-child { margin-bottom: 30px; }
+    .apply-section { padding: 40px 5%; }
   }
 </style>
 @endpush
