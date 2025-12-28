@@ -1,354 +1,271 @@
 <header class="site-header">
-  <div class="container header-inner">
+  <div class="header-container">
     
-    <!-- Logo -->
-    <a href="/" class="logo">
-      <svg width="70" height="70" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#6a1b9a" />
-            <stop offset="50%" stop-color="#8e24aa" />
-            <stop offset="100%" stop-color="#ba68c8" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-          <filter id="neon">
-            <feGaussianBlur stdDeviation="2" result="blur"/>
-            <feComposite operator="out" in="blur" in2="SourceGraphic" result="inverse"/>
-            <feFlood flood-color="#ba68c8" flood-opacity="1" result="color"/>
-            <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
-            <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
-          </filter>
-        </defs>
-        <path d="M50 10 L90 35 L90 65 L50 90 L10 65 L10 35 Z" fill="none" stroke="url(#grad)" stroke-width="7" filter="url(#neon) url(#glow)"/>
-        <circle cx="50" cy="50" r="30" fill="none" stroke="url(#grad)" stroke-width="4" filter="url(#neon)"/>
-        <text x="50" y="58" font-family="Poppins, sans-serif" font-size="30" font-weight="900" fill="url(#grad)" text-anchor="middle" filter="url(#neon) url(#glow)">AM</text>
-        <path d="M20 50 Q50 20 80 50 Q50 80 20 50" stroke="url(#grad)" stroke-width="5" fill="none" stroke-linecap="round" filter="url(#neon) url(#glow)"/>
-      </svg>
-      <div class="logo-text">
-        AuraMetric
+    <a href="/" class="logo-wrapper">
+      <div class="logo-icon">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ba68c8" />
+              <stop offset="100%" stop-color="#6a1b9a" />
+            </linearGradient>
+          </defs>
+          <path d="M50 10 L90 35 L90 65 L50 90 L10 65 L10 35 Z" fill="none" stroke="url(#grad)" stroke-width="6"/>
+          <circle cx="50" cy="50" r="25" fill="none" stroke="url(#grad)" stroke-width="3" />
+          <text x="50" y="58" font-family="sans-serif" font-size="28" font-weight="900" fill="url(#grad)" text-anchor="middle">AM</text>
+        </svg>
       </div>
+      <span class="logo-text">AuraMetric</span>
     </a>
 
-    <!-- Navigation -->
-    <nav class="nav">
-      <a href="/" class="nav-link">{{ __('messages.nav_home') }}</a>
-      <a href="/services" class="nav-link">{{ __('messages.nav_services') }}</a>
+    <nav class="main-nav" id="mainNav">
+      <ul class="nav-list">
+        <li><a href="/" class="nav-link">{{ __('messages.nav_home') }}</a></li>
+        <li><a href="/services" class="nav-link">{{ __('messages.nav_services') }}</a></li>
+        
+        <li class="dropdown-wrapper">
+          <button class="nav-link dropdown-trigger">
+            {{ __('messages.nav_about') }} <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="/about" class="dropdown-item">{{ __('messages.nav_about') }}</a></li>
+            <li><a href="/contact" class="dropdown-item">{{ __('messages.nav_contact') }}</a></li>
+          </ul>
+        </li>
 
-      <!-- About Dropdown -->
-      <div class="dropdown">
-        <a href="#" class="nav-link dropdown-toggle">
-          {{ __('messages.nav_about') }} <i class="fa-solid fa-chevron-down"></i>
-        </a>
-        <div class="dropdown-content">
-          <a href="/about" class="dropdown-item">{{ __('messages.nav_about') }}</a>
-          <a href="/contact" class="dropdown-item">{{ __('messages.nav_contact') }}</a>
-        </div>
-      </div>
-
-      <a href="/careers" class="nav-link">{{ __('messages.nav_careers') }}</a>
-
-      <!-- Language Switcher -->
-      <div class="lang-switcher">
-        <a href="{{ route('lang.switch', 'en') }}" class="{{ session('locale', 'en') == 'en' ? 'active' : '' }}">EN</a>
-        <a href="{{ route('lang.switch', 'it') }}" class="{{ session('locale', 'en') == 'it' ? 'active' : '' }}">IT</a>
-      </div>
+        <li><a href="/careers" class="nav-link">{{ __('messages.nav_careers') }}</a></li>
+        
+        <li class="lang-switcher">
+          <a href="{{ route('lang.switch', 'en') }}" class="{{ session('locale') == 'en' ? 'active' : '' }}">EN</a>
+          <span class="sep">|</span>
+          <a href="{{ route('lang.switch', 'it') }}" class="{{ session('locale') == 'it' ? 'active' : '' }}">IT</a>
+        </li>
+      </ul>
     </nav>
 
-    <!-- Hamburger Icon (visible on mobile) -->
-    <div class="hamburger">
+    <button class="hamburger-menu" id="menuToggle" aria-label="Toggle Menu">
       <span></span>
       <span></span>
       <span></span>
-    </div>
+    </button>
   </div>
 </header>
 
-<script>
-  // Hamburger menu toggle
-  const hamburger = document.querySelector('.hamburger');
-  const nav = document.querySelector('.nav');
-
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('active');
-  });
-
-  // Close menu when clicking a link
-  document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      nav.classList.remove('active');
-    });
-  });
-
-  // Desktop dropdown hover
-  document.querySelectorAll('.dropdown').forEach(drop => {
-    drop.addEventListener('mouseenter', () => {
-      drop.querySelector('.dropdown-content').style.display = 'flex';
-    });
-    drop.addEventListener('mouseleave', () => {
-      drop.querySelector('.dropdown-content').style.display = 'none';
-    });
-  });
-</script>
-
 <style>
-  .site-header {
-    background: linear-gradient(135deg, #4a148c, #7b1fa2, #9c27b0);
-    padding: 15px 5%;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    position: relative;
-    z-index: 1000;
+  /* 1. Global Reset to fix "black portions" */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  .header-inner {
+  :root {
+    --primary-bg: linear-gradient(135deg, #4a148c, #7b1fa2, #9c27b0);
+    --dropdown-bg: #5e1a96;
+    --accent: #ba68c8;
+    --text-white: #ffffff;
+  }
+
+  .site-header {
+    background: var(--primary-bg);
+    padding: 0.8rem 5%;
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .header-container {
+    max-width: 1300px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
   }
 
-  .logo {
+  /* Logo Styles */
+  .logo-wrapper {
     display: flex;
     align-items: center;
     text-decoration: none;
+    z-index: 2100;
   }
 
-  .logo svg {
-    width: 70px;
-    height: 70px;
-    filter: drop-shadow(0 0 10px rgba(186, 104, 200, 0.6));
-    transition: transform 0.4s ease;
-  }
-
-  .logo:hover svg {
-    transform: rotate(10deg);
+  .logo-icon svg {
+    width: 50px;
+    height: 50px;
+    filter: drop-shadow(0 0 5px rgba(186, 104, 200, 0.4));
   }
 
   .logo-text {
-    margin-left: 10px;
+    margin-left: 12px;
     font-family: 'Poppins', sans-serif;
     font-weight: 800;
-    font-size: 1.5rem;
-    background: linear-gradient(135deg, #ba68c8, #e1bee7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 1.4rem;
+    color: white;
+    letter-spacing: 0.5px;
   }
 
-  .nav {
+  /* Desktop Nav */
+  .nav-list {
     display: flex;
+    list-style: none;
     align-items: center;
-    gap: 28px;
+    gap: 30px;
   }
 
   .nav-link {
-    color: #ffffff;
+    color: var(--text-white);
     text-decoration: none;
     font-weight: 600;
-    font-size: 1rem;
-    position: relative;
-    transition: color 0.3s ease;
+    font-size: 0.95rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 0;
+    transition: 0.3s;
   }
 
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 50%;
-    background: #ba68c8;
-    transition: width 0.3s ease;
-    transform: translateX(-50%);
-  }
+  .nav-link:hover { color: var(--accent); }
 
-  .nav-link:hover::after {
-    width: 100%;
-  }
-
-  .nav-link:hover {
-    color: #e1bee7;
-  }
-
-  .dropdown {
-    position: relative;
-  }
-
-  .dropdown-content {
-    display: none;
+  /* Dropdown Logic */
+  .dropdown-wrapper { position: relative; }
+  .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(74, 20, 140, 0.95);
-    backdrop-filter: blur(10px);
+    background: var(--dropdown-bg);
+    list-style: none;
     min-width: 160px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    flex-direction: column;
-    z-index: 99;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: flex;
+    border-radius: 8px;
+    display: none;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   }
 
   .dropdown-item {
-    padding: 10px 20px;
-    color: #e0e0e0;
+    display: block;
+    padding: 12px 20px;
+    color: white;
     text-decoration: none;
-    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    transition: 0.2s;
   }
 
-  .dropdown-item:hover {
-    background: rgba(186, 104, 200, 0.3);
-    color: #fff;
-    padding-left: 28px;
-  }
+  .dropdown-item:hover { background: rgba(255,255,255,0.1); }
 
+  .dropdown-wrapper:hover .dropdown-menu { display: block; }
+
+  /* Language Switcher */
   .lang-switcher {
     display: flex;
+    align-items: center;
     gap: 8px;
+    background: rgba(255,255,255,0.1);
+    padding: 5px 12px;
+    border-radius: 20px;
   }
 
   .lang-switcher a {
-    color: #fff;
-    font-size: 0.9rem;
-    padding: 5px 10px;
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+    opacity: 0.6;
   }
 
-  .lang-switcher a.active {
-    background: #ba68c8;
-  }
+  .lang-switcher a.active { opacity: 1; color: var(--accent); }
+  .sep { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
 
-  /* Hamburger Menu */
-  .hamburger {
+  /* Hamburger Styles */
+  .hamburger-menu {
     display: none;
     flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 30px;
-    height: 22px;
+    gap: 6px;
+    background: none;
+    border: none;
     cursor: pointer;
+    z-index: 2100;
   }
 
-  .hamburger span {
-    width: 100%;
+  .hamburger-menu span {
+    width: 28px;
     height: 3px;
-    background: #fff;
-    border-radius: 3px;
-    transition: all 0.3s ease;
+    background: white;
+    border-radius: 2px;
+    transition: 0.3s;
   }
 
-  .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
-  }
-
-  /* Mobile View */
+  /* Tablet & Mobile Responsiveness */
   @media (max-width: 992px) {
-    .nav {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      height: 100vh;
-      width: 280px;
-      background: linear-gradient(135deg, #4a148c, #7b1fa2);
+    .hamburger-menu { display: flex; }
+
+    .main-nav {
+      position: absolute;
+      top: 100%;
+      right: 5%;
+      width: 240px; /* Controlled width */
+      background: var(--dropdown-bg);
+      border-radius: 12px;
+      padding: 20px;
+      display: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .main-nav.active { display: block; }
+
+    .nav-list {
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 30px;
-      transition: right 0.4s ease;
-      z-index: 999;
-      padding: 80px 20px 40px;
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+      align-items: flex-start;
+      gap: 15px;
     }
 
-    .nav.active {
-      right: 0;
-    }
-
-    .nav-link {
-      font-size: 1.2rem;
-      padding: 10px 0;
-    }
-
-    .dropdown-content {
+    .dropdown-menu {
       position: static;
       transform: none;
-      background: transparent;
-      box-shadow: none;
-      display: none;
-      margin-top: 10px;
+      background: rgba(0,0,0,0.2);
       width: 100%;
+      margin-top: 10px;
+      box-shadow: none;
     }
 
-    .dropdown.active .dropdown-content {
-      display: flex;
-    }
+    .dropdown-wrapper.active .dropdown-menu { display: block; }
 
-    .dropdown-item {
-      padding: 10px 0;
-      text-align: center;
-    }
-
-    .lang-switcher {
-      margin-top: 20px;
-    }
-
-    .hamburger {
-      display: flex;
-    }
-
-    .logo svg {
-      width: 60px;
-      height: 60px;
-    }
-
-    .logo-text {
-      font-size: 1.4rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .site-header {
-      padding: 12px 5%;
-    }
-
-    .logo-text {
-      font-size: 1.3rem;
-    }
-
-    .logo svg {
-      width: 55px;
-      height: 55px;
-    }
-
-    .hamburger {
-      width: 26px;
-      height: 20px;
-      gap: 4px;
-    }
-
-    .hamburger span {
-      height: 2.5px;
-    }
+    /* Animation for Hamburger */
+    .active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .active span:nth-child(2) { opacity: 0; }
+    .active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('menuToggle');
+    const nav = document.getElementById('mainNav');
+    const dropdownTrigger = document.querySelector('.dropdown-trigger');
+
+    // Toggle Mobile Menu
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggle.classList.toggle('active');
+      nav.classList.toggle('active');
+    });
+
+    // Toggle Dropdown on Mobile
+    dropdownTrigger.addEventListener('click', (e) => {
+      if (window.innerWidth <= 992) {
+        e.preventDefault();
+        dropdownTrigger.parentElement.classList.toggle('active');
+      }
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('active');
+        toggle.classList.remove('active');
+      }
+    });
+  });
+</script>
