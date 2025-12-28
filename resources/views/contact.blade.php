@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', __('messages.contact_title') . ' | The Testing Tech')
+@section('title', __('messages.contact_title') . ' | AuraMetric')
 
 @section('content')
 
 <!-- HERO SECTION -->
 <section class="hero" style="min-height: 40vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #2da9ff;">
   <div class="hero-content">
-    <h1>
+    <h1 style="background: linear-gradient(135deg, #2da9ff, #7ed3ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.2rem; font-weight: 800;">
       {!! __('messages.contact_hero_title') !!}
     </h1>
-    <p>
+    <p style="color: #fff; font-size: 1.2rem; max-width: 800px; margin: 20px auto 0;">
       {{ __('messages.contact_hero_subtitle') }}
     </p>
   </div>
@@ -61,6 +61,16 @@
       <div class="success-message">{{ session('success') }}</div>
     @endif
 
+    @if($errors->any())
+      <div class="error-message">
+        <ul>
+          @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+
     <form action="{{ route('contact.submit') }}" method="POST">
       @csrf
 
@@ -105,8 +115,15 @@
 
 </main>
 
+@endsection
+
 @push('styles')
 <style>
+  .hero-content {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
   .contact-container {
     max-width: 1400px;
     margin: 100px auto;
@@ -114,17 +131,18 @@
     display: grid;
     grid-template-columns: 1fr 1.3fr;
     gap: 80px;
-    align-items: stretch; /* Makes both cards the same height */
+    align-items: stretch;
   }
 
   .contact-info, .contact-form-wrapper {
-    border-radius: 40px;
-    padding: 50px 60px; /* Reduced vertical padding slightly to balance height */
-    position: relative;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: flex;
-    flex-direction: column;
+    border-radius: 30px;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    transition: all 0.5s ease;
   }
 
   .contact-info:hover, .contact-form-wrapper:hover {
@@ -132,9 +150,8 @@
     box-shadow: 0 30px 70px rgba(45, 169, 255, 0.25);
   }
 
-  /* Smaller overall content in Get in Touch */
   .contact-info h2 {
-    font-size: 2.1rem; /* Smaller title */
+    font-size: 2.2rem;
     margin-bottom: 40px;
     text-align: center;
     color: #fff;
@@ -145,29 +162,28 @@
     align-items: center;
     gap: 25px;
     margin-bottom: 35px;
-    padding: 25px;
-    border-radius: 25px;
+    padding: 20px;
+    border-radius: 20px;
     background: rgba(255,255,255,0.05);
     transition: all 0.4s ease;
   }
 
   .contact-method:hover {
-    transform: translateX(15px);
+    transform: translateX(10px);
     background: rgba(45,169,255,0.1);
-    border-left: 5px solid #2da9ff;
   }
 
   .method-icon {
-    font-size: 2.6rem; /* Slightly smaller icon */
+    font-size: 2.4rem;
     color: #2da9ff;
     background: rgba(45,169,255,0.15);
-    width: 85px;
-    height: 85px;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 3px solid rgba(45,169,255,0.3);
+    border: 2px solid rgba(45,169,255,0.3);
     flex-shrink: 0;
     transition: all 0.4s ease;
   }
@@ -175,27 +191,18 @@
   .contact-method:hover .method-icon {
     background: rgba(45,169,255,0.25);
     transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(45,169,255,0.4);
-  }
-
-  .method-content {
-    flex: 1;
   }
 
   .method-content h4 {
-    font-size: 1.3rem; /* Smaller section titles */
+    font-size: 1.3rem;
     margin-bottom: 8px;
     color: #fff;
   }
 
   .method-content p {
-    font-size: 1.0rem; /* Smaller text → email fits perfectly on one line */
+    font-size: 1.05rem;
     color: #ccc;
     margin: 0;
-  }
-
-  .email-link {
-    font-size: 1.0rem;
   }
 
   .method-content a {
@@ -208,41 +215,40 @@
     color: #fff;
   }
 
-  /* Form side remains balanced */
-  .contact-form-wrapper {
+  .contact-form-wrapper form {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    height: 100%;
   }
 
   .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
   }
 
   .form-group label {
     display: block;
-    font-size: 1.2rem;
-    margin-bottom: 12px;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
     color: #fff;
     font-weight: 500;
   }
 
   input, textarea {
     width: 100%;
-    padding: 18px;
-    border-radius: 15px;
+    padding: 16px;
+    border-radius: 12px;
     border: 2px solid rgba(45,169,255,0.3);
     background: rgba(255,255,255,0.05);
     color: #fff;
-    font-size: 1.1rem;
-    transition: all 0.4s ease;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
   }
 
   input:focus, textarea:focus {
     outline: none;
     border-color: #2da9ff;
     background: rgba(45,169,255,0.1);
-    box-shadow: 0 0 20px rgba(45,169,255,0.3);
+    box-shadow: 0 0 15px rgba(45,169,255,0.3);
   }
 
   input::placeholder, textarea::placeholder {
@@ -252,31 +258,54 @@
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 30px;
+    margin-bottom: 10px;
   }
 
   .success-message {
     background: rgba(0, 200, 83, 0.2);
     border: 1px solid rgba(0, 200, 83, 0.4);
     color: #fff;
-    padding: 20px;
-    border-radius: 15px;
+    padding: 18px;
+    border-radius: 12px;
     text-align: center;
-    font-size: 1.2rem;
-    margin-bottom: 40px;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+
+  .error-message {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    color: #ff6b6b;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+  }
+
+  .error-message ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .error {
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    margin-top: 6px;
+    display: block;
   }
 
   button.learn-more-btn {
-    display: block;
-    margin: 40px auto 0;
+    margin-top: auto;
+    align-self: center;
     background: #2da9ff;
     color: #000;
-    padding: 20px 70px;
-    font-size: 1.4rem;
+    padding: 16px 50px;
+    font-size: 1.2rem;
     font-weight: bold;
+    border: none;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(45,169,255,0.4);
+    box-shadow: 0 10px 25px rgba(45,169,255,0.4);
     transition: all 0.4s ease;
   }
 
@@ -286,36 +315,86 @@
     background: #7ed3ff;
   }
 
-  .error {
-    color: #ff6b6b;
-    font-size: 0.9rem;
-    margin-top: 8px;
-    display: block;
+  /* Fully Responsive Design */
+  @media (max-width: 1200px) {
+    .contact-container {
+      gap: 60px;
+    }
+    .contact-info, .contact-form-wrapper {
+      padding: 45px;
+    }
   }
 
   @media (max-width: 992px) {
     .contact-container {
       grid-template-columns: 1fr;
-      gap: 60px;
+      gap: 50px;
     }
     .grid-2 {
       grid-template-columns: 1fr;
-    }
-    .contact-method {
-      flex-direction: column;
-      text-align: center;
-    }
-    .method-icon {
-      margin-bottom: 20px;
-      width: 80px;
-      height: 80px;
-      font-size: 2.4rem;
+      gap: 25px;
     }
     .contact-info h2 {
       font-size: 2rem;
     }
   }
+
+  @media (max-width: 768px) {
+    .contact-container {
+      margin: 60px auto;
+      padding: 0 5%;
+    }
+    .contact-info, .contact-form-wrapper {
+      padding: 40px 30px;
+      border-radius: 25px;
+    }
+    .contact-method {
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      gap: 15px;
+    }
+    .method-icon {
+      width: 70px;
+      height: 70px;
+      font-size: 2.2rem;
+    }
+    .method-content h4 {
+      font-size: 1.2rem;
+    }
+    .method-content p {
+      font-size: 1rem;
+    }
+    .contact-info h2 {
+      font-size: 1.9rem;
+      margin-bottom: 30px;
+    }
+    button.learn-more-btn {
+      padding: 14px 40px;
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-content {
+      padding: 60px 15px;
+    }
+    .hero-content h1 {
+      font-size: 2.6rem;
+    }
+    .contact-info, .contact-form-wrapper {
+      padding: 35px 25px;
+    }
+    .contact-method {
+      padding: 15px;
+    }
+    input, textarea {
+      padding: 14px;
+      font-size: 1rem;
+    }
+    .form-group label {
+      font-size: 1.1rem;
+    }
+  }
 </style>
 @endpush
-
-@endsection
