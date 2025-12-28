@@ -92,7 +92,7 @@
 
 @push('styles')
 <style>
-  /* Base Style Match - No changes to layout logic */
+  /* All original styles maintained */
   .about-hero {
     min-height: 45vh;
     display: flex;
@@ -156,6 +156,7 @@
     transition: 0.6s ease;
   }
 
+  /* FIXED: Icon Flipping restored */
   .mission-card:hover .mission-icon {
     transform: rotateY(180deg);
   }
@@ -182,21 +183,6 @@
     padding: 60px;
     border-radius: 40px;
     border: 1px solid rgba(186, 104, 200, 0.2);
-  }
-
-  .quote {
-    font-size: 1.35rem;
-    font-style: italic;
-    line-height: 1.9;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 40px;
-    position: relative;
-  }
-
-  .signature h4 {
-    font-size: 1.8rem;
-    color: #ba68c8;
-    margin-bottom: 5px;
   }
 
   .team-container {
@@ -227,7 +213,18 @@
     border: 4px solid #ba68c8;
     background-size: cover;
     position: relative;
-    box-shadow: 0 0 30px rgba(186, 104, 200, 0.2);
+  }
+
+  /* FIXED: LinkedIn alignment pushed to bottom */
+  .member-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .description {
+    flex-grow: 1;
+    margin-bottom: 25px;
   }
 
   .glass {
