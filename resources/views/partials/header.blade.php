@@ -79,7 +79,7 @@
     nav.classList.toggle('active');
   });
 
-  // Close menu when clicking a link (mobile)
+  // Close menu when clicking a link
   document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('active');
@@ -101,9 +101,10 @@
 <style>
   .site-header {
     background: linear-gradient(135deg, #4a148c, #7b1fa2, #9c27b0);
-    padding: 12px 5%;
+    padding: 15px 5%;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     position: relative;
+    z-index: 1000;
   }
 
   .header-inner {
@@ -234,12 +235,15 @@
   .hamburger {
     display: none;
     flex-direction: column;
+    justify-content: center;
     gap: 5px;
+    width: 30px;
+    height: 22px;
     cursor: pointer;
   }
 
   .hamburger span {
-    width: 30px;
+    width: 100%;
     height: 3px;
     background: #fff;
     border-radius: 3px;
@@ -273,7 +277,7 @@
       gap: 30px;
       transition: right 0.4s ease;
       z-index: 999;
-      padding: 80px 20px 20px;
+      padding: 80px 20px 40px;
       box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
     }
 
@@ -324,12 +328,27 @@
   }
 
   @media (max-width: 480px) {
-    .logo-text {
-      display: none;
+    .site-header {
+      padding: 12px 5%;
     }
+
+    .logo-text {
+      font-size: 1.3rem;
+    }
+
     .logo svg {
       width: 55px;
       height: 55px;
+    }
+
+    .hamburger {
+      width: 26px;
+      height: 20px;
+      gap: 4px;
+    }
+
+    .hamburger span {
+      height: 2.5px;
     }
   }
 </style>
