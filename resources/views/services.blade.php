@@ -4,21 +4,16 @@
 
 @section('content')
 
-<!-- HERO SECTION - Matches homepage blue theme -->
-<section class="hero" style="min-height: 40vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #2da9ff;">
+<!-- HERO SECTION -->
+<section class="hero services-hero">
   <div class="hero-content">
-    <h1 style="background: linear-gradient(135deg, #2da9ff, #7ed3ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.2rem; font-weight: 800;">
-      {!! __('messages.services_hero_title') !!}
-    </h1>
-    <p style="color: #fff; font-size: 1.2rem; max-width: 800px; margin: 20px auto 0;">
-      {{ __('messages.services_hero_subtitle') }}
-    </p>
+    <h1>{!! __('messages.services_hero_title') !!}</h1>
+    <p>{{ __('messages.services_hero_subtitle') }}</p>
   </div>
 </section>
 
 <!-- MAIN SERVICES CONTENT -->
 <main class="services-container">
-
   <!-- Manual Testing -->
   <div class="service-card glass" id="manual">
     <div class="service-card-inner">
@@ -225,24 +220,51 @@
       </div>
     </div>
   </div>
-
 </main>
 
 @endsection
 
 @push('styles')
 <style>
-  .hero-content {
-    text-align: center;
-    padding: 80px 20px;
+  /* Hero Section - Responsive */
+  .services-hero {
+    min-height: 50vh;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #2da9ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
   }
 
+  .services-hero .hero-content {
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .services-hero h1 {
+    font-size: clamp(2.5rem, 8vw, 3.8rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #2da9ff, #7ed3ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+
+  .services-hero p {
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Services Container - Responsive Grid */
   .services-container {
     max-width: 1400px;
-    margin: 100px auto;
+    margin: 80px auto;
     padding: 0 5%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     gap: 50px;
   }
 
@@ -283,20 +305,20 @@
   }
 
   .service-card-inner {
-    padding: 50px 40px 0 40px; /* Original padding - no increase */
+    padding: clamp(30px, 5vw, 50px) clamp(25px, 4vw, 40px) 0;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
   }
 
   .service-card-icon {
-    font-size: 4.5rem; /* Original size */
+    font-size: clamp(3.5rem, 8vw, 4.5rem);
     color: #2da9ff;
     margin-bottom: 30px;
     align-self: center;
     background: rgba(45, 169, 255, 0.1);
-    width: 120px;
-    height: 120px;
+    width: clamp(100px, 20vw, 120px);
+    height: clamp(100px, 20vw, 120px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -313,14 +335,14 @@
   }
 
   .service-card-content h2 {
-    font-size: 2.4rem; /* Original size */
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
     margin-bottom: 20px;
     color: #fff;
     text-align: center;
   }
 
   .service-card-subtitle {
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
     color: #ccc;
     text-align: center;
     margin-bottom: 35px;
@@ -330,15 +352,15 @@
   .service-features {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 30px;
     flex-grow: 1;
   }
 
   .service-features li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 15px;
-    font-size: 1.05rem;
+    font-size: clamp(0.95rem, 2.2vw, 1.05rem);
     color: #ddd;
     margin-bottom: 18px;
     padding-left: 10px;
@@ -349,7 +371,9 @@
     color: #2da9ff;
     font-size: 1.3rem;
     width: 28px;
+    flex-shrink: 0;
     text-align: center;
+    margin-top: 2px;
   }
 
   .service-card:hover .service-features li {
@@ -358,7 +382,7 @@
   }
 
   .service-card-btn-wrapper {
-    padding: 0 40px 50px 40px; /* Original bottom padding */
+    padding: 0 clamp(25px, 4vw, 40px) clamp(30px, 5vw, 50px);
     display: flex;
     justify-content: center;
   }
@@ -367,10 +391,11 @@
     background: transparent;
     color: #2da9ff;
     border: 2px solid #2da9ff;
-    padding: 14px 40px; /* Original button size */
+    padding: 14px clamp(30px, 6vw, 40px);
     border-radius: 50px;
     font-weight: bold;
     text-decoration: none;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
     transition: all 0.4s ease;
   }
 
@@ -381,9 +406,29 @@
     transform: translateY(-3px);
   }
 
-  @media (max-width: 992px) {
+  /* Tablet & Mobile Adjustments */
+  @media (max-width: 768px) {
     .services-container {
       grid-template-columns: 1fr;
+      gap: 40px;
+      margin: 60px auto;
+    }
+
+    .services-hero {
+      min-height: 45vh;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .services-container {
+      padding: 0 8%;
+      gap: 35px;
+    }
+
+    .service-card-inner,
+    .service-card-btn-wrapper {
+      padding-left: 20px;
+      padding-right: 20px;
     }
   }
 </style>
