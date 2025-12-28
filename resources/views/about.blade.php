@@ -36,8 +36,7 @@
   </div>
 
   <div class="chairman-container">
-    <div class="chairman-image glass">
-      <img src="https://i.ibb.co/jkB4rZfK/Shahid-Iqbal.png" alt="Chairman" style="width: 100%; height: 100%; object-fit: cover; object-position: center 15%;">
+    <div class="chairman-image glass" style="background-image: url('https://i.ibb.co/jkB4rZfK/Shahid-Iqbal.png'); background-size: cover; background-position: center;">
       <div class="image-overlay"></div>
     </div>
 
@@ -58,7 +57,7 @@
 
     <div class="team-container">
       <div class="team-card glass">
-        <div class="member-photo" style="background-image: url('https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png'); background-position: center 15%;">
+        <div class="member-photo" style="background-image: url('https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png'); background-position: center 30%;">
           <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -72,7 +71,7 @@
       </div>
 
       <div class="team-card glass">
-        <div class="member-photo" style="background-image: url('https://i.ibb.co/FqnfNDg5/Ali-Mohin-Raza.png'); background-position: center 15%;">
+        <div class="member-photo" style="background-image: url('https://i.ibb.co/FqnfNDg5/Ali-Mohin-Raza.png'); background-position: center 30%;">
           <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -93,7 +92,6 @@
 
 @push('styles')
 <style>
-  /* Base Style Match */
   .about-hero {
     min-height: 45vh;
     display: flex;
@@ -196,7 +194,7 @@
     border-radius: 40px;
     position: relative;
     border: 1px solid rgba(186, 104, 200, 0.2);
-    overflow: hidden; /* Added to contain the image tag */
+    background-repeat: no-repeat;
   }
 
   .chairman-message {
@@ -288,8 +286,6 @@
     margin: 0 auto 30px;
     border: 4px solid #ba68c8;
     background-size: cover;
-    /* Move down adjusted here */
-    background-position: center 15%; 
     position: relative;
     box-shadow: 0 0 30px rgba(186, 104, 200, 0.2);
   }
@@ -300,38 +296,11 @@
     flex-grow: 1;
   }
 
-  .member-info h3 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #fff;
-  }
-
-  .position {
-    color: #ba68c8;
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-
-  .description {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 30px;
-    flex-grow: 1;
-  }
-
-  .linkedin-link {
-    font-size: 2.2rem;
-    color: #ba68c8;
-    transition: 0.3s ease;
-  }
-
-  .linkedin-link:hover {
-    color: #fff;
-    transform: scale(1.15) rotate(5deg);
-  }
+  .member-info h3 { font-size: 2rem; margin-bottom: 10px; color: #fff; }
+  .position { color: #ba68c8; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; }
+  .description { font-size: 1.05rem; line-height: 1.8; color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; flex-grow: 1; }
+  .linkedin-link { font-size: 2.2rem; color: #ba68c8; transition: 0.3s ease; }
+  .linkedin-link:hover { color: #fff; transform: scale(1.15) rotate(5deg); }
 
   .glass {
     background: rgba(255, 255, 255, 0.03);
@@ -339,7 +308,6 @@
     -webkit-backdrop-filter: blur(15px);
   }
 
-  /* Responsive Adjustments */
   @media (max-width: 992px) {
     .chairman-container { flex-direction: column; }
     .chairman-image { width: 100%; max-width: 500px; height: 450px; }
