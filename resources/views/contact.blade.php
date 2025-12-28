@@ -64,7 +64,7 @@
         </div>
       @endif
 
-      <form action="{{ route('contact.submit') }}" method="POST">
+      <form action="{{ route('contact.submit') }}" method="POST" class="contact-form">
         @csrf
 
         <div class="grid-2">
@@ -112,7 +112,7 @@
 
 @push('styles')
 <style>
-  /* HERO SECTION - MATCHING ABOUT PAGE */
+  /* HERO SECTION */
   .contact-hero {
     min-height: 45vh;
     display: flex;
@@ -138,7 +138,7 @@
     margin: 0 auto;
   }
 
-  /* MAIN LAYOUT */
+  /* LAYOUT */
   .contact-section {
     padding: 80px 5%;
     max-width: 1600px;
@@ -167,7 +167,6 @@
     background: rgba(255, 255, 255, 0.05);
   }
 
-  /* CONTACT INFO STYLES */
   .contact-info h2 {
     font-size: 2.8rem;
     margin-bottom: 40px;
@@ -176,6 +175,7 @@
     -webkit-text-fill-color: transparent;
   }
 
+  /* FLIPPING ICON LOGIC */
   .contact-method {
     display: flex;
     align-items: center;
@@ -186,11 +186,6 @@
     background: rgba(186, 104, 200, 0.05);
     border: 1px solid rgba(186, 104, 200, 0.1);
     transition: 0.4s ease;
-  }
-
-  .contact-method:hover {
-    transform: translateX(10px);
-    background: rgba(186, 104, 200, 0.15);
   }
 
   .method-icon {
@@ -205,27 +200,29 @@
     border-radius: 20px;
     border: 1px solid rgba(186, 104, 200, 0.2);
     flex-shrink: 0;
+    transition: 0.6s ease; /* Transition for flip */
   }
 
-  .method-content h4 {
-    font-size: 1.4rem;
-    color: #fff;
-    margin-bottom: 5px;
+  .contact-method:hover .method-icon {
+    transform: rotateY(180deg); /* Flip like About Page */
+    background: rgba(186, 104, 200, 0.25);
   }
 
-  .method-content p, .method-content a {
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    font-size: 1.1rem;
-    transition: 0.3s;
+  .method-content h4 { font-size: 1.4rem; color: #fff; margin-bottom: 5px; }
+  .method-content p, .method-content a { color: rgba(255, 255, 255, 0.6); text-decoration: none; font-size: 1.1rem; }
+  .method-content a:hover { color: #ba68c8; }
+
+  /* FORM GROUP SPACING */
+  .form-group {
+    margin-bottom: 30px; /* Equal vertical gap for all groups */
   }
 
-  .method-content a:hover {
-    color: #ba68c8;
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px; /* Side-to-side gap for desktop */
   }
 
-  /* FORM STYLES */
-  .form-group { margin-bottom: 25px; }
   .form-group label {
     display: block;
     color: #fff;
@@ -252,15 +249,10 @@
     box-shadow: 0 0 20px rgba(186, 104, 200, 0.2);
   }
 
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-  }
-
-  /* BUTTON - MATCHING THE THEME */
+  /* BUTTON */
   .contact-btn {
-    margin-top: 20px;
+    display: block;
+    margin: 20px auto 0;
     background: #ba68c8;
     color: #000;
     padding: 18px 60px;
@@ -271,7 +263,6 @@
     cursor: pointer;
     box-shadow: 0 10px 30px rgba(186, 104, 200, 0.3);
     transition: all 0.4s ease;
-    align-self: center;
   }
 
   .contact-btn:hover {
@@ -280,34 +271,34 @@
     box-shadow: 0 20px 40px rgba(186, 104, 200, 0.5);
   }
 
-  /* SUCCESS/ERROR MESSAGES */
-  .success-message {
-    background: rgba(0, 200, 83, 0.1);
-    border: 1px solid #00c853;
-    color: #00c853;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    text-align: center;
-  }
+  .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
 
-  /* GLASS UTILITY */
-  .glass {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-  }
-
-  /* RESPONSIVE */
+  /* FULLY RESPONSIVE BREAKPOINTS */
   @media (max-width: 1024px) {
     .contact-container { grid-template-columns: 1fr; }
     .contact-info, .contact-form-wrapper { padding: 40px; }
   }
 
-  @media (max-width: 600px) {
-    .grid-2 { grid-template-columns: 1fr; gap: 10px; }
-    .contact-hero h1 { font-size: 2.5rem; }
-    .contact-btn { width: 100%; }
+  @media (max-width: 768px) {
+    .grid-2 {
+      grid-template-columns: 1fr; /* Stack inputs on mobile */
+      gap: 0; /* Reset grid gap to use the form-group margin for equal spacing */
+    }
+    
+    .contact-section { padding: 40px 5%; }
+    .contact-info h2 { font-size: 2.2rem; }
+    
+    /* Ensure the vertical space between name fields and email fields is exactly 30px */
+    .grid-2 .form-group:first-child {
+      margin-bottom: 30px; 
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contact-hero h1 { font-size: 2.3rem; }
+    .contact-info, .contact-form-wrapper { padding: 30px 20px; border-radius: 30px; }
+    .contact-method { padding: 20px; }
+    .contact-btn { width: 100%; padding: 16px 20px; }
   }
 </style>
 @endpush
