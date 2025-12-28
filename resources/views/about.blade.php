@@ -92,18 +92,18 @@
 
 @push('styles')
 <style>
-  /* Base Styles kept exactly as provided */
+  /* HERO SECTION */
   .about-hero {
-    min-height: 45vh;
+    min-height: 40vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px;
+    padding: clamp(60px, 10vh, 100px) 20px;
     text-align: center;
   }
 
   .about-hero h1 {
-    font-size: clamp(2.5rem, 6vw, 3.8rem);
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
     font-weight: 800;
     background: linear-gradient(135deg, #ba68c8, #e1bee7);
     -webkit-background-clip: text;
@@ -111,42 +111,50 @@
     margin-bottom: 20px;
   }
 
-  .about-section {
-    padding: 80px 5%;
-    max-width: 1600px;
+  .about-hero p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 800px;
     margin: 0 auto;
   }
 
+  /* LAYOUT */
+  .about-section {
+    padding: 40px 5% 100px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* MISSION CARDS */
   .mission-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 40px;
-    margin-bottom: 120px;
+    gap: 30px;
+    margin-bottom: clamp(60px, 10vh, 120px);
   }
 
   .mission-card {
-    flex: 1 1 500px;
+    flex: 1 1 400px; /* Reduced min-width for better wrapping */
     max-width: 650px;
-    padding: 60px 40px;
+    padding: clamp(30px, 5vw, 60px);
     border-radius: 30px;
     text-align: center;
     border: 1px solid rgba(186, 104, 200, 0.2);
-    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.5s ease;
   }
 
   .mission-card:hover {
-    transform: translateY(-15px);
-    border-color: rgba(186, 104, 200, 0.5);
+    transform: translateY(-10px);
     background: rgba(255, 255, 255, 0.05);
   }
 
   .mission-icon {
-    font-size: 3.5rem;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     color: #ba68c8;
     background: rgba(186, 104, 200, 0.1);
-    width: 110px;
-    height: 110px;
+    width: clamp(80px, 12vw, 110px);
+    height: clamp(80px, 12vw, 110px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -160,34 +168,32 @@
     transform: rotateY(180deg);
   }
 
-  /* CHAIRMAN SECTION: Restored to Version 3 Styles */
+  /* CHAIRMAN SECTION */
   .chairman-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 60px;
+    gap: clamp(30px, 5vw, 60px);
     align-items: center;
     justify-content: center;
-    margin-bottom: 120px;
+    margin-bottom: clamp(60px, 10vh, 120px);
   }
 
   .chairman-image {
-    flex: 1 1 400px;
-    height: 550px;
+    flex: 1 1 350px;
+    height: clamp(400px, 60vh, 550px);
     border-radius: 40px;
-    position: relative;
     border: 1px solid rgba(186, 104, 200, 0.2);
   }
 
-  /* Restored size and internal text styles for Chairman Message */
   .chairman-message {
-    flex: 1.5 1 500px; 
-    padding: 60px;
+    flex: 1.5 1 450px; 
+    padding: clamp(30px, 5vw, 60px);
     border-radius: 40px;
     border: 1px solid rgba(186, 104, 200, 0.2);
   }
 
   .chairman-message h2 {
-    font-size: 2.8rem;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
     margin-bottom: 30px;
     background: linear-gradient(135deg, #fff, #ba68c8);
     -webkit-background-clip: text;
@@ -195,76 +201,66 @@
   }
 
   .quote {
-    font-size: 1.35rem;
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
     font-style: italic;
-    line-height: 1.9;
+    line-height: 1.8;
     color: rgba(255, 255, 255, 0.8);
     margin-bottom: 40px;
     position: relative;
   }
 
-  .quote::before {
-    content: '“';
-    font-size: 6rem;
-    color: #ba68c8;
-    opacity: 0.3;
-    position: absolute;
-    left: -40px;
-    top: -30px;
+  /* Hide quote mark on very small screens to save space */
+  @media (min-width: 480px) {
+    .quote::before {
+      content: '“';
+      font-size: 5rem;
+      color: #ba68c8;
+      opacity: 0.2;
+      position: absolute;
+      left: -30px;
+      top: -25px;
+    }
   }
 
-  .signature h4 {
-    font-size: 1.8rem;
-    color: #ba68c8;
-    margin-bottom: 5px;
+  /* TEAM SECTION */
+  .section-title {
+    text-align: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 50px;
+    color: #fff;
   }
 
-  .signature p {
-    color: #aaa;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  /* Team Section Styles kept exactly as provided */
   .team-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 40px;
+    gap: 30px;
   }
 
   .team-card {
-    flex: 1 1 450px;
+    flex: 1 1 350px;
     max-width: 500px;
     border-radius: 40px;
-    padding: 50px 40px;
+    padding: clamp(30px, 5vw, 50px) 30px;
     text-align: center;
     border: 1px solid rgba(186, 104, 200, 0.2);
-    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     flex-direction: column;
-    min-height: 650px;
+    min-height: auto; /* Changed for mobile flexibility */
   }
 
   .member-photo {
-    width: 220px;
-    height: 220px;
+    width: clamp(150px, 20vw, 220px);
+    height: clamp(150px, 20vw, 220px);
     border-radius: 50%;
     margin: 0 auto 30px;
     border: 4px solid #ba68c8;
     background-size: cover;
-    position: relative;
-  }
-
-  .member-info {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
   }
 
   .description {
-    flex-grow: 1;
+    font-size: 0.95rem;
+    line-height: 1.6;
     margin-bottom: 25px;
   }
 
@@ -275,19 +271,29 @@
   }
 
   .linkedin-link {
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: #ba68c8;
+    margin-top: auto;
     transition: 0.3s ease;
   }
 
-  .linkedin-link:hover {
-    color: #fff;
-    transform: scale(1.15) rotate(5deg);
+  /* RESPONSIVE OVERRIDES */
+  @media (max-width: 1024px) {
+    .chairman-container { flex-direction: column; }
+    .chairman-image { width: 100%; max-width: 600px; }
+    .chairman-message { width: 100%; max-width: 800px; }
   }
 
-  @media (max-width: 992px) {
-    .chairman-container { flex-direction: column; }
-    .chairman-image { width: 100%; max-width: 500px; height: 450px; }
+  @media (max-width: 768px) {
+    .about-section { padding: 20px 5% 60px; }
+    .mission-card, .team-card { flex: 1 1 100%; }
+    .chairman-image { height: 350px; border-radius: 30px; }
+    .chairman-message { padding: 30px 20px; border-radius: 30px; }
+  }
+
+  @media (max-width: 480px) {
+    .signature h4 { font-size: 1.4rem; }
+    .signature p { font-size: 0.9rem; }
   }
 </style>
 @endpush
