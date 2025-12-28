@@ -36,19 +36,21 @@
   </div>
 
   <div class="chairman-container">
-    <div class="chairman-image-wrapper glass">
-      <img src="https://i.ibb.co/jkB4rZfK/Shahid-Iqbal.png" alt="Chairman" class="chairman-img">
+    <div class="chairman-image-box glass">
+      <img src="https://i.ibb.co/jkB4rZfK/Shahid-Iqbal.png" alt="Chairman">
       <div class="image-overlay"></div>
     </div>
 
-    <div class="chairman-message glass">
-      <h2>{{ __('messages.chairman_message_title') }}</h2>
-      <p class="quote">
-        “{{ __('messages.chairman_message_text') }}”
-      </p>
-      <div class="signature">
-        <h4>{{ __('messages.chairman_name') }}</h4>
-        <p>{{ __('messages.chairman_designation') }}</p>
+    <div class="chairman-message-box glass">
+      <div class="message-inner">
+        <h2>{{ __('messages.chairman_message_title') }}</h2>
+        <p class="quote">
+          “{{ __('messages.chairman_message_text') }}”
+        </p>
+        <div class="signature">
+          <h4>{{ __('messages.chairman_name') }}</h4>
+          <p>{{ __('messages.chairman_designation') }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -58,8 +60,8 @@
 
     <div class="team-container">
       <div class="team-card glass">
-        <div class="member-photo-container">
-           <img src="https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png" alt="Team Member" class="member-img">
+        <div class="member-photo-wrapper">
+           <img src="https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png" alt="Member">
            <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -75,8 +77,8 @@
       </div>
 
       <div class="team-card glass">
-        <div class="member-photo-container">
-          <img src="https://i.ibb.co/FqnfNDg5/Ali-Mohin-Raza.png" alt="Team Member" class="member-img">
+        <div class="member-photo-wrapper">
+          <img src="https://i.ibb.co/FqnfNDg5/Ali-Mohin-Raza.png" alt="Member">
           <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -99,7 +101,7 @@
 
 @push('styles')
 <style>
-  /* Base Style Sync */
+  /* Base & Hero */
   .about-hero {
     min-height: 45vh;
     display: flex;
@@ -118,68 +120,117 @@
     margin-bottom: 20px;
   }
 
-  /* Mission & Vision Alignment */
+  .about-section {
+    padding: 80px 5%;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* Mission & Team Flashing Glass Cards */
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .glass:hover {
+    transform: translateY(-12px);
+    border-color: rgba(186, 104, 200, 0.5);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Flipping Squircle Icons */
   .mission-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
-    margin-bottom: 100px;
+    margin-bottom: 120px;
   }
 
   .mission-card {
     flex: 1 1 450px;
     max-width: 600px;
-    padding: 50px 30px;
+    padding: 60px 40px;
     border-radius: 30px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid rgba(186, 104, 200, 0.2);
   }
 
-  /* Chairman Section Alignment Fix */
+  .mission-icon {
+    font-size: 3.5rem;
+    color: #ba68c8;
+    background: rgba(186, 104, 200, 0.1);
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    margin: 0 auto 30px;
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mission-card:hover .mission-icon {
+    transform: rotateY(180deg);
+  }
+
+  /* Chairman Section - Fixed Symmetry & Glow */
   .chairman-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 40px;
-    align-items: stretch; /* Ensures both sides are same height */
+    gap: 30px;
     justify-content: center;
+    align-items: stretch; /* Makes cards same height */
     margin-bottom: 120px;
   }
 
-  .chairman-image-wrapper {
-    flex: 1 1 400px;
+  .chairman-image-box {
+    flex: 1 1 450px;
     max-width: 500px;
-    height: 550px;
-    position: relative;
+    height: 600px;
     border-radius: 40px;
     overflow: hidden;
+    position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000;
   }
 
-  .chairman-img {
+  .chairman-image-box img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* This makes the photo fill the space without stretching */
-    object-position: center; /* Centers the person in the frame */
+    object-fit: cover;
+    object-position: center 20%;
   }
 
-  .chairman-message {
-    flex: 1.5 1 500px;
-    padding: 60px;
+  .chairman-message-box {
+    flex: 1 1 500px;
+    max-width: 800px;
     border-radius: 40px;
+    padding: 60px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid rgba(186, 104, 200, 0.2);
+    align-items: center;
   }
 
-  /* Team Section Alignment */
+  .chairman-message-box h2 {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    color: #fff;
+  }
+
+  .quote {
+    font-size: 1.3rem;
+    font-style: italic;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 40px;
+  }
+
+  .signature h4 { color: #ba68c8; font-size: 1.8rem; margin-bottom: 5px; }
+
+  /* Team Section */
   .team-container {
     display: flex;
     flex-wrap: wrap;
@@ -189,80 +240,44 @@
 
   .team-card {
     flex: 1 1 450px;
-    max-width: 480px;
+    max-width: 500px;
+    padding: 50px 40px;
     border-radius: 40px;
-    padding: 50px 30px;
     text-align: center;
+    min-height: 700px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    border: 1px solid rgba(186, 104, 200, 0.2);
-    transition: all 0.4s ease;
   }
 
-  .member-photo-container {
+  .member-photo-wrapper {
     width: 220px;
     height: 220px;
     border-radius: 50%;
+    margin: 0 auto 30px;
     overflow: hidden;
-    margin-bottom: 25px;
     border: 4px solid #ba68c8;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 0 25px rgba(186, 104, 200, 0.3);
   }
 
-  .member-img {
+  .member-photo-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center; /* Centers the face better */
   }
 
-  .member-info {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
+  .member-info { flex-grow: 1; display: flex; flex-direction: column; }
+  .position { color: #ba68c8; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; }
+  .description { flex-grow: 1; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 30px; }
+  .linkedin-link { font-size: 2.2rem; color: #ba68c8; transition: 0.3s; }
+  .linkedin-link:hover { color: #fff; transform: scale(1.1); }
 
-  .description {
-    flex-grow: 1; /* Pushes the LinkedIn link to the bottom */
-    color: rgba(255, 255, 255, 0.6);
-    line-height: 1.6;
-    margin-bottom: 20px;
+  /* Responsive Fixes */
+  @media (max-width: 1024px) {
+    .chairman-image-box { height: 450px; }
+    .chairman-message-box { padding: 40px; }
   }
-
-  .member-footer {
-    padding-top: 10px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .linkedin-link {
-    font-size: 2rem;
-    color: #ba68c8;
-    transition: 0.3s;
-  }
-
-  .linkedin-link:hover {
-    color: #fff;
-    transform: scale(1.1);
-  }
-
-  /* Mobile Responsive Fixes */
   @media (max-width: 768px) {
-    .chairman-image-wrapper {
-      height: 400px;
-    }
-    .chairman-message {
-      padding: 40px 25px;
-      text-align: center;
-    }
-    .team-card {
-      flex: 1 1 100%;
-    }
+    .chairman-image-box, .chairman-message-box { flex: 1 1 100%; max-width: 100%; }
   }
 </style>
 @endpush
