@@ -168,7 +168,7 @@ return [
 'careers_job_automation_desc'  => 'Expert in Selenium, Cypress, and automation frameworks. Minimum 3 years experience.',
 'careers_job_automation_exp'   => '3+ years',
 'careers_job_automation_qual'  => 'Relevant Bachelor’s Degree',
-'careers_spontaneous_title' => 'Can\'t find a suitable role?
+'careers_spontaneous_title' => 'Can\'t find a suitable role?,
 'careers_job_ml_title'         => 'ML & AI Tester',
 'careers_job_ml_desc'          => 'Experience in Machine Learning and AI model testing. Must have 5 years experience.',
 'careers_job_ml_exp'           => '5+ years',
