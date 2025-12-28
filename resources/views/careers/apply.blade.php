@@ -4,10 +4,10 @@
 
 @section('content')
 
-<section class="hero careers-apply-hero">
+<section class="hero careers-apply-hero-compact">
     <div class="hero-content">
-        <h1 class="gradient-text">{{ __('messages.careers_apply_title') }}</h1>
-        <p class="hero-subtitle">{{ __('messages.careers_hero_subtitle') }}</p>
+        <h1 class="gradient-text-small">{{ __('messages.careers_apply_title') }}</h1>
+        <p class="hero-subtitle-small">{{ __('messages.careers_hero_subtitle') }}</p>
     </div>
 </section>
 
@@ -43,12 +43,7 @@
                 </div>
                 <div class="form-group">
                     <label>{{ __('messages.careers_phone') }}</label>
-                    <input type="tel" name="phone" 
-                           placeholder="{{ __('messages.careers_phone_placeholder') }}" 
-                           value="{{ old('phone') }}"
-                           required
-                           pattern="^\+(92|39)[0-9]{7,15}$"
-                           title="Starts with +92 or +39">
+                    <input type="tel" name="phone" placeholder="{{ __('messages.careers_phone_placeholder') }}" value="{{ old('phone') }}" required pattern="^\+(92|39)[0-9]{7,15}$">
                     <small class="field-note">{{ __('messages.careers_phone_note') }}</small>
                     @error('phone') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
@@ -63,7 +58,7 @@
                 <div class="form-group">
                     <label>{{ __('messages.careers_position') }}</label>
                     <select name="position" required class="modern-select">
-                        <option value="" disabled {{ old('position') ? '' : 'selected' }}>{{ __('messages.careers_select_position') }}</option>
+                        <option value="" disabled {{ old('position') ? '' : 'selected' }} style="color: #666;">{{ __('messages.careers_select_position') }}</option>
                         @if(isset($jobs))
                             @foreach($jobs as $job)
                                 <option value="{{ $job }}" {{ old('position') == $job ? 'selected' : '' }}>{{ $job }}</option>
@@ -77,7 +72,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label>{{ __('messages.careers_cover_letter') }}</label>
-                    <textarea name="cover_letter" rows="5" placeholder="{{ __('messages.careers_cover_letter_placeholder') }}" required>{{ old('cover_letter') }}</textarea>
+                    <textarea name="cover_letter" rows="4" placeholder="{{ __('messages.careers_cover_letter_placeholder') }}" required>{{ old('cover_letter') }}</textarea>
                     @error('cover_letter') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -94,9 +89,7 @@
                         <span>{{ __('messages.careers_cv_label') }}</span>
                         <input type="file" id="cv-upload" name="cv" accept=".pdf,.doc,.docx" required>
                     </label>
-                    @error('cv') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
-                
                 <div class="upload-card glass">
                     <label for="portfolio-upload">
                         <i class="fa-solid fa-palette"></i>
@@ -104,7 +97,6 @@
                         <input type="file" id="portfolio-upload" name="portfolio" accept=".pdf,.zip">
                     </label>
                 </div>
-
                 <div class="upload-card glass">
                     <label for="video-upload">
                         <i class="fa-solid fa-video"></i>
@@ -122,10 +114,6 @@
                         <a href="{{ route('privacy') }}" target="_blank" class="policy-link">{{ __('messages.careers_read_policy') }}</a>
                     </label>
                 </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" name="marketing" id="marketing">
-                    <label for="marketing">{{ __('messages.careers_marketing_agree') }}</label>
-                </div>
             </div>
 
             <button type="submit" class="submit-btn">
@@ -140,176 +128,114 @@
 
 @push('styles')
 <style>
-    /* THEME VARIABLES */
     :root {
         --primary-violet: #ba68c8;
         --secondary-violet: #e1bee7;
         --glass-bg: rgba(255, 255, 255, 0.03);
         --glass-border: rgba(186, 104, 200, 0.2);
         --text-dim: rgba(255, 255, 255, 0.6);
+        --dark-bg: #121212;
     }
 
-    /* HERO */
-    .careers-apply-hero {
-        padding: 100px 20px 60px;
+    /* COMPACT HERO */
+    .careers-apply-hero-compact {
+        padding: 50px 20px 20px;
         text-align: center;
     }
 
-    .gradient-text {
-        font-size: clamp(2.5rem, 6vw, 4rem);
+    .gradient-text-small {
+        font-size: 2rem;
         background: linear-gradient(135deg, var(--primary-violet), var(--secondary-violet));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-weight: 900;
-        margin-bottom: 15px;
+        font-weight: 800;
+        margin-bottom: 8px;
     }
 
-    .hero-subtitle {
+    .hero-subtitle-small {
         color: var(--text-dim);
-        font-size: 1.2rem;
-        letter-spacing: 1px;
+        font-size: 0.95rem;
     }
 
-    /* MAIN CONTAINER */
-    .apply-section {
-        max-width: 1000px;
-        margin: 0 auto 100px;
-        padding: 0 20px;
-    }
-
+    /* FORM CARD */
+    .apply-section { max-width: 850px; margin: 0 auto 60px; padding: 0 20px; }
     .glass-container {
         background: var(--glass-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid var(--glass-border);
-        border-radius: 40px;
-        padding: 60px;
-        box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        border-radius: 24px;
+        padding: 40px;
     }
 
-    /* FORM HEADERS */
-    .form-section-header {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin: 40px 0 25px;
-        color: var(--primary-violet);
+    /* DROPDOWN LAPTOP FIX */
+    .modern-select {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        padding: 14px 18px;
+        color: #ffffff !important;
+        width: 100%;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ba68c8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 20px center;
     }
 
-    .form-section-header i { font-size: 1.5rem; }
-
-    .form-section-title {
-        font-size: 1.4rem;
-        color: #fff;
-        font-weight: 600;
-        margin: 0;
-        letter-spacing: 0.5px;
+    /* Force dark theme on the dropdown list for laptop browsers */
+    .modern-select option {
+        background-color: #1a1a1a !important; 
+        color: #ffffff !important;
+        padding: 15px;
     }
 
-    /* INPUT STYLING */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-    .form-row { margin-bottom: 25px; }
-    .form-group { display: flex; flex-direction: column; gap: 10px; }
+    .form-section-header { display: flex; align-items: center; gap: 12px; margin: 30px 0 15px; color: var(--primary-violet); }
+    .form-section-title { font-size: 1.1rem; color: #fff; font-weight: 600; margin:0; }
 
-    .form-group label {
-        color: #fff;
-        font-size: 0.95rem;
-        font-weight: 500;
-        margin-left: 5px;
-    }
-
-    input[type="text"], input[type="email"], input[type="tel"], textarea, .modern-select {
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-row { margin-bottom: 15px; }
+    .form-group label { color: #fff; font-size: 0.9rem; margin-bottom: 8px; display: block; }
+    
+    input, textarea {
         background: rgba(255,255,255,0.05);
         border: 1px solid var(--glass-border);
-        border-radius: 15px;
-        padding: 15px 20px;
+        border-radius: 12px;
+        padding: 12px 16px;
         color: #fff;
-        font-size: 1rem;
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    input:focus, textarea:focus, .modern-select:focus {
-        outline: none;
-        border-color: var(--primary-violet);
-        background: rgba(186, 104, 200, 0.08);
-        box-shadow: 0 0 20px rgba(186, 104, 200, 0.15);
-    }
-
-    .field-note { color: var(--text-dim); font-size: 0.8rem; margin-top: 5px; }
-
-    /* UPLOAD CARDS */
-    .upload-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        margin-bottom: 40px;
-    }
-
-    .upload-card {
-        border: 2px dashed var(--glass-border);
-        border-radius: 20px;
-        padding: 30px 15px;
-        text-align: center;
-        transition: 0.3s ease;
-        position: relative;
-    }
-
-    .upload-card:hover {
-        border-color: var(--primary-violet);
-        background: rgba(186, 104, 200, 0.05);
-        transform: translateY(-5px);
-    }
-
-    .upload-card label {
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
         width: 100%;
     }
 
-    .upload-card i { font-size: 2rem; color: var(--primary-violet); }
-    .upload-card span { color: #fff; font-size: 0.9rem; font-weight: 500; }
-    .upload-card input { position: absolute; opacity: 0; width: 0.1px; }
-
-    /* CONSENT & BUTTON */
-    .consent-container { margin: 40px 0; display: flex; flex-direction: column; gap: 15px; }
-    .checkbox-wrapper { display: flex; align-items: flex-start; gap: 12px; color: var(--text-dim); font-size: 0.9rem; }
-    .checkbox-wrapper input { width: 18px; height: 18px; accent-color: var(--primary-violet); cursor: pointer; }
-    .policy-link { color: var(--primary-violet); text-decoration: none; border-bottom: 1px solid transparent; }
-    .policy-link:hover { border-bottom: 1px solid var(--primary-violet); }
+    .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .upload-card {
+        border: 1px dashed var(--glass-border);
+        border-radius: 12px;
+        padding: 15px 5px;
+        text-align: center;
+    }
+    .upload-card i { font-size: 1.3rem; color: var(--primary-violet); margin-bottom: 5px; }
+    .upload-card span { font-size: 0.75rem; color: #fff; display: block; }
+    .upload-card input { display: none; }
 
     .submit-btn {
         width: 100%;
-        background: linear-gradient(135deg, var(--primary-violet), #9c27b0);
+        background: var(--primary-violet);
         color: #000;
         border: none;
-        padding: 20px;
+        padding: 16px;
         border-radius: 50px;
-        font-size: 1.2rem;
-        font-weight: 800;
+        font-size: 1rem;
+        font-weight: 700;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-        transition: 0.4s;
-        box-shadow: 0 15px 30px rgba(186, 104, 200, 0.3);
+        margin-top: 25px;
+        transition: 0.3s;
     }
 
-    .submit-btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(186, 104, 200, 0.5);
-        background: var(--secondary-violet);
-    }
+    .submit-btn:hover { background: var(--secondary-violet); transform: translateY(-2px); }
 
-    .error-msg { color: #ff5252; font-size: 0.8rem; margin-top: 5px; }
-
-    /* RESPONSIVE */
-    @media (max-width: 850px) {
+    @media (max-width: 768px) {
         .grid-2, .upload-grid { grid-template-columns: 1fr; }
-        .glass-container { padding: 40px 25px; }
+        .glass-container { padding: 25px 20px; }
     }
 </style>
 @endpush
