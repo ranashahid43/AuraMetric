@@ -37,6 +37,7 @@
 
   <div class="chairman-container">
     <div class="chairman-image glass">
+      <img src="https://i.ibb.co/jkB4rZfK/Shahid-Iqbal.png" alt="Chairman" style="width: 100%; height: 100%; object-fit: cover; object-position: center 15%;">
       <div class="image-overlay"></div>
     </div>
 
@@ -57,7 +58,7 @@
 
     <div class="team-container">
       <div class="team-card glass">
-        <div class="member-photo" style="background-image: url('https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png');">
+        <div class="member-photo" style="background-image: url('https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png'); background-position: center 15%;">
           <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -71,7 +72,7 @@
       </div>
 
       <div class="team-card glass">
-        <div class="member-photo" style="background-image: url('https://i.ibb.co/FqnfNDg5/Ali-Mohin-Raza.png');">
+        <div class="member-photo" style="background-image: url('https://i.ibb.co/FqnfNDg5/Ali-Mohin-Raza.png'); background-position: center 15%;">
           <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -124,7 +125,6 @@
     margin: 0 auto;
   }
 
-  /* Mission & Vision - Flex Layout for Symmetry */
   .mission-container {
     display: flex;
     flex-wrap: wrap;
@@ -181,7 +181,6 @@
     color: rgba(255, 255, 255, 0.6);
   }
 
-  /* Chairman Section */
   .chairman-container {
     display: flex;
     flex-wrap: wrap;
@@ -195,9 +194,9 @@
     flex: 1 1 400px;
     height: 550px;
     border-radius: 40px;
-    background: url('https://i.ibb.co/jkB4rZfK/Shahid-Iqbal.png') center 55% / cover no-repeat;
     position: relative;
     border: 1px solid rgba(186, 104, 200, 0.2);
+    overflow: hidden; /* Added to contain the image tag */
   }
 
   .chairman-message {
@@ -247,7 +246,6 @@
     letter-spacing: 1px;
   }
 
-  /* Team Section */
   .section-title {
     text-align: center;
     font-size: clamp(2.2rem, 5vw, 3rem);
@@ -290,7 +288,8 @@
     margin: 0 auto 30px;
     border: 4px solid #ba68c8;
     background-size: cover;
-    background-position: center;
+    /* Move down adjusted here */
+    background-position: center 15%; 
     position: relative;
     box-shadow: 0 0 30px rgba(186, 104, 200, 0.2);
   }
@@ -334,35 +333,23 @@
     transform: scale(1.15) rotate(5deg);
   }
 
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+  }
+
   /* Responsive Adjustments */
   @media (max-width: 992px) {
-    .chairman-container {
-      flex-direction: column;
-    }
-    .chairman-image {
-      width: 100%;
-      max-width: 500px;
-      height: 450px;
-    }
-    .chairman-message {
-      text-align: center;
-      padding: 40px 30px;
-    }
-    .quote::before {
-      left: 50%;
-      transform: translateX(-50%);
-    }
+    .chairman-container { flex-direction: column; }
+    .chairman-image { width: 100%; max-width: 500px; height: 450px; }
+    .chairman-message { text-align: center; padding: 40px 30px; }
+    .quote::before { left: 50%; transform: translateX(-50%); }
   }
 
   @media (max-width: 600px) {
-    .team-card, .mission-card {
-      padding: 40px 25px;
-      flex: 1 1 100%;
-    }
-    .member-photo {
-      width: 180px;
-      height: 180px;
-    }
+    .team-card, .mission-card { padding: 40px 25px; flex: 1 1 100%; }
+    .member-photo { width: 180px; height: 180px; }
   }
 </style>
 @endpush
