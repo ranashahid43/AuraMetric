@@ -4,7 +4,6 @@
 
 @section('content')
 
-<!-- HERO SECTION -->
 <section class="hero">
   <div class="hero-content">
     <h1>{!! __('messages.hero_home_main_title') !!}</h1>
@@ -20,7 +19,6 @@
   </div>
 </section>
 
-<!-- SERVICES SECTION -->
 <section id="services">
   <h2 class="services-title">{{ __('messages.services_home_title') }}</h2>
   <p class="services-subtitle">
@@ -82,7 +80,6 @@
       </a>
     </div>
 
-    <!-- New Services - Now translatable -->
     <div class="glass service">
       <i class="fa-solid fa-chart-line"></i>
       <h3>{{ __('messages.service_digital_marketing_title') }}</h3>
@@ -118,7 +115,7 @@
 <style>
   /* Hero Section Responsiveness */
   .hero {
-    min-height: 80vh; /* Reduced height on smaller screens */
+    min-height: 80vh; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -131,8 +128,9 @@
     padding: 20px;
   }
 
+  /* CHANGED: Adjusted clamp values to make the heading smaller */
   .hero-content h1 {
-    font-size: clamp(2.5rem, 8vw, 4.5rem); /* Scales fluidly between screens */
+    font-size: clamp(2.2rem, 6vw, 3.2rem); 
     margin-bottom: 20px;
     background: linear-gradient(135deg, #ba68c8, #e1bee7);
     -webkit-background-clip: text;
@@ -173,10 +171,9 @@
     margin-right: auto;
   }
 
-  /* Responsive grid for services cards - improved for mobile */
   .services {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly smaller min for better mobile fit */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     padding: 20px;
     max-width: 1400px;
@@ -184,7 +181,7 @@
   }
 
   .glass.service {
-    padding: 30px 20px; /* More vertical padding on mobile */
+    padding: 30px 20px;
     text-align: center;
     transition: all 0.3s ease;
   }
@@ -212,7 +209,6 @@
     box-shadow: 0 15px 35px rgba(186, 104, 200, 0.25);
   }
 
-  /* Additional mobile tweaks */
   @media (max-width: 480px) {
     .services {
       padding: 10px;
