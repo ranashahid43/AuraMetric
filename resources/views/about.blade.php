@@ -36,7 +36,7 @@
   </div>
 
   <div class="chairman-container">
-    <div class="chairman-image glass" style="background-image: url('https://i.ibb.co/jkB4rZfK/Shahid-Iqbal.png'); background-size: cover; background-position: center 15%;">
+    <div class="chairman-image glass" style="background-image: url('https://i.ibb.co/jkB4rZfK/Shahid-Iqbal.png'); background-size: cover; background-position: center;">
       <div class="image-overlay"></div>
     </div>
 
@@ -57,7 +57,7 @@
 
     <div class="team-container">
       <div class="team-card glass">
-        <div class="member-photo" style="background-image: url('https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png'); background-position: center 35%;">
+        <div class="member-photo" style="background-image: url('https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png'); background-position: center 40%;">
           <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -71,7 +71,7 @@
       </div>
 
       <div class="team-card glass">
-        <div class="member-photo" style="background-image: url('https://i.ibb.co/FqnfNDg5/Ali-Mohin-Raza.png'); background-position: center 35%;">
+        <div class="member-photo" style="background-image: url('https://i.ibb.co/FqnfNDg5/Ali-Mohin-Raza.png'); background-position: center 40%;">
           <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -92,6 +92,7 @@
 
 @push('styles')
 <style>
+  /* All your original "Perfect Code" styles remain untouched below */
   .about-hero {
     min-height: 45vh;
     display: flex;
