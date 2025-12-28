@@ -13,17 +13,6 @@
 
 <main class="apply-section">
     <div class="apply-card glass">
-        {{-- Display Global Error Summary if needed --}}
-        @if($errors->any())
-            <div class="error-summary glass" style="color: #ff6b6b; margin-bottom: 20px; padding: 15px; border: 1px solid #ff6b6b; border-radius: 12px;">
-                <ul style="margin: 0; padding-left: 20px;">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <form action="{{ route('careers.submit') }}" method="POST" enctype="multipart/form-data" class="modern-form">
             @csrf
 
@@ -94,7 +83,7 @@
                 <div class="upload-box glass">
                     <i class="fa-solid fa-file-pdf"></i>
                     <label>{{ __('messages.careers_cv_label') }}</label>
-                    <input type="file" name="cv" accept=".pdf" required>
+                    <input type="file" name="cv" accept=".pdf,.doc,.docx" required>
                     @error('cv') <span class="error">{{ $message }}</span> @enderror
                 </div>
                 
@@ -102,14 +91,12 @@
                     <i class="fa-solid fa-briefcase"></i>
                     <label>{{ __('messages.careers_portfolio_label') }}</label>
                     <input type="file" name="portfolio" accept=".pdf,.zip">
-                    @error('portfolio') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="upload-box glass">
                     <i class="fa-solid fa-video"></i>
                     <label>{{ __('messages.careers_video_label') }}</label>
                     <input type="file" name="video" accept=".mp4,.mov">
-                    @error('video') <span class="error">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -158,10 +145,16 @@
     font-weight: 800;
   }
 
-  /* LAYOUT - Form Width Shrunk to 800px for better laptop view */
+  .careers-apply-hero p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+
+  /* LAYOUT - Shrink width logic added here */
   .apply-section {
     padding: 20px 5% 100px;
-    max-width: 800px; 
+    max-width: 850px; /* SHRUNK WIDTH AS REQUESTED */
     margin: 0 auto;
   }
 
@@ -182,6 +175,8 @@
     display: inline-block;
   }
 
+  .form-section-title:first-of-type { margin-top: 0; }
+
   /* FORM ELEMENTS */
   .form-row { margin-bottom: 25px; }
 
@@ -197,6 +192,12 @@
     gap: 8px;
   }
 
+  .form-group label {
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 500;
+  }
+
   input, textarea, select {
     padding: 14px 18px;
     border-radius: 12px;
@@ -207,11 +208,24 @@
     transition: 0.3s ease;
   }
 
-  /* DROPDOWN FIX: Ensures background is dark and readable */
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #ba68c8;
+    background: rgba(186, 104, 200, 0.1);
+    box-shadow: 0 0 20px rgba(186, 104, 200, 0.2);
+  }
+
+  .field-note {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 5px;
+  }
+
+  /* CUSTOM SELECT - Fix background colour */
   .custom-select {
     cursor: pointer;
     appearance: none;
-    background-color: #1a1a1a; 
+    background-color: #1a1a1a; /* FIX: DARK BACKGROUND */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ba68c8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 20px center;
@@ -220,6 +234,7 @@
   .custom-select option {
     background: #1a1a1a; 
     color: #fff;
+    padding: 10px;
   }
 
   /* UPLOAD BOXES */
@@ -234,6 +249,7 @@
     text-align: center;
     border-radius: 20px;
     border: 2px dashed rgba(186, 104, 200, 0.3);
+    transition: 0.3s;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -241,6 +257,46 @@
   }
 
   .upload-box i { font-size: 1.8rem; color: #ba68c8; }
+
+  .upload-box:hover {
+    border-color: #ba68c8;
+    background: rgba(186, 104, 200, 0.05);
+    transform: translateY(-5px);
+  }
+
+  .upload-box input[type="file"] {
+    font-size: 0.75rem;
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: 100%;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* CHECKBOXES */
+  .consent-wrapper {
+    margin: 35px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .privacy-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+  }
+
+  .privacy-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #ba68c8;
+    margin-top: 2px;
+  }
+
+  .text-link { color: #ba68c8; text-decoration: none; }
 
   /* SUBMIT BUTTON */
   .apply-submit-btn {
@@ -253,21 +309,35 @@
     background: #ba68c8;
     color: #000;
     font-weight: 800;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s;
+    box-shadow: 0 10px 25px rgba(186, 104, 200, 0.3);
+  }
+
+  .apply-submit-btn:hover {
+    background: #e1bee7;
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(186, 104, 200, 0.5);
   }
 
   /* UTILITIES */
   .glass {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
   }
 
-  .error { color: #ff6b6b; font-size: 0.8rem; margin-top: 5px; font-weight: 500;}
+  .error { color: #ff6b6b; font-size: 0.8rem; }
 
   /* RESPONSIVE */
   @media (max-width: 992px) { .grid-upload { grid-template-columns: 1fr; } }
   @media (max-width: 768px) {
-    .grid-2 { grid-template-columns: 1fr; gap: 20px; }
-    .apply-card { padding: 40px 20px; }
+    .grid-2 { grid-template-columns: 1fr; gap: 0; }
+    .grid-2 .form-group:first-child { margin-bottom: 25px; }
+    .apply-section { padding: 20px 5% 60px; }
+    .careers-apply-hero h1 { font-size: 2rem; }
   }
 </style>
 @endpush
