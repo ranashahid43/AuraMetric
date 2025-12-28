@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ session('locale', 'en') }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ $title ?? 'The Testing Tech' }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+  @stack('styles')
+</head>
+<body>
+  <x-header />
+
+  <main>
+    {{ $slot }}
+  </main>
+
+  <x-footer />
+
+  @stack('scripts')
+  <script>
+    // Language Switcher (session-based)
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        fetch('/language/' + lang)
+          .then(() => location.reload());
+      });
+    });
+  </script>
+</body>
+</html>
