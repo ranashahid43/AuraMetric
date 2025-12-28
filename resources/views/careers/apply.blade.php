@@ -4,10 +4,10 @@
 
 @section('content')
 
-<section class="hero careers-apply-hero-compact">
+<section class="hero compact-hero-bar">
     <div class="hero-content">
-        <h1 class="gradient-text-small">{{ __('messages.careers_apply_title') }}</h1>
-        <p class="hero-subtitle-small">{{ __('messages.careers_hero_subtitle') }}</p>
+        <h1 class="compact-title">{{ __('messages.careers_apply_title') }}</h1>
+        <p class="compact-subtitle">{{ __('messages.careers_hero_subtitle') }}</p>
     </div>
 </section>
 
@@ -25,12 +25,10 @@
                 <div class="form-group">
                     <label>{{ __('messages.careers_first_name') }}</label>
                     <input type="text" name="first_name" placeholder="{{ __('messages.careers_first_name_placeholder') }}" value="{{ old('first_name') }}" required>
-                    @error('first_name') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-group">
                     <label>{{ __('messages.careers_last_name') }}</label>
                     <input type="text" name="last_name" placeholder="{{ __('messages.careers_last_name_placeholder') }}" value="{{ old('last_name') }}" required>
-                    @error('last_name') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -39,13 +37,11 @@
                     <label>{{ __('messages.careers_email') }}</label>
                     <input type="email" name="email" placeholder="{{ __('messages.careers_email_placeholder') }}" value="{{ old('email') }}" required>
                     <small class="field-note">{{ __('messages.careers_email_note') }}</small>
-                    @error('email') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-group">
                     <label>{{ __('messages.careers_phone') }}</label>
                     <input type="tel" name="phone" placeholder="{{ __('messages.careers_phone_placeholder') }}" value="{{ old('phone') }}" required pattern="^\+(92|39)[0-9]{7,15}$">
                     <small class="field-note">{{ __('messages.careers_phone_note') }}</small>
-                    @error('phone') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -58,7 +54,7 @@
                 <div class="form-group">
                     <label>{{ __('messages.careers_position') }}</label>
                     <select name="position" required class="modern-select">
-                        <option value="" disabled {{ old('position') ? '' : 'selected' }} style="color: #666;">{{ __('messages.careers_select_position') }}</option>
+                        <option value="" disabled {{ old('position') ? '' : 'selected' }}>{{ __('messages.careers_select_position') }}</option>
                         @if(isset($jobs))
                             @foreach($jobs as $job)
                                 <option value="{{ $job }}" {{ old('position') == $job ? 'selected' : '' }}>{{ $job }}</option>
@@ -73,7 +69,6 @@
                 <div class="form-group">
                     <label>{{ __('messages.careers_cover_letter') }}</label>
                     <textarea name="cover_letter" rows="4" placeholder="{{ __('messages.careers_cover_letter_placeholder') }}" required>{{ old('cover_letter') }}</textarea>
-                    @error('cover_letter') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -134,87 +129,88 @@
         --glass-bg: rgba(255, 255, 255, 0.03);
         --glass-border: rgba(186, 104, 200, 0.2);
         --text-dim: rgba(255, 255, 255, 0.6);
-        --dark-bg: #121212;
     }
 
-    /* COMPACT HERO */
-    .careers-apply-hero-compact {
-        padding: 50px 20px 20px;
+    /* COMPACT HERO BAR - HEIGHT FIXED */
+    .compact-hero-bar {
+        padding: 40px 20px; /* Small, consistent height */
         text-align: center;
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #1a1a1a; /* Match your site theme */
+        border-bottom: 1px solid var(--glass-border);
     }
 
-    .gradient-text-small {
-        font-size: 2rem;
+    .compact-title {
+        font-size: 1.8rem;
         background: linear-gradient(135deg, var(--primary-violet), var(--secondary-violet));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 800;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
     }
 
-    .hero-subtitle-small {
+    .compact-subtitle {
         color: var(--text-dim);
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        margin: 0;
     }
 
     /* FORM CARD */
-    .apply-section { max-width: 850px; margin: 0 auto 60px; padding: 0 20px; }
+    .apply-section { max-width: 800px; margin: 40px auto 80px; padding: 0 20px; }
     .glass-container {
         background: var(--glass-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid var(--glass-border);
-        border-radius: 24px;
+        border-radius: 20px;
         padding: 40px;
     }
 
-    /* DROPDOWN LAPTOP FIX */
+    /* DROPDOWN FIX FOR LAPTOP */
     .modern-select {
-        background: rgba(255,255,255,0.08);
+        background: #2a2a2a; /* Solid dark background for clarity */
         border: 1px solid var(--glass-border);
-        border-radius: 12px;
-        padding: 14px 18px;
+        border-radius: 10px;
+        padding: 12px 15px;
         color: #ffffff !important;
         width: 100%;
         cursor: pointer;
         appearance: none;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ba68c8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
-        background-position: right 20px center;
+        background-position: right 15px center;
     }
 
-    /* Force dark theme on the dropdown list for laptop browsers */
+    /* Ensures the list options are visible on Laptop */
     .modern-select option {
         background-color: #1a1a1a !important; 
         color: #ffffff !important;
-        padding: 15px;
     }
 
-    .form-section-header { display: flex; align-items: center; gap: 12px; margin: 30px 0 15px; color: var(--primary-violet); }
-    .form-section-title { font-size: 1.1rem; color: #fff; font-weight: 600; margin:0; }
+    .form-section-header { display: flex; align-items: center; gap: 10px; margin: 25px 0 15px; color: var(--primary-violet); }
+    .form-section-title { font-size: 1rem; color: #fff; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .form-row { margin-bottom: 15px; }
-    .form-group label { color: #fff; font-size: 0.9rem; margin-bottom: 8px; display: block; }
+    .form-group label { color: #fff; font-size: 0.85rem; margin-bottom: 6px; display: block; }
     
     input, textarea {
         background: rgba(255,255,255,0.05);
         border: 1px solid var(--glass-border);
-        border-radius: 12px;
-        padding: 12px 16px;
+        border-radius: 10px;
+        padding: 12px;
         color: #fff;
         width: 100%;
     }
 
-    .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .upload-card {
         border: 1px dashed var(--glass-border);
-        border-radius: 12px;
+        border-radius: 10px;
         padding: 15px 5px;
-        text-align: center;
+        transition: 0.3s;
     }
-    .upload-card i { font-size: 1.3rem; color: var(--primary-violet); margin-bottom: 5px; }
-    .upload-card span { font-size: 0.75rem; color: #fff; display: block; }
+    .upload-card i { font-size: 1.2rem; color: var(--primary-violet); margin-bottom: 5px; }
+    .upload-card span { font-size: 0.7rem; color: #fff; display: block; }
     .upload-card input { display: none; }
 
     .submit-btn {
@@ -222,20 +218,16 @@
         background: var(--primary-violet);
         color: #000;
         border: none;
-        padding: 16px;
-        border-radius: 50px;
+        padding: 15px;
+        border-radius: 30px;
         font-size: 1rem;
         font-weight: 700;
         cursor: pointer;
-        margin-top: 25px;
-        transition: 0.3s;
+        margin-top: 20px;
     }
-
-    .submit-btn:hover { background: var(--secondary-violet); transform: translateY(-2px); }
 
     @media (max-width: 768px) {
         .grid-2, .upload-grid { grid-template-columns: 1fr; }
-        .glass-container { padding: 25px 20px; }
     }
 </style>
 @endpush
