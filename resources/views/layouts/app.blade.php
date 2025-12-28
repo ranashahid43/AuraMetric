@@ -1,35 +1,15 @@
-<!DOCTYPE html>
-<html lang="{{ session('locale', 'en') }}">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{{ $title ?? 'The Testing Tech' }}</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+namespace App\Providers;
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    @stack('styles')
-</head>
-<body>
-    @include('partials.header')
+use Illuminate\Support\Facades\URL; // This line is vital!
+use Illuminate\Support\ServiceProvider;
 
-    <main>
-        @yield('content')
-    </main>
-
-    @include('partials.footer')
-
-    @stack('scripts')
-    <script>
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.dataset.lang;
-                fetch('/language/' + lang)
-                  .then(() => location.reload());
-            });
-        });
-    </script>
-</body>
-</html>
+class AppServiceProvider extends ServiceProvider
+{
+    public function boot(): void
+    {
+        // Force HTTPS so Railway doesn't block your CSS
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
+    }
+}
