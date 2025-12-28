@@ -4,7 +4,6 @@
 
 @section('content')
 
-<!-- HERO SECTION -->
 <section class="hero services-hero">
   <div class="hero-content">
     <h1>{!! __('messages.services_hero_title') !!}</h1>
@@ -12,46 +11,34 @@
   </div>
 </section>
 
-<!-- MAIN SERVICES CONTENT -->
 <main class="services-container">
-  <!-- Manual Testing -->
-  <div class="service-card glass" id="manual">
-    <div class="service-card-inner">
-      <div class="service-card-icon">
-        <i class="fa-solid fa-bug"></i>
-      </div>
-      <div class="service-card-content">
-        <h2>{{ __('messages.service_manual_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_manual_subtitle') }}</p>
-        <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_manual_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_manual_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_manual_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_manual_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_manual_feature_5') }}</li>
-        </ul>
-      </div>
-      <div class="service-card-btn-wrapper">
-        <a href="/contact" class="service-card-btn">{{ __('messages.request_quote') }}</a>
-      </div>
-    </div>
-  </div>
+  @php
+    $services = [
+        ['id' => 'manual', 'icon' => 'fa-bug', 'title' => 'service_manual_title', 'subtitle' => 'service_manual_subtitle', 'features' => 5],
+        ['id' => 'automation', 'icon' => 'fa-robot', 'title' => 'service_automation_title', 'subtitle' => 'service_automation_subtitle', 'features' => 5],
+        ['id' => 'mobile-web', 'icon' => 'fa-mobile-screen', 'title' => 'service_mobile_title', 'subtitle' => 'service_mobile_subtitle', 'features' => 5],
+        ['id' => 'ai-ml', 'icon' => 'fa-brain', 'title' => 'service_ai_title', 'subtitle' => 'service_ai_subtitle', 'features' => 5],
+        ['id' => 'security', 'icon' => 'fa-shield-halved', 'title' => 'service_security_title', 'subtitle' => 'service_security_subtitle', 'features' => 5],
+        ['id' => 'performance', 'icon' => 'fa-gauge-high', 'title' => 'service_performance_title', 'subtitle' => 'service_performance_subtitle', 'features' => 5],
+        ['id' => 'digital-marketing', 'icon' => 'fa-chart-line', 'title' => 'service_digital_marketing_title', 'subtitle' => 'service_digital_marketing_subtitle', 'features' => 5],
+        ['id' => 'seo', 'icon' => 'fa-magnifying-glass-chart', 'title' => 'service_seo_title', 'subtitle' => 'service_seo_subtitle', 'features' => 5],
+        ['id' => 'content-writing', 'icon' => 'fa-pen-nib', 'title' => 'service_content_writing_title', 'subtitle' => 'service_content_writing_subtitle', 'features' => 5],
+    ];
+  @endphp
 
-  <!-- Automation Testing -->
-  <div class="service-card glass" id="automation">
+  @foreach($services as $service)
+  <div class="service-card glass" id="{{ $service['id'] }}">
     <div class="service-card-inner">
       <div class="service-card-icon">
-        <i class="fa-solid fa-robot"></i>
+        <i class="fa-solid {{ $service['icon'] }}"></i>
       </div>
       <div class="service-card-content">
-        <h2>{{ __('messages.service_automation_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_automation_subtitle') }}</p>
+        <h2>{{ __('messages.' . $service['title']) }}</h2>
+        <p class="service-card-subtitle">{{ __('messages.' . $service['subtitle']) }}</p>
         <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_automation_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_automation_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_automation_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_automation_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_automation_feature_5') }}</li>
+          @for($i = 1; $i <= $service['features']; $i++)
+            <li><i class="fa-solid fa-check"></i> {{ __('messages.' . str_replace('_title', '', $service['title']) . '_feature_' . $i) }}</li>
+          @endfor
         </ul>
       </div>
       <div class="service-card-btn-wrapper">
@@ -59,177 +46,16 @@
       </div>
     </div>
   </div>
-
-  <!-- Web & Mobile Testing -->
-  <div class="service-card glass" id="mobile-web">
-    <div class="service-card-inner">
-      <div class="service-card-icon">
-        <i class="fa-solid fa-mobile-screen"></i>
-      </div>
-      <div class="service-card-content">
-        <h2>{{ __('messages.service_mobile_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_mobile_subtitle') }}</p>
-        <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_mobile_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_mobile_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_mobile_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_mobile_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_mobile_feature_5') }}</li>
-        </ul>
-      </div>
-      <div class="service-card-btn-wrapper">
-        <a href="/contact" class="service-card-btn">{{ __('messages.request_quote') }}</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- AI & ML Testing -->
-  <div class="service-card glass" id="ai-ml">
-    <div class="service-card-inner">
-      <div class="service-card-icon">
-        <i class="fa-solid fa-brain"></i>
-      </div>
-      <div class="service-card-content">
-        <h2>{{ __('messages.service_ai_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_ai_subtitle') }}</p>
-        <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_ai_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_ai_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_ai_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_ai_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_ai_feature_5') }}</li>
-        </ul>
-      </div>
-      <div class="service-card-btn-wrapper">
-        <a href="/contact" class="service-card-btn">{{ __('messages.request_quote') }}</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Security Testing -->
-  <div class="service-card glass" id="security">
-    <div class="service-card-inner">
-      <div class="service-card-icon">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <div class="service-card-content">
-        <h2>{{ __('messages.service_security_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_security_subtitle') }}</p>
-        <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_security_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_security_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_security_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_security_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_security_feature_5') }}</li>
-        </ul>
-      </div>
-      <div class="service-card-btn-wrapper">
-        <a href="/contact" class="service-card-btn">{{ __('messages.request_quote') }}</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Performance Testing -->
-  <div class="service-card glass" id="performance">
-    <div class="service-card-inner">
-      <div class="service-card-icon">
-        <i class="fa-solid fa-gauge-high"></i>
-      </div>
-      <div class="service-card-content">
-        <h2>{{ __('messages.service_performance_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_performance_subtitle') }}</p>
-        <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_performance_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_performance_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_performance_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_performance_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_performance_feature_5') }}</li>
-        </ul>
-      </div>
-      <div class="service-card-btn-wrapper">
-        <a href="/contact" class="service-card-btn">{{ __('messages.request_quote') }}</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Digital Marketing -->
-  <div class="service-card glass" id="digital-marketing">
-    <div class="service-card-inner">
-      <div class="service-card-icon">
-        <i class="fa-solid fa-chart-line"></i>
-      </div>
-      <div class="service-card-content">
-        <h2>{{ __('messages.service_digital_marketing_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_digital_marketing_subtitle') }}</p>
-        <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_digital_marketing_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_digital_marketing_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_digital_marketing_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_digital_marketing_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_digital_marketing_feature_5') }}</li>
-        </ul>
-      </div>
-      <div class="service-card-btn-wrapper">
-        <a href="/contact" class="service-card-btn">{{ __('messages.request_quote') }}</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- SEO Optimization -->
-  <div class="service-card glass" id="seo">
-    <div class="service-card-inner">
-      <div class="service-card-icon">
-        <i class="fa-solid fa-magnifying-glass-chart"></i>
-      </div>
-      <div class="service-card-content">
-        <h2>{{ __('messages.service_seo_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_seo_subtitle') }}</p>
-        <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_seo_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_seo_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_seo_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_seo_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_seo_feature_5') }}</li>
-        </ul>
-      </div>
-      <div class="service-card-btn-wrapper">
-        <a href="/contact" class="service-card-btn">{{ __('messages.request_quote') }}</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Content Writing & Strategy -->
-  <div class="service-card glass" id="content-writing">
-    <div class="service-card-inner">
-      <div class="service-card-icon">
-        <i class="fa-solid fa-pen-nib"></i>
-      </div>
-      <div class="service-card-content">
-        <h2>{{ __('messages.service_content_writing_title') }}</h2>
-        <p class="service-card-subtitle">{{ __('messages.service_content_writing_subtitle') }}</p>
-        <ul class="service-features">
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_content_writing_feature_1') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_content_writing_feature_2') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_content_writing_feature_3') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_content_writing_feature_4') }}</li>
-          <li><i class="fa-solid fa-check"></i> {{ __('messages.service_content_writing_feature_5') }}</li>
-        </ul>
-      </div>
-      <div class="service-card-btn-wrapper">
-        <a href="/contact" class="service-card-btn">{{ __('messages.request_quote') }}</a>
-      </div>
-    </div>
-  </div>
+  @endforeach
 </main>
 
 @endsection
 
 @push('styles')
 <style>
-  /* Hero Section - Responsive */
+  /* Hero Section */
   .services-hero {
     min-height: 50vh;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #2da9ff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -241,10 +67,11 @@
     max-width: 900px;
   }
 
+  /* CHANGED: Match Homepage Purple Gradient */
   .services-hero h1 {
     font-size: clamp(2.5rem, 8vw, 3.8rem);
     font-weight: 800;
-    background: linear-gradient(135deg, #2da9ff, #7ed3ff);
+    background: linear-gradient(135deg, #ba68c8, #e1bee7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 20px;
@@ -252,42 +79,48 @@
 
   .services-hero p {
     font-size: clamp(1.1rem, 3vw, 1.3rem);
-    color: #fff;
+    color: rgba(255, 255, 255, 0.8);
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.6;
   }
 
-  /* Services Container - Responsive Grid */
+  /* CHANGED: Flexbox layout for centered last row (Diamond alignment) */
   .services-container {
     max-width: 1400px;
     margin: 80px auto;
     padding: 0 5%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers the last row */
+    gap: 40px;
   }
 
   .service-card {
+    flex: 0 1 calc(33.333% - 40px); /* 3 per row on desktop */
+    min-width: 350px;
     position: relative;
     overflow: hidden;
     border-radius: 30px;
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(186, 104, 200, 0.2); /* Soft purple border */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     flex-direction: column;
   }
 
+  /* Glamorous Hover Effect */
   .service-card:hover {
-    transform: translateY(-20px);
-    box-shadow: 0 30px 70px rgba(45, 169, 255, 0.25);
-    border-color: rgba(45, 169, 255, 0.4);
+    transform: translateY(-15px);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 20px 50px rgba(186, 104, 200, 0.15);
+    border-color: rgba(186, 104, 200, 0.5);
   }
 
+  /* Animated Top Line */
   .service-card::before {
     content: '';
     position: absolute;
@@ -295,7 +128,7 @@
     left: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(90deg, #2da9ff, #7ed3ff);
+    background: linear-gradient(90deg, #ba68c8, #7b1fa2);
     opacity: 0;
     transition: opacity 0.4s ease;
   }
@@ -305,48 +138,49 @@
   }
 
   .service-card-inner {
-    padding: clamp(30px, 5vw, 50px) clamp(25px, 4vw, 40px) 0;
+    padding: 40px 30px 0;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
   }
 
+  /* Glamorous Icon Box */
   .service-card-icon {
-    font-size: clamp(3.5rem, 8vw, 4.5rem);
-    color: #2da9ff;
-    margin-bottom: 30px;
+    font-size: 3rem;
+    color: #ba68c8;
+    margin-bottom: 25px;
     align-self: center;
-    background: rgba(45, 169, 255, 0.1);
-    width: clamp(100px, 20vw, 120px);
-    height: clamp(100px, 20vw, 120px);
+    background: rgba(186, 104, 200, 0.1);
+    width: 100px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    border: 2px solid rgba(45, 169, 255, 0.3);
+    border-radius: 24px; /* Squircle shape */
+    border: 1px solid rgba(186, 104, 200, 0.2);
     transition: all 0.4s ease;
   }
 
   .service-card:hover .service-card-icon {
-    background: rgba(45, 169, 255, 0.2);
-    border-color: #2da9ff;
-    transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(45, 169, 255, 0.4);
+    transform: rotateY(180deg); /* Modern flip effect */
+    background: rgba(186, 104, 200, 0.2);
+    color: #e1bee7;
   }
 
   .service-card-content h2 {
-    font-size: clamp(1.8rem, 5vw, 2.4rem);
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
     color: #fff;
     text-align: center;
   }
 
   .service-card-subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.1rem);
-    color: #ccc;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
     text-align: center;
-    margin-bottom: 35px;
-    line-height: 1.6;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    min-height: 3rem;
   }
 
   .service-features {
@@ -359,76 +193,62 @@
   .service-features li {
     display: flex;
     align-items: flex-start;
-    gap: 15px;
-    font-size: clamp(0.95rem, 2.2vw, 1.05rem);
-    color: #ddd;
-    margin-bottom: 18px;
-    padding-left: 10px;
-    transition: all 0.3s ease;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
   }
 
   .service-features li i {
-    color: #2da9ff;
-    font-size: 1.3rem;
-    width: 28px;
-    flex-shrink: 0;
-    text-align: center;
-    margin-top: 2px;
+    color: #ba68c8;
+    font-size: 1.1rem;
+    margin-top: 3px;
   }
 
   .service-card:hover .service-features li {
-    transform: translateX(10px);
-    color: #fff;
+    transform: translateX(5px);
   }
 
   .service-card-btn-wrapper {
-    padding: 0 clamp(25px, 4vw, 40px) clamp(30px, 5vw, 50px);
+    padding: 0 30px 40px;
     display: flex;
     justify-content: center;
   }
 
   .service-card-btn {
     background: transparent;
-    color: #2da9ff;
-    border: 2px solid #2da9ff;
-    padding: 14px clamp(30px, 6vw, 40px);
+    color: #fff;
+    border: 1px solid rgba(186, 104, 200, 0.5);
+    padding: 12px 35px;
     border-radius: 50px;
-    font-weight: bold;
+    font-weight: 600;
     text-decoration: none;
-    font-size: clamp(1rem, 2.5vw, 1.1rem);
     transition: all 0.4s ease;
+    backdrop-filter: blur(5px);
   }
 
   .service-card-btn:hover {
-    background: #2da9ff;
-    color: #000;
-    box-shadow: 0 0 25px rgba(45, 169, 255, 0.6);
-    transform: translateY(-3px);
+    background: #ba68c8;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(186, 104, 200, 0.4);
+    border-color: #ba68c8;
   }
 
-  /* Tablet & Mobile Adjustments */
+  /* Responsive Adjustments */
+  @media (max-width: 1100px) {
+    .service-card {
+      flex: 0 1 calc(50% - 40px); /* 2 per row */
+    }
+  }
+
   @media (max-width: 768px) {
-    .services-container {
-      grid-template-columns: 1fr;
-      gap: 40px;
-      margin: 60px auto;
+    .service-card {
+      flex: 0 1 100%; /* 1 per row */
+      min-width: unset;
     }
-
-    .services-hero {
-      min-height: 45vh;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .services-container {
-      padding: 0 8%;
-      gap: 35px;
-    }
-
-    .service-card-inner,
-    .service-card-btn-wrapper {
-      padding-left: 20px;
-      padding-right: 20px;
+    .services-hero h1 {
+      font-size: 2.8rem;
     }
   }
 </style>
