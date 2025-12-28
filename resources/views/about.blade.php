@@ -92,7 +92,7 @@
 
 @push('styles')
 <style>
-  /* All original styles maintained */
+  /* Base Hero and Section styles restored */
   .about-hero {
     min-height: 45vh;
     display: flex;
@@ -117,6 +117,7 @@
     margin: 0 auto;
   }
 
+  /* Mission Grid Restored */
   .mission-container {
     display: flex;
     flex-wrap: wrap;
@@ -135,12 +136,6 @@
     transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
-  .mission-card:hover {
-    transform: translateY(-15px);
-    border-color: rgba(186, 104, 200, 0.5);
-    background: rgba(255, 255, 255, 0.05);
-  }
-
   .mission-icon {
     font-size: 3.5rem;
     color: #ba68c8;
@@ -152,15 +147,14 @@
     justify-content: center;
     border-radius: 24px;
     margin: 0 auto 30px;
-    border: 1px solid rgba(186, 104, 200, 0.2);
     transition: 0.6s ease;
   }
 
-  /* FIXED: Icon Flipping restored */
   .mission-card:hover .mission-icon {
     transform: rotateY(180deg);
   }
 
+  /* CHAIRMAN SECTION SIZE FIXED */
   .chairman-container {
     display: flex;
     flex-wrap: wrap;
@@ -179,12 +173,13 @@
   }
 
   .chairman-message {
-    flex: 1.5 1 500px;
+    flex: 1.5 1 500px; /* Restored original wide ratio */
     padding: 60px;
     border-radius: 40px;
     border: 1px solid rgba(186, 104, 200, 0.2);
   }
 
+  /* TEAM SECTION FIXED */
   .team-container {
     display: flex;
     flex-wrap: wrap;
@@ -198,11 +193,11 @@
     border-radius: 40px;
     padding: 50px 40px;
     text-align: center;
-    border: 1px solid rgba(186, 104, 200, 0.2);
-    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     flex-direction: column;
     min-height: 650px;
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .member-photo {
@@ -212,10 +207,8 @@
     margin: 0 auto 30px;
     border: 4px solid #ba68c8;
     background-size: cover;
-    position: relative;
   }
 
-  /* FIXED: LinkedIn alignment pushed to bottom */
   .member-info {
     display: flex;
     flex-direction: column;
@@ -236,12 +229,6 @@
   .linkedin-link {
     font-size: 2.2rem;
     color: #ba68c8;
-    transition: 0.3s ease;
-  }
-
-  .linkedin-link:hover {
-    color: #fff;
-    transform: scale(1.15) rotate(5deg);
   }
 
   @media (max-width: 992px) {
