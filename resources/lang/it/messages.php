@@ -316,7 +316,7 @@ return [
     'careers_job_junior_desc'      => 'Testing manuale e automazione. Benvenuti anche neolaureati.',
     'careers_job_junior_exp'       => '0-2 anni',
     'careers_job_junior_qual'      => 'Laurea triennale o Diploma',
-
+    'careers_spontaneous_title' => 'Non trovi la posizione adatta?'
     'careers_job_intern_title'     => 'Stage / Tirocinio',
     'careers_job_intern_desc'      => 'Partecipa al nostro programma di stage per acquisire esperienza pratica in QA e testing.',
     'careers_job_intern_exp'       => '0 anni',
