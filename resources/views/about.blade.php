@@ -4,23 +4,23 @@
 
 @section('content')
 
-<!-- HERO SECTION - Same as Careers/Services -->
-<section class="hero" style="min-height: 50vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #2da9ff;">
+<!-- HERO SECTION -->
+<section class="hero" style="min-height: 40vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), #2da9ff;">
   <div class="hero-content">
-    <h1>
+    <h1 style="background: linear-gradient(135deg, #2da9ff, #7ed3ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.2rem; font-weight: 800;">
       {!! __('messages.about_hero_title') !!}
     </h1>
-    <p>
+    <p style="color: #fff; font-size: 1.2rem; max-width: 800px; margin: 20px auto 0;">
       {{ __('messages.about_hero_subtitle') }}
     </p>
   </div>
 </section>
 
 <!-- MAIN CONTENT -->
-<main class="about-section" style="padding: 100px 5%; max-width: 1400px; margin: 0 auto;">
+<main class="about-section">
 
-  <!-- Mission & Vision - Glamorous Glass Cards -->
-  <div class="mission-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 50px; margin-bottom: 120px;">
+  <!-- Mission & Vision -->
+  <div class="mission-grid">
 
     <div class="glass mission-card">
       <div class="mission-icon">
@@ -40,7 +40,7 @@
 
   </div>
 
-  <!-- Chairman Section - Professional & Glamorous -->
+  <!-- Chairman Section -->
   <div class="chairman-container">
     <div class="chairman-image glass">
       <div class="image-overlay"></div>
@@ -58,15 +58,15 @@
     </div>
   </div>
 
-  <!-- Team Section - Glamorous Team Cards -->
-  <section id="team" style="margin-top: 120px;">
+  <!-- Team Section -->
+  <section id="team">
     <h2 class="section-title">{{ __('messages.team_title') }}</h2>
 
     <div class="team-grid">
 
       <!-- Jagan Pareet -->
       <div class="team-card glass">
-        <div class="member-photo">
+        <div class="member-photo" style="background-image: url('https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png');">
           <div class="photo-overlay"></div>
         </div>
         <div class="member-info">
@@ -99,9 +99,29 @@
 
 </main>
 
+@endsection
+
 @push('styles')
 <style>
+  .about-section {
+    padding: 100px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .hero-content {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
   /* Mission & Vision Cards */
+  .mission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 50px;
+    margin-bottom: 120px;
+  }
+
   .mission-card {
     padding: 50px 40px;
     border-radius: 30px;
@@ -250,10 +270,9 @@
     margin: 0 auto 30px;
     border: 5px solid #2da9ff;
     background-size: cover;
-    background-position: center 10%;
+    background-position: center;
     position: relative;
     overflow: hidden;
-    background-image: url('https://i.ibb.co/M57nydQD/Gemini-Generated-Image-v8otdcv8otdcv8ot.png');
   }
 
   .photo-overlay {
@@ -299,30 +318,119 @@
     transform: scale(1.2);
   }
 
-  @media (max-width: 992px) {
+  /* Fully Responsive Adjustments */
+  @media (max-width: 1200px) {
     .chairman-container {
-      grid-template-columns: 1fr;
-      text-align: center;
+      gap: 60px;
     }
     .chairman-image {
-      height: 400px;
-      margin-bottom: 40px;
+      height: 450px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .about-section {
+      padding: 80px 5%;
     }
     .mission-grid {
       grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .chairman-container {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 50px;
+    }
+    .chairman-image {
+      height: 400px;
+      margin: 0 auto;
+      max-width: 500px;
+    }
+    .chairman-message {
+      padding: 40px;
+    }
+    .quote::before {
+      left: 50%;
+      transform: translateX(-50%);
+      top: -40px;
+    }
+    .section-title {
+      font-size: 2.6rem;
+      margin-bottom: 60px;
     }
   }
 
   @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2.8rem;
+    }
+    .about-section {
+      padding: 60px 5%;
+    }
+    .mission-card {
+      padding: 40px 30px;
+    }
+    .mission-icon {
+      font-size: 3.5rem;
+      width: 100px;
+      height: 100px;
+    }
+    .mission-card h3 {
+      font-size: 1.8rem;
+    }
     .team-grid {
       grid-template-columns: 1fr;
+      gap: 50px;
+    }
+    .team-card {
+      padding: 35px;
     }
     .member-photo {
-      width: 160px;
-      height: 160px;
+      width: 180px;
+      height: 180px;
+    }
+    .member-info h3 {
+      font-size: 1.7rem;
+    }
+    .chairman-message h2 {
+      font-size: 2.2rem;
+    }
+    .quote {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-content {
+      padding: 60px 15px;
+    }
+    .hero-content h1 {
+      font-size: 2.4rem;
+    }
+    .mission-card {
+      padding: 35px 25px;
+    }
+    .mission-icon {
+      width: 90px;
+      height: 90px;
+      font-size: 3rem;
+    }
+    .chairman-image {
+      height: 300px;
+    }
+    .chairman-message {
+      padding: 35px 25px;
+    }
+    .team-card {
+      padding: 30px 20px;
+    }
+    .member-photo {
+      width: 150px;
+      height: 150px;
+    }
+    .section-title {
+      font-size: 2.2rem;
     }
   }
 </style>
 @endpush
-
-@endsection
