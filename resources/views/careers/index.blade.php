@@ -31,7 +31,8 @@
         ];
       @endphp
 
-      @foreach(array_merge($jobs, $jobs) as $job) <!-- Duplicate once for seamless loop -->
+      <!-- Duplicate cards multiple times for smooth infinite scroll on mobile -->
+      @foreach(array_merge($jobs, $jobs, $jobs, $jobs) as $job)
       <div class="job-card glass">
         <div class="card-header">
           <h3>{{ $job['title'] }}</h3>
@@ -89,8 +90,8 @@
   .job-reel {
     display: flex;
     gap: 40px;
-    animation: scrollReel 50s linear infinite;
-    width: max-content; /* Important for smooth looping */
+    animation: scrollReel 80s linear infinite;
+    width: max-content;
   }
 
   .job-reel-wrapper:hover .job-reel {
@@ -227,19 +228,16 @@
     100% { transform: translateX(-50%); }
   }
 
-  /* Fully Responsive */
+  /* Responsive Fixes */
   @media (max-width: 1400px) {
     .job-card {
-      flex: 0 0 350px;
+      flex: 0 0 360px;
     }
   }
 
   @media (max-width: 1200px) {
     .job-card {
-      flex: 0 0 320px;
-    }
-    .card-header h3 {
-      font-size: 1.9rem;
+      flex: 0 0 340px;
     }
   }
 
@@ -252,16 +250,10 @@
     }
     .job-reel {
       gap: 30px;
+      animation-duration: 100s; /* Slower for better visibility */
     }
     .job-card {
-      flex: 0 0 400px;
-    }
-    .spontaneous-section {
-      margin: 80px auto 0;
-      padding: 70px 50px;
-    }
-    .spontaneous-content p {
-      font-size: 1.3rem;
+      flex: 0 0 380px; /* Fixed width to ensure visibility */
     }
   }
 
@@ -270,24 +262,20 @@
       font-size: 2.8rem;
     }
     .job-reel {
-      animation-duration: 60s; /* Slower on mobile */
+      gap: 20px;
+      animation-duration: 120s;
     }
     .job-card {
-      flex: 0 0 80%;
-      padding: 35px;
+      flex: 0 0 calc(100% - 40px); /* Almost full width, minus gap */
+      max-width: 380px;
+      margin: 0 auto;
     }
     .card-header h3 {
       font-size: 1.8rem;
     }
-    .job-desc {
-      font-size: 1rem;
-    }
     .spontaneous-section {
       padding: 60px 40px;
-    }
-    .apply-btn.large {
-      padding: 16px 50px;
-      font-size: 1.2rem;
+      margin: 80px auto 0;
     }
   }
 
@@ -299,8 +287,8 @@
       font-size: 2.4rem;
     }
     .job-card {
-      flex: 0 0 90%;
-      padding: 30px 25px;
+      flex: 0 0 calc(100% - 20px);
+      padding: 30px 20px;
     }
     .card-header h3 {
       font-size: 1.7rem;
@@ -308,18 +296,17 @@
     .job-desc {
       font-size: 0.95rem;
     }
-    .job-details p {
-      font-size: 0.95rem;
-    }
     .apply-btn {
       padding: 12px 35px;
-      font-size: 1rem;
     }
     .spontaneous-section {
-      padding: 50px 30px;
-      margin: 60px auto 0;
+      padding: 50px 25px;
     }
     .spontaneous-content p {
+      font-size: 1.1rem;
+    }
+    .apply-btn.large {
+      padding: 14px 40px;
       font-size: 1.1rem;
     }
   }
