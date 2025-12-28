@@ -128,7 +128,7 @@
     padding: 20px;
   }
 
-  /* CHANGED: Adjusted clamp values to make the heading smaller */
+  /* SMALLER HERO HEADING */
   .hero-content h1 {
     font-size: clamp(2.2rem, 6vw, 3.2rem); 
     margin-bottom: 20px;
@@ -171,9 +171,12 @@
     margin-right: auto;
   }
 
+  /* IMPROVED CARD ALIGNMENT */
   .services {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* This creates a centered grid that doesn't leave huge gaps on big screens */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center; /* Centers cards in the last row */
     gap: 30px;
     padding: 20px;
     max-width: 1400px;
@@ -181,27 +184,35 @@
   }
 
   .glass.service {
-    padding: 30px 20px;
+    padding: 40px 25px;
     text-align: center;
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%; /* Ensures all cards in a row have same height */
   }
 
   .glass.service i {
     font-size: clamp(2.2rem, 6vw, 2.8rem);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: #ba68c8;
   }
 
   .glass.service h3 {
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     font-size: clamp(1.2rem, 4vw, 1.4rem);
+    min-height: 3rem; /* Helps keep headings aligned */
+    display: flex;
+    align-items: center;
   }
 
   .glass.service p {
     font-size: clamp(0.9rem, 2.5vw, 1rem);
     line-height: 1.6;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     color: var(--text-dim);
+    flex-grow: 1; /* Pushes the button to the bottom so they all align */
   }
 
   .glass.service:hover {
@@ -211,12 +222,13 @@
 
   @media (max-width: 480px) {
     .services {
+      grid-template-columns: 1fr; /* Single column on very small phones */
       padding: 10px;
       gap: 20px;
     }
 
     .glass.service {
-      padding: 25px 15px;
+      padding: 30px 20px;
     }
 
     .hero-btns {
