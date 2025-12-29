@@ -4,31 +4,46 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Application;
-use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
-    public function submit(Request $request)
-{
-    $request->validate([
-        'first_name'   => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
-        'last_name'    => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
-        'email'        => 'required|email:rfc,dns', // Strict email check
-        'phone'        => ['required', 'regex:/^\+[1-9]\d{1,14}$/'], // Starts with +CountryCode
-        'position'     => 'required|string',
-        'cover_letter' => 'required|string|min:10',
-        'cv'           => 'required|mimes:pdf,doc,docx|max:5120',
-        'portfolio'    => 'nullable|mimes:pdf,zip|max:10240',
-        'video'        => 'nullable|mimes:mp4,mov|max:20480',
-        'agree'        => 'accepted',
-    ], [
-        'first_name.regex' => 'First name must contain only English letters.',
-        'last_name.regex'  => 'Last name must contain only English letters.',
-        'phone.regex'      => 'Phone must start with + and include country code (e.g., +91, +92).',
-        'cv.mimes'         => 'Only PDF, DOC, and DOCX files are allowed for CV.',
-    ]);
+    public function store(Request $request)
+    {
+        // Validate the form
+        $validated = $request->validate([
+            'first_name'   => 'required|string|max:255',
+            'last_name'    => 'required|string|max:255',
+            'email'        => 'required|email|max:255',
+            'phone'        => 'nullable|string|max:30',
+            'position'     => 'required|string|max:255',
+            'cover_letter' => 'nullable|string',
+            'cv'           => 'nullable|file|mimes:pdf,doc,docx',
+            'portfolio'    => 'nullable|file|mimes:pdf,zip',
+            'video'        => 'nullable|file|mimes:mp4,mov',
+            'marketing'    => 'nullable',
+            'agree'        => 'accepted',
+        ]);
 
-    // Save logic here...
-    return redirect()->back()->with('success', 'Application submitted!');
-}
+        // Handle file uploads
+        if ($request->hasFile('cv')) {
+            $validated['cv'] = $request->file('cv')->store('cvs', 'public');
+        }
+
+        if ($request->hasFile('portfolio')) {
+            $validated['portfolio'] = $request->file('portfolio')->store('portfolio', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            $validated['video'] = $request->file('video')->store('videos', 'public');
+        }
+
+        // Map checkbox
+        $validated['marketing_optin'] = $request->has('marketing') ? 1 : 0;
+
+        // Save data
+        Application::create($validated);
+
+        // Redirect to thankyou page on success
+        return redirect()->route('thankyou');
+    }
 }
