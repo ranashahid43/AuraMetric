@@ -18,43 +18,41 @@
     ];
 @endphp
 
-{{-- Floating Bubble Navigation --}}
+{{-- 1. ORIGINAL HERO SECTION (Same as other pages) --}}
+<section class="hero services-hero">
+    <div class="hero-content">
+        <h1>{!! __('messages.services_hero_title') !!}</h1>
+        <p>{{ __('messages.services_hero_subtitle') }}</p>
+    </div>
+</section>
+
+{{-- 2. FLOATING BUBBLES --}}
 <div class="vertical-dots-nav">
-    <a href="#hero" class="nav-dot active"></a>
     @foreach($services as $dot)
         <a href="#{{ $dot['id'] }}" class="nav-dot"></a>
     @endforeach
 </div>
 
-<main class="snap-wrapper">
-    {{-- Hero --}}
-    <section class="snap-section hero-section" id="hero">
-        <div class="hero-content">
-            <h1>{!! __('messages.services_hero_title') !!}</h1>
-            <p>{{ __('messages.services_hero_subtitle') }}</p>
-            <div class="mouse-scroll"></div>
-        </div>
-    </section>
-
-    {{-- Service Cards --}}
+<main class="services-wrapper">
     @foreach($services as $service)
     <section class="snap-section" id="{{ $service['id'] }}">
         <div class="service-card glass">
             <div class="card-inner">
-                {{-- Top: Icon --}}
-                <div class="icon-wrapper">
+                
+                {{-- Icon --}}
+                <div class="icon-box">
                     <i class="fa-solid {{ $service['icon'] }}"></i>
                 </div>
                 
-                {{-- Middle: Content --}}
-                <div class="text-content">
+                {{-- Header --}}
+                <div class="header-box">
                     <h2>{{ __('messages.' . $service['title']) }}</h2>
                     <p class="subtitle">{{ __('messages.' . $service['subtitle']) }}</p>
                 </div>
 
-                {{-- Center: Features (Symmetric Grid) --}}
-                <div class="features-box">
-                    <ul class="features-list">
+                {{-- Symmetric Features List --}}
+                <div class="features-container">
+                    <ul class="features-grid">
                         @for($i = 1; $i <= $service['features']; $i++)
                             <li>
                                 <i class="fa-solid fa-check-circle"></i> 
@@ -64,8 +62,8 @@
                     </ul>
                 </div>
 
-                {{-- Bottom: Button --}}
-                <div class="btn-box">
+                {{-- Bottom Button --}}
+                <div class="footer-box">
                     <a href="/contact" class="quote-btn">{{ __('messages.request_quote') }}</a>
                 </div>
             </div>
@@ -75,55 +73,79 @@
 </main>
 
 <script>
-    // Logic to sync bubbles with current screen
-    const sections = document.querySelectorAll('.snap-section');
+    // Sync dots with section visibility
     const dots = document.querySelectorAll('.nav-dot');
+    const cards = document.querySelectorAll('.snap-section');
 
-    window.addEventListener('scroll', () => {
-        let current = "";
-        sections.forEach(section => {
-            if (pageYOffset >= (section.offsetTop - section.clientHeight / 2)) {
-                current = section.getAttribute('id');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                dots.forEach(dot => {
+                    dot.classList.remove('active');
+                    if (dot.getAttribute('href') === `#${entry.target.id}`) dot.classList.add('active');
+                });
             }
         });
-        dots.forEach(dot => {
-            dot.classList.remove('active');
-            if (dot.getAttribute('href') === `#${current}`) dot.classList.add('active');
-        });
-    });
+    }, { threshold: 0.6 });
+
+    cards.forEach(card => observer.observe(card));
 </script>
 
 @endsection
 
 @push('styles')
 <style>
-    /* RESET & SNAPPING */
-    html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-    body { margin: 0; background: #0f0c29; overflow-x: hidden; }
-
-    .snap-section {
-        height: 100vh;
-        width: 100vw;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
+    /* PAGE SETUP */
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    
+    /* ORIGINAL HERO STYLE */
+    .services-hero {
+        min-height: 45vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 40px;
-        box-sizing: border-box;
+        padding: 60px 20px;
+        text-align: center;
+        scroll-snap-align: start; /* Start snapping from hero */
     }
 
-    /* THE FULL SCREEN CARD */
+    .services-hero h1 {
+        font-size: clamp(2.5rem, 6vw, 3.8rem);
+        font-weight: 800;
+        background: linear-gradient(135deg, #ba68c8, #e1bee7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+    }
+
+    .services-hero p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* SNAP SECTIONS */
+    .snap-section {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        scroll-snap-align: start;
+        padding: 20px;
+    }
+
+    /* THE SYMMETRIC CARD */
     .service-card {
         width: 100%;
-        max-width: 1100px;
-        height: 85vh; /* Covers most of the screen height */
+        max-width: 1000px;
+        height: 80vh;
+        max-height: 750px;
         border-radius: 40px;
-        position: relative;
-        overflow: hidden; /* No internal scroll */
+        border: 1px solid rgba(186, 104, 200, 0.2);
         display: flex;
         flex-direction: column;
-        border: 1px solid rgba(186, 104, 200, 0.2);
     }
 
     .glass {
@@ -133,118 +155,99 @@
     }
 
     .card-inner {
-        padding: 60px;
+        padding: 50px;
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* This creates the symmetry */
+        justify-content: space-between; /* Keeps top and bottom separate */
         align-items: center;
         text-align: center;
     }
 
-    /* TOP SECTION: ICON */
-    .icon-wrapper {
+    /* Icon Flip Logic */
+    .icon-box {
+        font-size: 3.5rem;
+        color: #ba68c8;
+        background: rgba(186, 104, 200, 0.1);
         width: 100px;
         height: 100px;
-        background: rgba(186, 104, 200, 0.1);
-        border-radius: 25px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 3.5rem;
-        color: #ba68c8;
-        border: 1px solid rgba(186, 104, 200, 0.3);
+        border-radius: 24px;
+        border: 1px solid rgba(186, 104, 200, 0.2);
         transition: 0.6s ease;
     }
-    .service-card:hover .icon-wrapper { transform: rotateY(180deg); background: rgba(186, 104, 200, 0.2); }
+    .service-card:hover .icon-box { transform: rotateY(180deg); background: rgba(186, 104, 200, 0.25); }
 
-    /* MIDDLE SECTION: TITLES */
-    .text-content h2 {
-        font-size: 2.8rem;
-        margin: 20px 0 10px;
-        color: #fff;
-        font-weight: 800;
-    }
-    .subtitle {
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 1.1rem;
-        max-width: 600px;
-    }
+    .header-box h2 { font-size: 2.4rem; color: #fff; margin: 15px 0 5px; }
+    .header-box .subtitle { color: rgba(255,255,255,0.6); font-size: 1rem; }
 
-    /* CENTER SECTION: FEATURES (SYMMETRIC GRID) */
-    .features-box {
-        width: 100%;
-        max-width: 800px;
+    /* FEATURES GRID - SYMMETRIC */
+    .features-container {
         flex-grow: 1;
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%;
+        padding: 20px 0;
     }
 
-    .features-list {
+    .features-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Symmetric split */
-        gap: 20px 40px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px 40px;
         list-style: none;
         padding: 0;
         text-align: left;
     }
 
-    .features-list li {
+    .features-grid li {
         color: #e0e0e0;
-        font-size: 1.1rem;
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 12px;
+        font-size: 1.05rem;
     }
 
-    .features-list li i { color: #ba68c8; font-size: 1.2rem; }
+    .features-grid li i { color: #ba68c8; font-size: 1.1rem; }
 
-    /* BOTTOM SECTION: BUTTON */
+    /* QUOTE BUTTON */
     .quote-btn {
-        padding: 18px 60px;
+        padding: 16px 50px;
         background: #ba68c8;
         color: #000;
-        text-decoration: none;
         border-radius: 50px;
+        text-decoration: none;
         font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 1px;
         transition: 0.4s;
-        box-shadow: 0 10px 30px rgba(186, 104, 200, 0.3);
+        display: inline-block;
+        box-shadow: 0 10px 20px rgba(186, 104, 200, 0.2);
     }
-    .quote-btn:hover { background: #e1bee7; transform: translateY(-5px); box-shadow: 0 15px 40px rgba(186, 104, 200, 0.5); }
+    .quote-btn:hover { background: #e1bee7; transform: translateY(-3px); }
 
-    /* BUBBLE NAVIGATION */
+    /* NAVIGATION BUBBLES */
     .vertical-dots-nav {
         position: fixed;
-        right: 40px;
+        right: 30px;
         top: 50%;
         transform: translateY(-50%);
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        z-index: 100;
+        gap: 15px;
+        z-index: 1000;
     }
-    .nav-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.2);
-        transition: 0.3s;
-    }
-    .nav-dot.active { background: #ba68c8; transform: scale(1.5); box-shadow: 0 0 15px #ba68c8; }
 
-    /* HERO STYLING */
-    .hero-section h1 { font-size: 5rem; background: linear-gradient(to right, #ba68c8, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero-section p { color: rgba(255,255,255,0.7); font-size: 1.5rem; }
+    .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: 0.3s; }
+    .nav-dot.active { background: #ba68c8; transform: scale(1.4); }
 
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-        .features-list { grid-template-columns: 1fr; }
-        .text-content h2 { font-size: 2rem; }
-        .service-card { height: 90vh; }
-        .card-inner { padding: 30px; }
+    /* RESPONSIVITY */
+    @media (max-width: 850px) {
+        .features-grid { grid-template-columns: 1fr; }
+        .service-card { height: 90vh; max-height: none; }
+        .card-inner { padding: 30px 20px; }
+        .vertical-dots-nav { display: none; }
+        html { scroll-snap-type: none; }
     }
 </style>
 @endpush
