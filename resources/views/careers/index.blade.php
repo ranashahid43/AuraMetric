@@ -13,10 +13,11 @@
 
 <main class="careers-section">
 
-  <div class="job-slider-container">
-    <button class="nav-btn prev" id="prevBtn"><i class="fa-solid fa-chevron-left"></i></button>
+  {{-- RESPONSIVE SLIDER --}}
+  <div class="job-slider-outer">
+    <button class="nav-btn prev" id="prevBtn" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
     
-    <div class="job-reel-wrapper" id="reelWrapper">
+    <div class="job-reel-wrapper">
       <div class="job-reel" id="jobReel">
         @php
           $jobs = [
@@ -50,11 +51,12 @@
       </div>
     </div>
 
-    <button class="nav-btn next" id="nextBtn"><i class="fa-solid fa-chevron-right"></i></button>
+    <button class="nav-btn next" id="nextBtn" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
   </div>
 
   <div class="slider-dots" id="sliderDots"></div>
 
+  {{-- SPONTANEOUS SECTION (Original Look Maintained) --}}
   <div class="spontaneous-section glass">
     <div class="spontaneous-content">
       <h2>{{ __('messages.careers_spontaneous_title') ?? 'Join Our Talent Pool' }}</h2>
@@ -74,13 +76,15 @@
   const dotsContainer = document.getElementById('sliderDots');
   const cards = document.querySelectorAll('.job-card');
 
-  // Logic to calculate movement based on exact card width + gap
+  // Move exactly one card width + gap
   const getScrollStep = () => {
     if (cards.length === 0) return 0;
-    return cards[0].offsetWidth + 40; // Card width + gap
+    const style = window.getComputedStyle(reel);
+    const gap = parseInt(style.getPropertyValue('gap'));
+    return cards[0].offsetWidth + gap;
   };
 
-  // Create Dots
+  // Build Pagination Dots
   cards.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.classList.add('dot');
@@ -99,13 +103,17 @@
     reel.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
   });
 
-  // Update active dot on scroll
+  // Sync dots with manual scroll or button clicks
   reel.addEventListener('scroll', () => {
     const step = getScrollStep();
     const index = Math.round(reel.scrollLeft / step);
     document.querySelectorAll('.dot').forEach((dot, i) => {
       dot.classList.toggle('active', i === index);
     });
+    
+    // Disable arrows at boundaries
+    prevBtn.style.opacity = reel.scrollLeft <= 5 ? "0.3" : "1";
+    nextBtn.style.opacity = (reel.scrollLeft + reel.offsetWidth >= reel.scrollWidth - 5) ? "0.3" : "1";
   });
 </script>
 
@@ -113,17 +121,20 @@
 
 @push('styles')
 <style>
-  /* HERO & SECTION (Unchanged) */
+  /* HERO SECTION */
   .careers-hero { min-height: 45vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; }
   .careers-hero h1 { font-size: clamp(2.5rem, 6vw, 3.8rem); font-weight: 800; background: linear-gradient(135deg, #ba68c8, #e1bee7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  /* SLIDER CONTAINER */
-  .job-slider-container {
+  .careers-hero p { color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; max-width: 700px; margin: 0 auto; }
+
+  /* SLIDER LAYOUT */
+  .job-slider-outer {
     display: flex;
     align-items: center;
-    max-width: 1000px; /* Reduced to perfectly fit 2 cards */
+    justify-content: center;
+    max-width: 1200px;
     margin: 0 auto;
     position: relative;
+    padding: 0 15px;
   }
 
   .job-reel-wrapper {
@@ -134,65 +145,77 @@
 
   .job-reel {
     display: flex;
-    gap: 40px; /* Gap between cards */
+    gap: 30px;
     overflow-x: auto;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    padding: 20px;
-    /* CSS SNAP LOGIC */
-    scroll-snap-type: x mandatory; 
+    padding: 20px 5px;
+    scroll-snap-type: x mandatory;
   }
 
   .job-reel::-webkit-scrollbar { display: none; }
 
-  /* TWO CARDS LOGIC */
-  .job-card { 
-    /* (100% - 1 gap) / 2 cards = width */
-    flex: 0 0 calc((100% - 40px) / 2); 
-    scroll-snap-align: start; /* Each card snaps to the start of the view */
-    padding: 50px 30px; 
-    border-radius: 40px; 
-    text-align: center; 
-    border: 1px solid rgba(186, 104, 200, 0.2); 
-    transition: 0.5s; 
-    display: flex; 
-    flex-direction: column; 
-    min-height: 550px; 
+  /* CARD RESPONSIVITY */
+  .job-card {
+    /* Desktop: 2 Cards */
+    flex: 0 0 calc((100% - 30px) / 2);
+    scroll-snap-align: start;
+    padding: 50px 40px;
+    border-radius: 40px;
+    text-align: center;
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    transition: all 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 550px;
   }
 
-  /* BUTTONS & DOTS (Improved styling) */
+  /* Tablet/Mobile Adjustments */
+  @media (max-width: 1024px) {
+    .job-card { flex: 0 0 calc(100% - 20px); } /* Show 1 card */
+    .job-slider-outer { max-width: 600px; }
+  }
+
+  @media (max-width: 600px) {
+    .nav-btn { display: none; } /* Hide arrows on small mobile */
+    .job-card { padding: 40px 20px; min-height: 500px; }
+  }
+
+  /* BUTTONS & DOTS */
   .nav-btn {
-    background: rgba(186, 104, 200, 0.15);
+    background: rgba(186, 104, 200, 0.1);
     border: 1px solid rgba(186, 104, 200, 0.3);
     color: #ba68c8;
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 10;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
     flex-shrink: 0;
+    z-index: 5;
   }
-  
+
   .nav-btn:hover { background: #ba68c8; color: #000; }
 
-  .slider-dots { display: flex; justify-content: center; gap: 10px; margin-bottom: 60px; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(186, 104, 200, 0.2); cursor: pointer; transition: 0.3s; }
-  .dot.active { background: #ba68c8; transform: scale(1.2); }
+  .slider-dots { display: flex; justify-content: center; gap: 12px; margin: -20px 0 60px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(186, 104, 200, 0.2); cursor: pointer; transition: 0.3s; }
+  .dot.active { background: #ba68c8; transform: scale(1.3); }
 
-  /* CARD CONTENT (Kept your style) */
-  .job-icon-box { font-size: 2.5rem; color: #ba68c8; background: rgba(186, 104, 200, 0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 20px; margin: 0 auto 20px; border: 1px solid rgba(186, 104, 200, 0.2); }
+  /* SPONTANEOUS SECTION (NO CHANGE) */
+  .spontaneous-section { max-width: 1200px; margin: 60px auto; padding: 80px 60px; border-radius: 40px; text-align: center; border: 1px solid rgba(186, 104, 200, 0.2); }
+  .spontaneous-section h2 { font-size: 2.8rem; margin-bottom: 25px; background: linear-gradient(135deg, #fff, #ba68c8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .spontaneous-content p { font-size: 1.3rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 40px; }
+
+  /* STYLE REFINEMENTS */
+  .job-icon-box { font-size: 3rem; color: #ba68c8; background: rgba(186, 104, 200, 0.1); width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 24px; margin: 0 auto 30px; border: 1px solid rgba(186, 104, 200, 0.2); transition: 0.6s; }
   .job-card:hover { transform: translateY(-10px); border-color: rgba(186, 104, 200, 0.5); background: rgba(255, 255, 255, 0.05); }
-  .card-header h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
-  .job-desc { font-size: 0.95rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 20px; }
-  
-  /* UTILITIES */
+  .job-card:hover .job-icon-box { transform: rotateY(180deg); }
   .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); }
-  .apply-btn { background: #ba68c8; color: #000; padding: 12px 30px; font-weight: 800; border-radius: 50px; text-decoration: none; margin-top: auto; display: inline-block; }
-
-  /* RESPONSIVE: Show 1 card on mobile */
-  @media (max-width: 800px) {
-    .job-card { flex: 0 0 100%; }
-    .nav-btn { display: none; }
-  }
+  .apply-btn { background: #ba68c8; color: #000; padding: 14px 40px; font-weight: 800; border-radius: 50px; text-decoration: none; margin-top: auto; display: inline-block; transition: 0.4s; }
+  .apply-btn.large { padding: 18px 60px; font-size: 1.25rem; }
 </style>
 @endpush
