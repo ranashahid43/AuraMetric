@@ -18,8 +18,8 @@
     ];
 @endphp
 
-{{-- Hero Section (Identical to Home Page Code) --}}
-<section class="hero">
+{{-- Hero Section (Spacing now matches Careers Page) --}}
+<section class="hero services-hero">
   <div class="hero-content">
     <h1>{!! __('messages.services_hero_title') !!}</h1>
     <p>{{ __('messages.services_hero_subtitle') }}</p>
@@ -36,7 +36,6 @@
 <main class="services-wrapper">
     @foreach($services as $service)
     <section class="snap-section" id="{{ $service['id'] }}">
-        {{-- Exact Glass Class and Formatting --}}
         <div class="glass service service-card">
             <div class="card-inner">
                 
@@ -59,7 +58,7 @@
                     </ul>
                 </div>
 
-                {{-- Bottom: Exact Home Page Button --}}
+                {{-- Bottom: Button --}}
                 <div class="footer-box">
                     <a href="/contact" class="btn learn-more-btn">
                         {{ __('messages.request_quote') }}
@@ -95,33 +94,31 @@
   /* Page Snapping Logic */
   html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
 
-  /* Hero Section (Copied exactly from your Home Page code) */
-  .hero {
-    min-height: 80vh; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  /* HERO SECTION (PERFECTLY MATCHED TO CAREERS) */
+  .services-hero { 
+    min-height: 45vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 60px 20px; 
+    text-align: center; 
     scroll-snap-align: start;
   }
-
-  .hero-content {
-    text-align: center;
-    max-width: 900px;
-  }
-
-  .hero-content h1 {
-    font-size: clamp(2.2rem, 6vw, 3.2rem); 
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #ba68c8, #e1bee7);
-    -webkit-background-clip: text;
+  
+  .services-hero h1 { 
+    font-size: clamp(2.5rem, 6vw, 3.8rem); 
+    font-weight: 800; 
+    background: linear-gradient(135deg, #ba68c8, #e1bee7); 
+    -webkit-background-clip: text; 
     -webkit-text-fill-color: transparent;
+    margin-bottom: 10px; /* Subtle spacing between h1 and p */
   }
 
-  .hero-content p {
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
-    margin-bottom: 40px;
-    color: var(--text-dim);
+  .services-hero p { 
+    color: rgba(255, 255, 255, 0.7); 
+    font-size: 1.1rem; 
+    max-width: 700px; 
+    margin: 0 auto; 
   }
 
   /* Full Screen Card Sections */
@@ -143,7 +140,10 @@
     max-height: 750px;
     display: flex;
     flex-direction: column;
-    padding: 60px 40px !important; /* Standardized card spacing */
+    padding: 60px 40px !important;
+    border-radius: 40px;
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    transition: all 0.5s ease;
   }
 
   .card-inner {
@@ -152,26 +152,30 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
   }
 
-  /* Icon Logic (from Home Page) */
+  /* Icon Logic */
   .service-card i {
     font-size: 3rem;
     color: #ba68c8;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     --fa-animation-duration: 2s;
   }
 
-  .service-card:hover i { animation: fa-flip 1s ease-in-out; }
+  .service-card h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
 
   .services-subtitle-dim {
-    color: var(--text-dim);
+    color: rgba(255, 255, 255, 0.6);
     font-size: 1rem;
     max-width: 600px;
     margin: 0 auto;
   }
 
-  /* Features Grid (Perfect Symmetry) */
+  /* Features Grid */
   .features-wrapper {
     flex-grow: 1;
     display: flex;
@@ -188,6 +192,7 @@
     list-style: none;
     padding: 0;
     text-align: left;
+    margin: 0 auto;
   }
 
   .features-grid li {
@@ -195,7 +200,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: var(--text-dim);
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .small-bullet {
@@ -204,6 +209,24 @@
     background: #ba68c8;
     border-radius: 50%;
     flex-shrink: 0;
+  }
+
+  /* Button Style matching Careers Theme */
+  .learn-more-btn {
+    background: #ba68c8;
+    color: #000;
+    padding: 14px 40px;
+    font-weight: 800;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.4s;
+    border: none;
+  }
+
+  .learn-more-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(186, 104, 200, 0.3);
   }
 
   /* Dot Navigation */
@@ -231,13 +254,16 @@
     transform: scale(1.4);
   }
 
+  .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); }
+
   /* Responsive Fixes */
   @media (max-width: 850px) {
     html { scroll-snap-type: none; }
     .snap-section { height: auto; min-height: 100vh; padding: 60px 15px; }
-    .service-card { height: auto; max-height: none; }
-    .features-grid { grid-template-columns: 1fr; }
+    .service-card { height: auto; max-height: none; padding: 40px 20px !important; }
+    .features-grid { grid-template-columns: 1fr; gap: 15px; }
     .vertical-dots-nav { display: none; }
+    .services-hero { min-height: 40vh; }
   }
 </style>
 @endpush
