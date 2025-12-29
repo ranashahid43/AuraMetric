@@ -21,12 +21,13 @@
             <div class="form-row grid-2">
                 <div class="form-group">
                     <label>{{ __('messages.careers_first_name') }}</label>
-                    <input type="text" name="first_name" placeholder="{{ __('messages.careers_first_name_placeholder') }}" value="{{ old('first_name') }}" required>
+                    {{-- HTML pattern used to enforce English letters only on front-end --}}
+                    <input type="text" name="first_name" placeholder="{{ __('messages.careers_first_name_placeholder') }}" value="{{ old('first_name') }}" required pattern="[A-Za-z\s]+" title="Please use English letters only">
                     @error('first_name') <span class="error">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-group">
                     <label>{{ __('messages.careers_last_name') }}</label>
-                    <input type="text" name="last_name" placeholder="{{ __('messages.careers_last_name_placeholder') }}" value="{{ old('last_name') }}" required>
+                    <input type="text" name="last_name" placeholder="{{ __('messages.careers_last_name_placeholder') }}" value="{{ old('last_name') }}" required pattern="[A-Za-z\s]+" title="Please use English letters only">
                     @error('last_name') <span class="error">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -40,12 +41,13 @@
                 </div>
                 <div class="form-group">
                     <label>{{ __('messages.careers_phone') }}</label>
+                    {{-- Pattern updated to allow any + followed by country code and digits --}}
                     <input type="tel" name="phone" 
                            placeholder="{{ __('messages.careers_phone_placeholder') }}" 
                            value="{{ old('phone') }}" 
                            required 
-                           pattern="^\+(92|39)[0-9]{7,15}$"
-                           title="Phone number must start with +92 or +39">
+                           pattern="^\+[1-9]\d{1,14}$"
+                           title="Phone number must start with + followed by country code (e.g. +92 or +91)">
                     <small class="field-note">{{ __('messages.careers_phone_note') }}</small>
                     @error('phone') <span class="error">{{ $message }}</span> @enderror
                 </div>
@@ -77,26 +79,31 @@
                 </div>
             </div>
 
-            <h3 class="form-section-title">{{ __('messages.careers_documents') }}</h3>
+            <h3 class="form-section-title">{{ __('messages.careers_documents') }} (PDF, DOC, DOCX Only)</h3>
             
             <div class="form-row grid-upload">
                 <div class="upload-box glass">
+                    <button type="button" class="file-remove-btn" onclick="resetFile('cv-field')">&times;</button>
                     <i class="fa-solid fa-file-pdf"></i>
                     <label>{{ __('messages.careers_cv_label') }}</label>
-                    <input type="file" name="cv" accept=".pdf,.doc,.docx" required>
+                    <input type="file" name="cv" id="cv-field" accept=".pdf,.doc,.docx" required>
                     @error('cv') <span class="error">{{ $message }}</span> @enderror
                 </div>
                 
                 <div class="upload-box glass">
+                    <button type="button" class="file-remove-btn" onclick="resetFile('portfolio-field')">&times;</button>
                     <i class="fa-solid fa-briefcase"></i>
                     <label>{{ __('messages.careers_portfolio_label') }}</label>
-                    <input type="file" name="portfolio" accept=".pdf,.zip">
+                    <input type="file" name="portfolio" id="portfolio-field" accept=".pdf,.zip">
+                    @error('portfolio') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="upload-box glass">
+                    <button type="button" class="file-remove-btn" onclick="resetFile('video-field')">&times;</button>
                     <i class="fa-solid fa-video"></i>
                     <label>{{ __('messages.careers_video_label') }}</label>
-                    <input type="file" name="video" accept=".mp4,.mov">
+                    <input type="file" name="video" id="video-field" accept=".mp4,.mov">
+                    @error('video') <span class="error">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -122,6 +129,14 @@
         </form>
     </div>
 </main>
+
+{{-- Script to handle the cancel/cross button for file uploads --}}
+<script>
+    function resetFile(id) {
+        const fileInput = document.getElementById(id);
+        fileInput.value = ''; // Clears the file selection
+    }
+</script>
 
 @endsection
 
@@ -151,10 +166,10 @@
     margin-top: 10px;
   }
 
-  /* LAYOUT - Shrink width logic added here */
+  /* LAYOUT */
   .apply-section {
     padding: 20px 5% 100px;
-    max-width: 850px; /* SHRUNK WIDTH AS REQUESTED */
+    max-width: 1100px; /* ORIGINAL WIDTH RESTORED */
     margin: 0 auto;
   }
 
@@ -225,7 +240,7 @@
   .custom-select {
     cursor: pointer;
     appearance: none;
-    background-color: #1a1a1a; /* FIX: DARK BACKGROUND */
+    background-color: #1a1a1a; 
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ba68c8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 20px center;
@@ -245,6 +260,7 @@
   }
 
   .upload-box {
+    position: relative; /* Required for the absolute cross button */
     padding: 25px 15px;
     text-align: center;
     border-radius: 20px;
@@ -257,6 +273,30 @@
   }
 
   .upload-box i { font-size: 1.8rem; color: #ba68c8; }
+
+  /* MINI CROSS BUTTON FOR FILE REMOVAL */
+  .file-remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 107, 107, 0.2);
+    border: none;
+    color: #ff6b6b;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .file-remove-btn:hover {
+    background: #ff6b6b;
+    color: white;
+  }
 
   .upload-box:hover {
     border-color: #ba68c8;
@@ -329,7 +369,7 @@
     -webkit-backdrop-filter: blur(15px);
   }
 
-  .error { color: #ff6b6b; font-size: 0.8rem; }
+  .error { color: #ff6b6b; font-size: 0.8rem; font-weight: 500; margin-top: 5px; }
 
   /* RESPONSIVE */
   @media (max-width: 992px) { .grid-upload { grid-template-columns: 1fr; } }
