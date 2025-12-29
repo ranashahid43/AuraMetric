@@ -18,7 +18,7 @@
     ];
 @endphp
 
-{{-- 1. ORIGINAL HERO SECTION (Same as other pages) --}}
+{{-- Hero Section --}}
 <section class="hero services-hero">
     <div class="hero-content">
         <h1>{!! __('messages.services_hero_title') !!}</h1>
@@ -26,31 +26,27 @@
     </div>
 </section>
 
-{{-- 2. FLOATING BUBBLES --}}
 <div class="vertical-dots-nav">
     @foreach($services as $dot)
         <a href="#{{ $dot['id'] }}" class="nav-dot"></a>
     @endforeach
 </div>
 
-<main class="services-wrapper">
+<main class="book-container">
     @foreach($services as $service)
-    <section class="snap-section" id="{{ $service['id'] }}">
-        <div class="service-card glass">
+    <section class="book-page" id="{{ $service['id'] }}">
+        <div class="service-card glass page-turn-element">
             <div class="card-inner">
                 
-                {{-- Icon --}}
                 <div class="icon-box">
                     <i class="fa-solid {{ $service['icon'] }}"></i>
                 </div>
                 
-                {{-- Header --}}
                 <div class="header-box">
                     <h2>{{ __('messages.' . $service['title']) }}</h2>
                     <p class="subtitle">{{ __('messages.' . $service['subtitle']) }}</p>
                 </div>
 
-                {{-- Symmetric Features List --}}
                 <div class="features-container">
                     <ul class="features-grid">
                         @for($i = 1; $i <= $service['features']; $i++)
@@ -62,7 +58,6 @@
                     </ul>
                 </div>
 
-                {{-- Bottom Button --}}
                 <div class="footer-box">
                     <a href="/contact" class="quote-btn">{{ __('messages.request_quote') }}</a>
                 </div>
@@ -73,85 +68,100 @@
 </main>
 
 <script>
-    // Sync dots with section visibility
+    const pages = document.querySelectorAll('.page-turn-element');
     const dots = document.querySelectorAll('.nav-dot');
-    const cards = document.querySelectorAll('.snap-section');
+    const sections = document.querySelectorAll('.book-page');
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                dots.forEach(dot => {
-                    dot.classList.remove('active');
-                    if (dot.getAttribute('href') === `#${entry.target.id}`) dot.classList.add('active');
-                });
+    window.addEventListener('scroll', () => {
+        const viewportHeight = window.innerHeight;
+
+        sections.forEach((section, index) => {
+            const rect = section.getBoundingClientRect();
+            const page = pages[index];
+            
+            // Calculate how far the section is from the center of the screen
+            // 0 = centered, 1 = scrolled out completely
+            let progress = rect.top / viewportHeight;
+            
+            if (progress > -1 && progress < 1) {
+                // Apply 3D Rotation (Book Flip Logic)
+                // Rotating around X axis for vertical "page turn"
+                const rotation = progress * 90; 
+                const opacity = 1 - Math.abs(progress);
+                const scale = 1 - (Math.abs(progress) * 0.2);
+
+                page.style.transform = `perspective(1200px) rotateX(${rotation}deg) scale(${scale})`;
+                page.style.opacity = opacity;
+            }
+
+            // Sync dots
+            if (rect.top >= -viewportHeight/2 && rect.top <= viewportHeight/2) {
+                dots.forEach(d => d.classList.remove('active'));
+                dots[index].classList.add('active');
             }
         });
-    }, { threshold: 0.6 });
-
-    cards.forEach(card => observer.observe(card));
+    });
 </script>
 
 @endsection
 
 @push('styles')
 <style>
-    /* PAGE SETUP */
-    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
-    
-    /* ORIGINAL HERO STYLE */
+    html { 
+        scroll-snap-type: y mandatory; 
+        scroll-behavior: smooth; 
+        background: #0a0a0a; 
+    }
+
+    /* Standard Hero */
     .services-hero {
         min-height: 45vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 60px 20px;
         text-align: center;
-        scroll-snap-align: start; /* Start snapping from hero */
+        scroll-snap-align: start;
     }
 
     .services-hero h1 {
         font-size: clamp(2.5rem, 6vw, 3.8rem);
-        font-weight: 800;
         background: linear-gradient(135deg, #ba68c8, #e1bee7);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 20px;
     }
 
-    .services-hero p {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 1.1rem;
-        max-width: 700px;
-        margin: 0 auto;
+    /* Container for the 3D Effect */
+    .book-container {
+        perspective: 1500px;
     }
 
-    /* SNAP SECTIONS */
-    .snap-section {
+    .book-page {
         height: 100vh;
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         scroll-snap-align: start;
-        padding: 20px;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* THE SYMMETRIC CARD */
-    .service-card {
+    /* The Flip Card */
+    .page-turn-element {
         width: 100%;
         max-width: 1000px;
         height: 80vh;
-        max-height: 750px;
+        max-height: 700px;
         border-radius: 40px;
         border: 1px solid rgba(186, 104, 200, 0.2);
-        display: flex;
-        flex-direction: column;
+        transition: transform 0.1s linear, opacity 0.1s linear; /* Smooth real-time update */
+        transform-origin: center center;
+        backface-visibility: hidden;
     }
 
     .glass {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.04);
         backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
     }
 
     .card-inner {
@@ -159,94 +169,53 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* Keeps top and bottom separate */
+        justify-content: space-between;
         align-items: center;
         text-align: center;
     }
 
-    /* Icon Flip Logic */
+    /* Content Styling */
     .icon-box {
-        font-size: 3.5rem;
-        color: #ba68c8;
+        font-size: 3.5rem; color: #ba68c8;
         background: rgba(186, 104, 200, 0.1);
-        width: 100px;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 24px;
-        border: 1px solid rgba(186, 104, 200, 0.2);
-        transition: 0.6s ease;
+        width: 90px; height: 90px;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 20px;
     }
-    .service-card:hover .icon-box { transform: rotateY(180deg); background: rgba(186, 104, 200, 0.25); }
 
-    .header-box h2 { font-size: 2.4rem; color: #fff; margin: 15px 0 5px; }
-    .header-box .subtitle { color: rgba(255,255,255,0.6); font-size: 1rem; }
-
-    /* FEATURES GRID - SYMMETRIC */
-    .features-container {
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        padding: 20px 0;
-    }
+    .header-box h2 { font-size: 2.5rem; color: #fff; margin-bottom: 5px; }
+    .header-box .subtitle { color: rgba(255,255,255,0.6); }
 
     .features-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px 40px;
-        list-style: none;
-        padding: 0;
-        text-align: left;
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 20px 50px; list-style: none; padding: 0;
     }
 
     .features-grid li {
-        color: #e0e0e0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 1.05rem;
+        color: #e0e0e0; display: flex; align-items: center; gap: 10px; font-size: 1.1rem;
     }
 
-    .features-grid li i { color: #ba68c8; font-size: 1.1rem; }
+    .features-grid li i { color: #ba68c8; }
 
-    /* QUOTE BUTTON */
     .quote-btn {
-        padding: 16px 50px;
-        background: #ba68c8;
-        color: #000;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 800;
-        transition: 0.4s;
-        display: inline-block;
-        box-shadow: 0 10px 20px rgba(186, 104, 200, 0.2);
+        padding: 16px 50px; background: #ba68c8; color: #000;
+        border-radius: 50px; text-decoration: none; font-weight: 800;
+        box-shadow: 0 10px 20px rgba(186, 104, 200, 0.3);
     }
-    .quote-btn:hover { background: #e1bee7; transform: translateY(-3px); }
 
-    /* NAVIGATION BUBBLES */
+    /* Navigation Bubbles */
     .vertical-dots-nav {
-        position: fixed;
-        right: 30px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        z-index: 1000;
+        position: fixed; right: 30px; top: 50%;
+        transform: translateY(-50%); display: flex;
+        flex-direction: column; gap: 15px; z-index: 1000;
     }
 
     .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: 0.3s; }
     .nav-dot.active { background: #ba68c8; transform: scale(1.4); }
 
-    /* RESPONSIVITY */
     @media (max-width: 850px) {
         .features-grid { grid-template-columns: 1fr; }
-        .service-card { height: 90vh; max-height: none; }
-        .card-inner { padding: 30px 20px; }
-        .vertical-dots-nav { display: none; }
+        .page-turn-element { height: 90vh; }
         html { scroll-snap-type: none; }
     }
 </style>
