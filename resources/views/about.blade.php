@@ -18,15 +18,15 @@
     ];
 @endphp
 
-{{-- 1. HERO SECTION (Matched exactly to About Page Hero) --}}
-<section class="hero services-hero">
-    <div class="hero-content">
-        <h1>{!! __('messages.services_hero_title') !!}</h1>
-        <p>{{ __('messages.services_hero_subtitle') }}</p>
-    </div>
+{{-- Match About Us Structure exactly --}}
+<section class="hero about-hero">
+  <div class="hero-content">
+    <h1>{!! __('messages.services_hero_title') !!}</h1>
+    <p>{{ __('messages.services_hero_subtitle') }}</p>
+  </div>
 </section>
 
-{{-- 2. NAVIGATION DOTS --}}
+{{-- Navigation Bubbles --}}
 <div class="vertical-dots-nav">
     @foreach($services as $dot)
         <a href="#{{ $dot['id'] }}" class="nav-dot"></a>
@@ -36,17 +36,16 @@
 <main class="services-wrapper">
     @foreach($services as $service)
     <section class="snap-section" id="{{ $service['id'] }}">
-        <div class="glass service service-card">
+        {{-- Card uses the .glass class from your About/Home pages --}}
+        <div class="glass service-card">
             <div class="card-inner">
                 
-                {{-- Top: Icon & Header --}}
                 <div class="card-header-top">
                     <i class="fa-solid {{ $service['icon'] }} fa-flip"></i>
                     <h3>{{ __('messages.' . $service['title']) }}</h3>
                     <p class="services-subtitle-dim">{{ __('messages.' . $service['subtitle']) }}</p>
                 </div>
 
-                {{-- Middle: Feature Grid --}}
                 <div class="features-wrapper">
                     <ul class="features-grid">
                         @for($i = 1; $i <= $service['features']; $i++)
@@ -58,7 +57,6 @@
                     </ul>
                 </div>
 
-                {{-- Bottom: Request Quote Button --}}
                 <div class="footer-box">
                     <a href="/contact" class="btn learn-more-btn">
                         {{ __('messages.request_quote') }}
@@ -91,144 +89,159 @@
 
 @push('styles')
 <style>
-    /* PAGE CORE */
-    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+  /* Page Snapping setup */
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
 
-    /* HERO SECTION (Matches About Page Spacing) */
-    .services-hero {
-        min-height: 40vh; /* Changed from 80vh to match About Page */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: clamp(60px, 10vh, 100px) 20px; /* Exact padding from About page */
-        text-align: center;
-        scroll-snap-align: start;
-    }
+  /* HERO SECTION - EXACT COPY FROM YOUR ABOUT US PAGE */
+  .about-hero {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(60px, 10vh, 100px) 20px;
+    text-align: center;
+    scroll-snap-align: start;
+  }
 
-    .services-hero h1 {
-        font-size: clamp(2.2rem, 6vw, 3.8rem); /* Match About Page Font size */
-        font-weight: 800;
-        background: linear-gradient(135deg, #ba68c8, #e1bee7);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 20px;
-    }
+  .about-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #ba68c8, #e1bee7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
 
-    .services-hero p {
-        font-size: clamp(1rem, 2vw, 1.2rem); /* Match About Page Font size */
-        color: rgba(255, 255, 255, 0.7);
-        max-width: 800px; /* Match About Page width */
-        margin: 0 auto;
-    }
+  .about-hero p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
-    /* CARD SECTIONS */
-    .snap-section {
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        scroll-snap-align: start;
-        padding: 40px 20px;
-    }
+  /* SNAP SECTION */
+  .snap-section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    padding: 20px;
+  }
 
-    .service-card {
-        width: 100%;
-        max-width: 1000px;
-        height: 80vh;
-        max-height: 750px;
-        display: flex;
-        flex-direction: column;
-        padding: 60px 40px !important;
-        border: 1px solid rgba(186, 104, 200, 0.2); /* Glamorous purple border */
-    }
+  /* SERVICE CARD - Matches Glass Style and Layout */
+  .service-card {
+    width: 100%;
+    max-width: 1000px;
+    height: 80vh;
+    max-height: 750px;
+    border-radius: 40px; /* Matched to chairman card */
+    border: 1px solid rgba(186, 104, 200, 0.2);
+    display: flex;
+    flex-direction: column;
+    padding: clamp(30px, 5vw, 60px) !important;
+  }
 
-    .card-inner {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-    }
+  .card-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
 
-    /* ELEMENTS */
-    .service-card i {
-        font-size: 3rem;
-        color: #ba68c8;
-        margin-bottom: 15px;
-    }
+  /* ICON & TITLES */
+  .service-card i {
+    font-size: 3rem;
+    color: #ba68c8;
+    margin-bottom: 20px;
+  }
+  
+  .service-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
 
-    .services-subtitle-dim {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 1rem;
-        max-width: 600px;
-        margin: 0 auto;
-    }
+  .services-subtitle-dim {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
 
-    /* GRID FOR FEATURES */
-    .features-wrapper {
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-        width: 100%;
-    }
+  /* SYMMETRIC FEATURES GRID */
+  .features-wrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
 
-    .features-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px 60px;
-        width: 100%;
-        max-width: 850px;
-        list-style: none;
-        padding: 0;
-        text-align: left;
-    }
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 60px;
+    width: 100%;
+    max-width: 850px;
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
 
-    .features-grid li {
-        font-size: 1.05rem;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: rgba(255, 255, 255, 0.8);
-    }
+  .features-grid li {
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.85);
+  }
 
-    .small-bullet {
-        width: 6px;
-        height: 6px;
-        background: #ba68c8;
-        border-radius: 50%;
-        flex-shrink: 0;
-    }
+  .small-bullet {
+    width: 6px;
+    height: 6px;
+    background: #ba68c8;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 5px rgba(186, 104, 200, 0.5);
+  }
 
-    /* BUBBLE NAV */
-    .vertical-dots-nav {
-        position: fixed;
-        right: 30px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        z-index: 1000;
-    }
+  /* BUTTON - Matched to About/Home style */
+  .footer-box {
+    padding-top: 30px;
+  }
 
-    .nav-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        border: 1px solid #ba68c8;
-        transition: 0.3s;
-    }
+  /* NAVIGATION */
+  .vertical-dots-nav {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000;
+  }
 
-    .nav-dot.active { background: #ba68c8; transform: scale(1.4); }
+  .nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid #ba68c8;
+    transition: 0.3s;
+  }
 
-    /* RESPONSIVE FIXES */
-    @media (max-width: 850px) {
-        html { scroll-snap-type: none; }
-        .snap-section { height: auto; min-height: 100vh; padding: 60px 15px; }
-        .service-card { height: auto; max-height: none; }
-        .features-grid { grid-template-columns: 1fr; }
-        .vertical-dots-nav { display: none; }
-    }
+  .nav-dot.active { background: #ba68c8; transform: scale(1.4); }
+
+  /* MOBILE RESPONSIVE */
+  @media (max-width: 850px) {
+    html { scroll-snap-type: none; }
+    .snap-section { height: auto; min-height: 100vh; padding: 60px 15px; }
+    .service-card { height: auto; max-height: none; border-radius: 30px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .vertical-dots-nav { display: none; }
+  }
 </style>
 @endpush
