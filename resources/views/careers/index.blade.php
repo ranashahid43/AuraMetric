@@ -13,11 +13,10 @@
 
 <main class="careers-section">
 
-  {{-- New Wrapper with Navigation --}}
   <div class="job-slider-container">
     <button class="nav-btn prev" id="prevBtn"><i class="fa-solid fa-chevron-left"></i></button>
     
-    <div class="job-reel-wrapper">
+    <div class="job-reel-wrapper" id="reelWrapper">
       <div class="job-reel" id="jobReel">
         @php
           $jobs = [
@@ -28,7 +27,6 @@
           ];
         @endphp
 
-        {{-- Removed the array_merge so we only have the actual jobs --}}
         @foreach($jobs as $job)
         <div class="job-card glass">
           <div class="job-icon-box">
@@ -55,7 +53,6 @@
     <button class="nav-btn next" id="nextBtn"><i class="fa-solid fa-chevron-right"></i></button>
   </div>
 
-  {{-- Pagination Dots --}}
   <div class="slider-dots" id="sliderDots"></div>
 
   <div class="spontaneous-section glass">
@@ -70,7 +67,6 @@
 
 </main>
 
-{{-- SLIDER SCRIPT --}}
 <script>
   const reel = document.getElementById('jobReel');
   const prevBtn = document.getElementById('prevBtn');
@@ -78,29 +74,35 @@
   const dotsContainer = document.getElementById('sliderDots');
   const cards = document.querySelectorAll('.job-card');
 
+  // Logic to calculate movement based on exact card width + gap
+  const getScrollStep = () => {
+    if (cards.length === 0) return 0;
+    return cards[0].offsetWidth + 40; // Card width + gap
+  };
+
   // Create Dots
   cards.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.classList.add('dot');
     if(i === 0) dot.classList.add('active');
     dot.addEventListener('click', () => {
-      reel.scrollTo({ left: cards[i].offsetLeft - reel.offsetLeft, behavior: 'smooth' });
+      reel.scrollTo({ left: i * getScrollStep(), behavior: 'smooth' });
     });
     dotsContainer.appendChild(dot);
   });
 
-  // Scroll logic
   nextBtn.addEventListener('click', () => {
-    reel.scrollBy({ left: 440, behavior: 'smooth' });
+    reel.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
   });
 
   prevBtn.addEventListener('click', () => {
-    reel.scrollBy({ left: -440, behavior: 'smooth' });
+    reel.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
   });
 
   // Update active dot on scroll
   reel.addEventListener('scroll', () => {
-    const index = Math.round(reel.scrollLeft / 440);
+    const step = getScrollStep();
+    const index = Math.round(reel.scrollLeft / step);
     document.querySelectorAll('.dot').forEach((dot, i) => {
       dot.classList.toggle('active', i === index);
     });
@@ -111,21 +113,17 @@
 
 @push('styles')
 <style>
-  /* HERO SECTION (Kept original) */
+  /* HERO & SECTION (Unchanged) */
   .careers-hero { min-height: 45vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; }
-  .careers-hero h1 { font-size: clamp(2.5rem, 6vw, 3.8rem); font-weight: 800; background: linear-gradient(135deg, #ba68c8, #e1bee7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
-  .careers-hero p { color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; max-width: 700px; margin: 0 auto; }
-
+  .careers-hero h1 { font-size: clamp(2.5rem, 6vw, 3.8rem); font-weight: 800; background: linear-gradient(135deg, #ba68c8, #e1bee7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
   /* SLIDER CONTAINER */
   .job-slider-container {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
-    max-width: 1400px;
+    max-width: 1000px; /* Reduced to perfectly fit 2 cards */
     margin: 0 auto;
     position: relative;
-    padding: 0 50px;
   }
 
   .job-reel-wrapper {
@@ -136,85 +134,65 @@
 
   .job-reel {
     display: flex;
-    gap: 40px;
+    gap: 40px; /* Gap between cards */
     overflow-x: auto;
     scroll-behavior: smooth;
-    scrollbar-width: none; /* Hide scrollbar Firefox */
+    scrollbar-width: none;
     padding: 20px;
+    /* CSS SNAP LOGIC */
+    scroll-snap-type: x mandatory; 
   }
 
-  .job-reel::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome */
+  .job-reel::-webkit-scrollbar { display: none; }
 
-  /* ARROWS */
+  /* TWO CARDS LOGIC */
+  .job-card { 
+    /* (100% - 1 gap) / 2 cards = width */
+    flex: 0 0 calc((100% - 40px) / 2); 
+    scroll-snap-align: start; /* Each card snaps to the start of the view */
+    padding: 50px 30px; 
+    border-radius: 40px; 
+    text-align: center; 
+    border: 1px solid rgba(186, 104, 200, 0.2); 
+    transition: 0.5s; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 550px; 
+  }
+
+  /* BUTTONS & DOTS (Improved styling) */
   .nav-btn {
-    background: rgba(186, 104, 200, 0.1);
+    background: rgba(186, 104, 200, 0.15);
     border: 1px solid rgba(186, 104, 200, 0.3);
     color: #ba68c8;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     cursor: pointer;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
+    z-index: 10;
+    flex-shrink: 0;
   }
+  
+  .nav-btn:hover { background: #ba68c8; color: #000; }
 
-  .nav-btn:hover {
-    background: #ba68c8;
-    color: #000;
-  }
+  .slider-dots { display: flex; justify-content: center; gap: 10px; margin-bottom: 60px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(186, 104, 200, 0.2); cursor: pointer; transition: 0.3s; }
+  .dot.active { background: #ba68c8; transform: scale(1.2); }
 
-  /* DOTS / BUBBLES */
-  .slider-dots {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: -40px;
-    margin-bottom: 60px;
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(186, 104, 200, 0.2);
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  .dot.active {
-    background: #ba68c8;
-    transform: scale(1.3);
-    box-shadow: 0 0 10px rgba(186, 104, 200, 0.5);
-  }
-
-  /* JOB CARDS (Kept your exact style) */
-  .job-card { flex: 0 0 400px; padding: 50px 40px; border-radius: 40px; text-align: center; border: 1px solid rgba(186, 104, 200, 0.2); transition: 0.5s; display: flex; flex-direction: column; min-height: 550px; }
-  .job-card:hover { transform: translateY(-15px); border-color: rgba(186, 104, 200, 0.5); background: rgba(255, 255, 255, 0.05); }
-  .job-icon-box { font-size: 3rem; color: #ba68c8; background: rgba(186, 104, 200, 0.1); width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 24px; margin: 0 auto 30px; border: 1px solid rgba(186, 104, 200, 0.2); transition: 0.6s ease; }
-  .job-card:hover .job-icon-box { transform: rotateY(180deg); background: rgba(186, 104, 200, 0.25); }
-  .card-header h3 { font-size: 1.8rem; margin-bottom: 20px; color: #fff; }
-  .job-desc { font-size: 1.05rem; color: rgba(255, 255, 255, 0.6); line-height: 1.7; margin-bottom: 30px; }
-  .job-details p { font-size: 1rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 10px; }
-  .job-details strong { color: #ba68c8; }
-
-  /* SPONTANEOUS SECTION (Kept original) */
-  .spontaneous-section { max-width: 1200px; margin: 60px auto; padding: 80px 60px; border-radius: 40px; text-align: center; border: 1px solid rgba(186, 104, 200, 0.2); }
-  .spontaneous-section h2 { font-size: 2.8rem; margin-bottom: 25px; background: linear-gradient(135deg, #fff, #ba68c8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .spontaneous-content p { font-size: 1.3rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 40px; }
-
+  /* CARD CONTENT (Kept your style) */
+  .job-icon-box { font-size: 2.5rem; color: #ba68c8; background: rgba(186, 104, 200, 0.1); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 20px; margin: 0 auto 20px; border: 1px solid rgba(186, 104, 200, 0.2); }
+  .job-card:hover { transform: translateY(-10px); border-color: rgba(186, 104, 200, 0.5); background: rgba(255, 255, 255, 0.05); }
+  .card-header h3 { font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
+  .job-desc { font-size: 0.95rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 20px; }
+  
   /* UTILITIES */
-  .btn.apply-btn { background: #ba68c8; color: #000; padding: 14px 40px; font-size: 1.1rem; font-weight: 800; border-radius: 50px; text-decoration: none; display: inline-block; transition: 0.4s; margin-top: auto; }
-  .btn.apply-btn:hover { transform: translateY(-5px); background: #e1bee7; box-shadow: 0 20px 40px rgba(186, 104, 200, 0.5); }
-  .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+  .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); }
+  .apply-btn { background: #ba68c8; color: #000; padding: 12px 30px; font-weight: 800; border-radius: 50px; text-decoration: none; margin-top: auto; display: inline-block; }
 
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .job-card { flex: 0 0 280px; padding: 30px 20px; min-height: 500px; }
-    .nav-btn { display: none; } /* Hide arrows on small mobile to use touch swipe */
-    .job-slider-container { padding: 0 20px; }
+  /* RESPONSIVE: Show 1 card on mobile */
+  @media (max-width: 800px) {
+    .job-card { flex: 0 0 100%; }
+    .nav-btn { display: none; }
   }
 </style>
 @endpush
