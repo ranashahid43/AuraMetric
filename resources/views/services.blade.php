@@ -6,38 +6,25 @@
 
 {{-- Floating Bubble Navigation --}}
 <div class="vertical-dots-nav" id="verticalNav">
-    @foreach($services as $index => $service)
-        <a href="#{{ $service['id'] }}" class="nav-dot {{ $index === 0 ? 'active' : '' }}" data-id="{{ $service['id'] }}">
+    <a href="#hero" class="nav-dot active" data-id="hero"><span class="dot-label">Top</span></a>
+    @foreach($services as $service)
+        <a href="#{{ $service['id'] }}" class="nav-dot" data-id="{{ $service['id'] }}">
             <span class="dot-label">{{ __('messages.' . $service['title']) }}</span>
         </a>
     @endforeach
 </div>
 
 <main class="services-snap-container">
-    {{-- Hero Section as the First Screen --}}
-    <section class="hero services-hero snap-section" id="hero">
+    {{-- Hero Section --}}
+    <section class="snap-section" id="hero">
         <div class="hero-content">
-            <h1>{!! __('messages.services_hero_title') !!}</h1>
-            <p>{{ __('messages.services_hero_subtitle') }}</p>
+            <h1 class="responsive-h1">{!! __('messages.services_hero_title') !!}</h1>
+            <p class="responsive-p">{{ __('messages.services_hero_subtitle') }}</p>
             <div class="scroll-indicator">
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
         </div>
     </section>
-
-    @php
-        $services = [
-            ['id' => 'manual', 'icon' => 'fa-bug', 'title' => 'service_manual_title', 'subtitle' => 'service_manual_subtitle', 'features' => 5],
-            ['id' => 'automation', 'icon' => 'fa-robot', 'title' => 'service_automation_title', 'subtitle' => 'service_automation_subtitle', 'features' => 5],
-            ['id' => 'mobile-web', 'icon' => 'fa-mobile-screen', 'title' => 'service_mobile_title', 'subtitle' => 'service_mobile_subtitle', 'features' => 5],
-            ['id' => 'ai-ml', 'icon' => 'fa-brain', 'title' => 'service_ai_title', 'subtitle' => 'service_ai_subtitle', 'features' => 5],
-            ['id' => 'security', 'icon' => 'fa-shield-halved', 'title' => 'service_security_title', 'subtitle' => 'service_security_subtitle', 'features' => 5],
-            ['id' => 'performance', 'icon' => 'fa-gauge-high', 'title' => 'service_performance_title', 'subtitle' => 'service_performance_subtitle', 'features' => 5],
-            ['id' => 'digital-marketing', 'icon' => 'fa-chart-line', 'title' => 'service_digital_marketing_title', 'subtitle' => 'service_digital_marketing_subtitle', 'features' => 5],
-            ['id' => 'seo', 'icon' => 'fa-magnifying-glass-chart', 'title' => 'service_seo_title', 'subtitle' => 'service_seo_subtitle', 'features' => 5],
-            ['id' => 'content-writing', 'icon' => 'fa-pen-nib', 'title' => 'service_content_writing_title', 'subtitle' => 'service_content_writing_subtitle', 'features' => 5],
-        ];
-    @endphp
 
     @foreach($services as $service)
     <section class="snap-section" id="{{ $service['id'] }}">
@@ -48,12 +35,12 @@
                 </div>
                 
                 <div class="service-card-content">
-                    <h2>{{ __('messages.' . $service['title']) }}</h2>
+                    <h2 class="responsive-h2">{{ __('messages.' . $service['title']) }}</h2>
                     <p class="service-card-subtitle">{{ __('messages.' . $service['subtitle']) }}</p>
                     
                     <ul class="service-features">
                         @for($i = 1; $i <= $service['features']; $i++)
-                            <li><i class="fa-solid fa-check"></i> {{ __('messages.' . str_replace('_title', '', $service['title']) . '_feature_' . $i) }}</li>
+                            <li><i class="fa-solid fa-check"></i> <span>{{ __('messages.' . str_replace('_title', '', $service['title']) . '_feature_' . $i) }}</span></li>
                         @endfor
                     </ul>
                 </div>
@@ -68,54 +55,99 @@
 </main>
 
 <script>
-    // Logic to update active bubble on scroll
-    const sections = document.querySelectorAll('.snap-section');
-    const navDots = document.querySelectorAll('.nav-dot');
-
-    window.addEventListener('scroll', () => {
-        let current = "";
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
-                current = section.getAttribute('id');
+    // Robust Intersection Observer for Active States
+    const observerOptions = { threshold: 0.6 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                document.querySelectorAll('.nav-dot').forEach(dot => {
+                    dot.classList.toggle('active', dot.getAttribute('href') === `#${entry.target.id}`);
+                });
             }
         });
+    }, observerOptions);
 
-        navDots.forEach(dot => {
-            dot.classList.remove('active');
-            if (dot.getAttribute('href').includes(current)) {
-                dot.classList.add('active');
-            }
-        });
-    });
+    document.querySelectorAll('.snap-section').forEach(section => observer.observe(section));
 </script>
 
 @endsection
 
 @push('styles')
 <style>
-    /* ENABLE FULL PAGE SCROLL SNAPPING */
+    /* 1. FLUID SCROLLING & SNAPPING */
     html {
         scroll-snap-type: y mandatory;
         scroll-behavior: smooth;
+        height: 100%;
     }
 
+    body { margin: 0; padding: 0; }
+
     .snap-section {
-        height: 100vh; /* Exactly one screen height */
+        min-height: 100vh; /* Fallback */
+        min-height: 100dvh; /* Modern mobile height */
         width: 100%;
         scroll-snap-align: start;
-        scroll-snap-stop: always;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: clamp(1rem, 5vw, 3rem);
+        position: relative;
     }
 
-    /* VERTICAL BUBBLE NAV */
+    /* 2. AUTOMATIC CARD SCALING */
+    .service-card {
+        width: 100%;
+        /* Dynamic width: wider on big screens, full width on small */
+        max-width: clamp(320px, 90%, 1100px); 
+        /* Dynamic height: fits within screen but allows content to grow */
+        max-height: 90dvh; 
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(186, 104, 200, 0.2);
+        border-radius: clamp(20px, 4vw, 40px);
+        overflow-y: auto; /* Internal scroll if content exceeds small laptops */
+        transition: transform 0.4s ease;
+    }
+
+    .service-card::-webkit-scrollbar { width: 4px; }
+    .service-card::-webkit-scrollbar-thumb { background: rgba(186, 104, 200, 0.5); border-radius: 10px; }
+
+    .service-card-inner {
+        padding: clamp(1.5rem, 5vw, 4rem);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* 3. FLUID TYPOGRAPHY (Adjusts per resolution) */
+    .responsive-h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; background: linear-gradient(135deg, #ba68c8, #e1bee7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .responsive-h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); color: #fff; text-align: center; }
+    .responsive-p { font-size: clamp(1rem, 2vw, 1.25rem); color: rgba(255, 255, 255, 0.7); max-width: 800px; margin: 0 auto; }
+
+    /* 4. GRID ADAPTATION */
+    .service-features {
+        display: grid;
+        /* Automatically switch columns based on space available */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: clamp(10px, 2vw, 25px);
+        list-style: none;
+        padding: 0;
+    }
+
+    .service-features li {
+        color: #e0e0e0;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    }
+
+    /* 5. VERTICAL NAV (Hides when too small) */
     .vertical-dots-nav {
         position: fixed;
-        right: 30px;
+        right: clamp(10px, 3vw, 40px);
         top: 50%;
         transform: translateY(-50%);
         display: flex;
@@ -124,97 +156,40 @@
         z-index: 1000;
     }
 
-    .nav-dot {
-        width: 12px;
-        height: 12px;
-        background: rgba(186, 104, 200, 0.3);
-        border-radius: 50%;
-        position: relative;
-        transition: 0.3s;
-        text-decoration: none;
+    @media (max-width: 600px) {
+        .vertical-dots-nav { display: none; } /* Better UX for mobile */
+        html { scroll-snap-type: none; } /* Disable snap on phones */
+        .service-card { max-height: none; }
     }
 
-    .nav-dot.active {
-        background: #ba68c8;
-        transform: scale(1.5);
-        box-shadow: 0 0 15px rgba(186, 104, 200, 0.6);
-    }
-
-    .dot-label {
-        position: absolute;
-        right: 25px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        padding: 5px 12px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: 0.3s;
-    }
-
-    .nav-dot:hover .dot-label {
-        opacity: 1;
-        right: 35px;
-    }
-
-    /* CARD ADJUSTMENTS FOR FULL SCREEN */
-    .service-card {
-        width: 100%;
-        max-width: 900px; /* Wider card for the single view */
-        height: 80vh; /* Fits comfortably in screen */
-        max-height: 700px;
+    /* ICON SCALING */
+    .service-card-icon {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        width: clamp(80px, 10vw, 110px);
+        height: clamp(80px, 10vw, 110px);
         margin: 0 auto;
-        border-radius: 40px;
-    }
-
-    /* Hero Section Specifics */
-    .services-hero {
-        text-align: center;
-        flex-direction: column;
-    }
-
-    .scroll-indicator {
-        margin-top: 50px;
-        animation: bounce 2s infinite;
-        color: #ba68c8;
-        font-size: 2rem;
-    }
-
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-        40% {transform: translateY(-10px);}
-        60% {transform: translateY(-5px);}
-    }
-
-    /* Re-using your existing styles with small tweaks */
-    .glass {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
+        background: rgba(186, 104, 200, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20%;
         border: 1px solid rgba(186, 104, 200, 0.2);
+        color: #ba68c8;
     }
 
-    .service-card-inner { padding: 40px 60px; display: flex; flex-direction: column; height: 100%; }
-    .service-card-icon { font-size: 3.5rem; color: #ba68c8; background: rgba(186, 104, 200, 0.1); width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 24px; align-self: center; margin-bottom: 20px; transition: 0.6s; }
-    .service-card:hover .service-card-icon { transform: rotateY(180deg); background: rgba(186, 104, 200, 0.25); }
-    .service-card-content h2 { font-size: 2.2rem; color: #fff; text-align: center; margin-bottom: 10px; }
-    .service-card-subtitle { color: #b0b0b0; text-align: center; margin-bottom: 30px; }
-    .service-features { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex-grow: 1; }
-    .service-features li { color: #e0e0e0; display: flex; align-items: center; gap: 10px; font-size: 1.05rem; }
-    .service-features li i { color: #ba68c8; }
-    .service-card-btn { display: block; width: 100%; max-width: 300px; margin: 0 auto; padding: 15px; border: 2px solid #ba68c8; color: #fff; text-align: center; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.4s; }
-    .service-card-btn:hover { background: #ba68c8; box-shadow: 0 10px 20px rgba(186, 104, 200, 0.4); }
-
-    /* Mobile handling: disable snap to allow normal scrolling on small screens */
-    @media (max-width: 768px) {
-        html { scroll-snap-type: none; }
-        .snap-section { height: auto; min-height: 100vh; padding: 60px 20px; }
-        .service-features { grid-template-columns: 1fr; }
-        .vertical-dots-nav { display: none; }
+    .service-card-btn {
+        display: block;
+        width: fit-content;
+        min-width: 200px;
+        margin: 0 auto;
+        padding: clamp(12px, 2vw, 18px) clamp(20px, 4vw, 40px);
+        border: 2px solid #ba68c8;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: 0.3s;
     }
 </style>
 @endpush
