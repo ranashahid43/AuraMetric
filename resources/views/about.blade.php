@@ -26,8 +26,8 @@
         <p>
           {{ __('messages.mission_text') }}
           <br><br>
-          We specialize in data-driven digital marketing strategies, performance advertising,
-          and scalable SEO solutions that help brands grow sustainably in competitive markets.
+          We deliver result-oriented digital marketing solutions, combining advanced SEO,
+          performance advertising, and data analytics to maximize online visibility and ROI.
         </p>
       </div>
     </div>
@@ -41,8 +41,8 @@
         <p>
           {{ __('messages.vision_text') }}
           <br><br>
-          Our vision is to become a global leader in SEO innovation, brand visibility,
-          and AI-powered digital marketing transformation.
+          Our vision is to lead innovation in SEO, digital branding, and AI-driven marketing
+          strategies that create sustainable business growth worldwide.
         </p>
       </div>
     </div>
@@ -64,14 +64,14 @@
 
       <p class="quote">
         “{{ __('messages.team_member1_description') }}
-        Our focus remains on delivering measurable SEO results,
-        high-conversion digital marketing funnels,
-        and long-term brand authority for our clients.”
+        With a strong focus on SEO excellence, digital marketing performance,
+        and long-term brand authority, we aim to deliver measurable impact
+        for every client we serve.”
       </p>
 
       <div class="signature">
         <h4>{{ __('messages.team_member1_name') }}</h4>
-        <p>{{ __('messages.team_member1_position') }}</p>
+        <p>{{ __('messages.chairman_designation') }}</p>
       </div>
     </div>
 
@@ -83,7 +83,7 @@
 
     <div class="team-container">
 
-      <!-- TEAM MEMBER 1 (NOW SHAHID IQBAL) -->
+      <!-- TEAM MEMBER (NOW SHAHID IQBAL IN JAGAN PREET POSITION) -->
       <div class="team-card glass">
 
         <div class="member-photo"
@@ -94,14 +94,14 @@
 
         <div class="member-info">
           <h3>{{ __('messages.chairman_name') }}</h3>
-          <p class="position">{{ __('messages.chairman_designation') }}</p>
+          <p class="position">{{ __('messages.team_member1_position') }}</p>
 
           <p class="description">
             {{ __('messages.chairman_message_text') }}
             <br><br>
-            He leads strategic growth initiatives across SEO, digital branding,
-            automation, and performance marketing while ensuring technical excellence
-            and scalable business solutions.
+            He plays a key role in driving SEO strategy, digital marketing automation,
+            and scalable technology solutions that strengthen brand visibility
+            and operational efficiency.
           </p>
 
           <a href="https://www.linkedin.com/in/shahid-iqbal" target="_blank" class="linkedin-link">
@@ -141,6 +141,6 @@
 
 @push('styles')
 <style>
-/* === STYLES UNCHANGED – EXACTLY AS PROVIDED === */
+/* ALL STYLES REMAIN EXACTLY THE SAME */
 </style>
 @endpush
