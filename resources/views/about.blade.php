@@ -41,7 +41,7 @@
 
     <div class="chairman-message glass">
       <h2>{{ __('messages.team_member1_name') }}</h2>
-      <p class="quote">“{{ __('messages.team_member1_description') }}”</p>
+      <p class="quote">“{{ __('messages.chairman_message_text') }}”</p>
       <div class="signature">
         <h4>{{ __('messages.team_member1_name') }}</h4>
         <p>Founder / Chairman</p>
@@ -62,8 +62,8 @@
         <div class="member-info">
           <h3>{{ __('messages.chairman_name') }}</h3>
           <p class="position">CEO / CTO</p>
-          <p class="description">{{ __('messages.chairman_message_text') }}</p>
-          <a href="https://www.linkedin.com/in/shahid-iqbal" target="_blank" class="linkedin-link">
+          <p class="description">{{ __('messages.team_member1_description') }}</p>
+          <a href="https://www.linkedin.com/in/shahid-iqbal-385964118" target="_blank" class="linkedin-link">
             <i class="fab fa-linkedin"></i>
           </a>
         </div>
