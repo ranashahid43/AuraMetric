@@ -41,17 +41,21 @@
     align-items: center;
     gap: 15px;
     text-decoration: none;
+    perspective: 1000px; /* Essential for 3D flip effect */
   }
 
   .logo img {
     height: 58px;
     width: auto;
-    /* Increased glow for vibrancy */
-    filter: drop-shadow(0 0 15px rgba(225, 190, 231, 0.6));
-    transition: transform 0.4s ease;
+    filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
   }
 
-  .logo:hover img { transform: scale(1.05); }
+  /* FLIPPING ICON ANIMATION */
+  .logo:hover img { 
+    transform: rotateY(360deg); 
+  }
 
   .brand-wrapper {
     display: flex;
@@ -64,11 +68,18 @@
     font-weight: 600;
     font-size: 2.4rem; 
     line-height: 0.9;
-    /* Vibrant Gradient Effect */
-    background: linear-gradient(to right, #ffffff, #f3e5f5, #e1bee7);
+    /* VIBRANT PURPLE & BLUE GRADIENT */
+    background: linear-gradient(45deg, #00d4ff, #9c27b0, #00d4ff);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    animation: shine 3s linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+
+  /* Subtle animation for the text color */
+  @keyframes shine {
+    to { background-position: 200% center; }
   }
 
   .brand-sub-row {
@@ -81,9 +92,9 @@
   .brand-line {
     height: 1.5px;
     width: 24px;
-    /* Vibrant highlight color */
-    background-color: #ba68c8;
-    box-shadow: 0 0 8px rgba(186, 104, 200, 0.8);
+    /* Electric Blue Line */
+    background-color: #00d4ff;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
   }
 
   .brand-sub-text {
@@ -92,9 +103,9 @@
     font-size: 11px;
     text-transform: uppercase;
     font-weight: 800;
-    /* Bright white-purple for vibrancy */
-    color: #f3e5f5;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    /* Matching Vibrant Blue/Purple Text */
+    color: #00d4ff;
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
   }
 
   /* 3. Navigation Styles */
@@ -113,7 +124,7 @@
     transition: 0.3s;
   }
 
-  .nav-link:hover { color: #ba68c8; }
+  .nav-link:hover { color: #00d4ff; }
 
   /* 4. Dropdown Menu */
   .dropdown { position: relative; }
@@ -139,7 +150,7 @@
     font-size: 0.9rem;
   }
 
-  .dropdown-item:hover { background: rgba(255,255,255,0.1); }
+  .dropdown-item:hover { background: rgba(0, 212, 255, 0.1); }
 
   /* 5. Language Switcher */
   .lang-switcher {
@@ -157,11 +168,13 @@
     opacity: 0.7;
   }
 
-  .lang-switcher a.active { opacity: 1; font-weight: bold; color: #ba68c8; }
+  .lang-switcher a.active { opacity: 1; font-weight: bold; color: #00d4ff; }
 
   /* 6. Mobile Menu Styles */
   @media (max-width: 1024px) {
-    .hamburger { display: flex; }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; z-index: 2101; }
+    .hamburger span { width: 25px; height: 3px; background: #fff; transition: 0.3s; }
+    
     .nav-menu {
       position: absolute;
       top: 100%; 
@@ -178,8 +191,7 @@
     .nav-list { flex-direction: column; align-items: flex-start; gap: 15px; }
     .dropdown-content { position: static; transform: none; background: rgba(0,0,0,0.2); width: 100%; margin-top: 5px; }
     .dropdown.active .dropdown-content { display: block; }
-    .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; z-index: 2101; }
-    .hamburger span { width: 25px; height: 3px; background: #fff; transition: 0.3s; }
+    
     .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .hamburger.active span:nth-child(2) { opacity: 0; }
     .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
