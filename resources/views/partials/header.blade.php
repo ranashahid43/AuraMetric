@@ -13,6 +13,9 @@
     box-sizing: border-box;
   }
 
+  /* Import the specific font for the elegant look */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&family=Poppins:wght@400;600;800&display=swap');
+
   .site-header {
     background: linear-gradient(135deg, #4a148c, #7b1fa2, #9c27b0);
     padding: 5px 5%; 
@@ -29,53 +32,60 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: 75px; 
+    min-height: 80px; 
   }
 
-  /* 2. Logo & Branding Styling */
+  /* 2. NEW BRANDING STYLING (AuraMetric Solution) */
   .logo {
     display: flex;
     align-items: center;
+    gap: 15px;
     text-decoration: none;
   }
 
   .logo img {
-    width: 60px; /* Adjusted size for the PNG */
-    height: 60px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 8px rgba(186, 104, 200, 0.5));
+    height: 56px; /* Equivalent to h-14 */
+    width: auto;
+    filter: drop-shadow(0 0 12px rgba(186, 104, 200, 0.5));
     transition: transform 0.4s ease;
   }
 
-  .logo:hover img { transform: rotate(10deg); }
+  .logo:hover img { transform: scale(1.05); }
 
-  .logo-text-wrapper {
-    margin-left: 12px;
+  .brand-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    line-height: 1.1;
   }
 
-  .logo-text {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 800;
-    font-size: 1.5rem;
+  .brand-main-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 2.25rem; /* Equivalent to text-4xl */
     color: #ffffff;
-    background: linear-gradient(135deg, #ba68c8, #e1bee7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
+    line-height: 0.9;
   }
 
-  .logo-subtext {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    font-size: 0.8rem;
-    color: #e1bee7;
+  .brand-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .brand-line {
+    height: 1px;
+    width: 24px;
+    background-color: #ba68c8; /* Updated to match your purple theme or use #B8860B for gold */
+  }
+
+  .brand-sub-text {
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.4em;
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    opacity: 0.9;
+    font-weight: bold;
+    color: #e1bee7;
   }
 
   /* 3. Navigation Styles */
@@ -91,7 +101,6 @@
     text-decoration: none;
     font-weight: 600;
     font-size: 0.95rem;
-    position: relative;
     transition: 0.3s;
   }
 
@@ -157,9 +166,8 @@
     transition: 0.3s;
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: 1024px) {
     .hamburger { display: flex; }
-
     .nav-menu {
       position: absolute;
       top: 100%; 
@@ -172,26 +180,16 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.1);
     }
-
     .nav-menu.active { display: block; }
     .nav-list { flex-direction: column; align-items: flex-start; gap: 15px; }
-    
-    .dropdown-content {
-      position: static;
-      transform: none;
-      background: rgba(0,0,0,0.2);
-      width: 100%;
-      margin-top: 5px;
-    }
-
+    .dropdown-content { position: static; transform: none; background: rgba(0,0,0,0.2); width: 100%; margin-top: 5px; }
     .dropdown.active .dropdown-content { display: block; }
-    
     .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .hamburger.active span:nth-child(2) { opacity: 0; }
     .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
   }
 
-  @media (min-width: 993px) {
+  @media (min-width: 1025px) {
     .dropdown:hover .dropdown-content { display: block; }
   }
 </style>
@@ -200,11 +198,15 @@
   <div class="header-container">
     
     <a href="/" class="logo">
-      <img src="{{ asset('immage/Aurametric.png') }}" alt="AuraMetric Logo">
+      <img src="{{ asset('images/aurametric.png') }}" alt="AuraMetric Logo">
       
-      <div class="logo-text-wrapper">
-        <span class="logo-text">AuraMetric</span>
-        <span class="logo-subtext">--Solution--</span>
+      <div class="brand-wrapper">
+        <span class="brand-main-text">Aurametric</span>
+        <div class="brand-sub-row">
+          <div class="brand-line"></div>
+          <span class="brand-sub-text">Solution</span>
+          <div class="brand-line"></div>
+        </div>
       </div>
     </a>
 
@@ -253,7 +255,7 @@
     });
 
     dropdownToggle.addEventListener('click', (e) => {
-      if (window.innerWidth <= 992) {
+      if (window.innerWidth <= 1024) {
         e.preventDefault();
         dropdownToggle.parentElement.classList.toggle('active');
       }
