@@ -200,11 +200,11 @@
   <div class="header-container">
     
     <a href="/" class="logo">
-      <img src="{{ asset('image/aurametric.png') }}" alt="AuraMetric Logo">
+      <img src="{{ asset('immage/Aurametric.png') }}" alt="AuraMetric Logo">
       
       <div class="logo-text-wrapper">
         <span class="logo-text">AuraMetric</span>
-        <span class="logo-subtext">Solution</span>
+        <span class="logo-subtext">--Solution--</span>
       </div>
     </a>
 
