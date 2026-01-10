@@ -40,9 +40,9 @@
       <h4 class="footer-title">{{ __('messages.footer_contact') }}</h4>
       <p class="footer-email"><a href="mailto:info@aurametric.com">info@aurametric.com</a></p>
       <div class="social-grid">
-        <a href="https://facebook.com/aurametric" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61585810258737" target="_blank"><i class="fab fa-facebook-f"></i></a>
         <a href="https://instagram.com/aurametric" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://linkedin.com/company/aurametric" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.linkedin.com/company/110899027" target="_blank"><i class="fab fa-linkedin-in"></i></a>
         <a href="https://youtube.com/@aurametric" target="_blank"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
