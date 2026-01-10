@@ -13,7 +13,7 @@
     box-sizing: border-box;
   }
 
-  /* Import the specific font for the elegant look */
+  /* Import fonts */
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&family=Poppins:wght@400;600;800&display=swap');
 
   .site-header {
@@ -35,7 +35,7 @@
     min-height: 80px; 
   }
 
-  /* 2. NEW BRANDING STYLING (AuraMetric Solution) */
+  /* 2. VIBRANT BRANDING STYLING */
   .logo {
     display: flex;
     align-items: center;
@@ -44,9 +44,10 @@
   }
 
   .logo img {
-    height: 56px; /* Equivalent to h-14 */
+    height: 58px;
     width: auto;
-    filter: drop-shadow(0 0 12px rgba(186, 104, 200, 0.5));
+    /* Increased glow for vibrancy */
+    filter: drop-shadow(0 0 15px rgba(225, 190, 231, 0.6));
     transition: transform 0.4s ease;
   }
 
@@ -61,9 +62,13 @@
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 600;
-    font-size: 2.25rem; /* Equivalent to text-4xl */
-    color: #ffffff;
+    font-size: 2.4rem; 
     line-height: 0.9;
+    /* Vibrant Gradient Effect */
+    background: linear-gradient(to right, #ffffff, #f3e5f5, #e1bee7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
   }
 
   .brand-sub-row {
@@ -74,18 +79,22 @@
   }
 
   .brand-line {
-    height: 1px;
+    height: 1.5px;
     width: 24px;
-    background-color: #ba68c8; /* Updated to match your purple theme or use #B8860B for gold */
+    /* Vibrant highlight color */
+    background-color: #ba68c8;
+    box-shadow: 0 0 8px rgba(186, 104, 200, 0.8);
   }
 
   .brand-sub-text {
     font-family: Arial, sans-serif;
-    letter-spacing: 0.4em;
-    font-size: 10px;
+    letter-spacing: 0.45em;
+    font-size: 11px;
     text-transform: uppercase;
-    font-weight: bold;
-    color: #e1bee7;
+    font-weight: 800;
+    /* Bright white-purple for vibrancy */
+    color: #f3e5f5;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   }
 
   /* 3. Navigation Styles */
@@ -151,21 +160,6 @@
   .lang-switcher a.active { opacity: 1; font-weight: bold; color: #ba68c8; }
 
   /* 6. Mobile Menu Styles */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    z-index: 2101;
-  }
-
-  .hamburger span {
-    width: 25px;
-    height: 3px;
-    background: #fff;
-    transition: 0.3s;
-  }
-
   @media (max-width: 1024px) {
     .hamburger { display: flex; }
     .nav-menu {
@@ -184,12 +178,15 @@
     .nav-list { flex-direction: column; align-items: flex-start; gap: 15px; }
     .dropdown-content { position: static; transform: none; background: rgba(0,0,0,0.2); width: 100%; margin-top: 5px; }
     .dropdown.active .dropdown-content { display: block; }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; z-index: 2101; }
+    .hamburger span { width: 25px; height: 3px; background: #fff; transition: 0.3s; }
     .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .hamburger.active span:nth-child(2) { opacity: 0; }
     .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
   }
 
   @media (min-width: 1025px) {
+    .hamburger { display: none; }
     .dropdown:hover .dropdown-content { display: block; }
   }
 </style>
@@ -201,7 +198,7 @@
       <img src="{{ asset('immage/AuraMetric.png') }}" alt="AuraMetric Logo">
       
       <div class="brand-wrapper">
-        <span class="brand-main-text">Aurametric</span>
+        <span class="brand-main-text">AuraMetric</span>
         <div class="brand-sub-row">
           <div class="brand-line"></div>
           <span class="brand-sub-text">Solution</span>
