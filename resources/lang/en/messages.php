@@ -154,7 +154,9 @@ return [
     'contact_phone_title' => 'Call Us',
 
     'contact_office_title' => 'Our Office',
-    'contact_office_address' => 'Via della Concordia, Italy',
+    'contact_office_address' => 'Plot No. 27, Sector 5
+Salt Lake City, Kolkata
+West Bengal – 700091',
     'careers_title'                => 'Careers',
     'careers_hero_title'           => 'Join Our <span>Talent Network</span>',
     'careers_hero_subtitle'        => 'We are always looking for the best QA engineers and automation specialists to join our journey.',
