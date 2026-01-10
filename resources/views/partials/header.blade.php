@@ -1,5 +1,5 @@
 <style>
-  /* 1. CRITICAL: This removes the gap at the top and sides */
+  /* 1. CRITICAL: Layout Reset */
   html, body {
     margin: 0 !important;
     padding: 0 !important;
@@ -7,7 +7,6 @@
     overflow-x: hidden;
   }
 
-  /* Reset all elements to ensure no hidden margins push the header */
   * {
     margin: 0;
     padding: 0;
@@ -30,38 +29,53 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: 70px; 
+    min-height: 75px; 
   }
 
-  /* 2. Logo Styling */
+  /* 2. Logo & Branding Styling */
   .logo {
     display: flex;
     align-items: center;
     text-decoration: none;
-    line-height: 1; 
   }
 
-  .logo svg {
-    width: 65px;
-    height: 65px;
+  .logo img {
+    width: 60px; /* Adjusted size for the PNG */
+    height: 60px;
+    object-fit: contain;
     filter: drop-shadow(0 0 8px rgba(186, 104, 200, 0.5));
     transition: transform 0.4s ease;
   }
 
-  .logo:hover svg { transform: rotate(10deg); }
+  .logo:hover img { transform: rotate(10deg); }
 
-  /* FIXED: Added display and fallback color to make AuraMetric reappear */
-  .logo-text {
+  .logo-text-wrapper {
     margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.1;
+  }
+
+  .logo-text {
     font-family: 'Poppins', sans-serif;
     font-weight: 800;
-    font-size: 1.6rem;
-    color: #ffffff; /* Fallback color for visibility */
+    font-size: 1.5rem;
+    color: #ffffff;
     background: linear-gradient(135deg, #ba68c8, #e1bee7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    display: inline-block; /* Forces rendering of the text background */
-    text-shadow: 0 0 5px rgba(186, 104, 200, 0.3);
+    display: inline-block;
+  }
+
+  .logo-subtext {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: #e1bee7;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0.9;
   }
 
   /* 3. Navigation Styles */
@@ -186,26 +200,12 @@
   <div class="header-container">
     
     <a href="/" class="logo">
-      <svg width="70" height="70" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="gradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#6a1b9a" />
-            <stop offset="50%" stop-color="#8e24aa" />
-            <stop offset="100%" stop-color="#ba68c8" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        <path d="M50 10 L90 35 L90 65 L50 90 L10 65 L10 35 Z" fill="none" stroke="url(#gradHeader)" stroke-width="7" filter="url(#glow)"/>
-        <circle cx="50" cy="50" r="30" fill="none" stroke="url(#gradHeader)" stroke-width="4"/>
-        <text x="50" y="58" font-family="Poppins, sans-serif" font-size="30" font-weight="900" fill="url(#gradHeader)" text-anchor="middle">AM</text>
-      </svg>
-      <div class="logo-text">AuraMetric</div>
+      <img src="{{ asset('image/aurametric.png') }}" alt="AuraMetric Logo">
+      
+      <div class="logo-text-wrapper">
+        <span class="logo-text">AuraMetric</span>
+        <span class="logo-subtext">Solution</span>
+      </div>
     </a>
 
     <nav class="nav-menu" id="navMenu">
