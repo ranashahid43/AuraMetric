@@ -198,7 +198,7 @@
   <div class="header-container">
     
     <a href="/" class="logo">
-      <img src="{{ asset('images/aurametric.png') }}" alt="AuraMetric Logo">
+      <img src="{{ asset('immage/AuraMetric.png') }}" alt="AuraMetric Logo">
       
       <div class="brand-wrapper">
         <span class="brand-main-text">Aurametric</span>
