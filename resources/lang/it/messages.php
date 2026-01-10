@@ -329,7 +329,9 @@ return [
      'contact_hero_title'    => 'Contattaci',
     'contact_hero_subtitle'  => 'Hai una domanda o vuoi collaborare con noi? Mettiti in contatto!',
     'contact_email_label'   => 'Email',
-    'contact_office_address' => 'Via della Concordia, Italia',
+    'contact_office_address' => 'Plot No. 27, Sector 5
+Salt Lake City, Kolkata
+West Bengal – 700091',
 
     'contact_first_name' => 'Nome',
     'contact_last_name' => 'Cognome',
