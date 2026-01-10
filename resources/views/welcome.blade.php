@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Home | The Testing Tech')
+@section('title', 'Home | AuraMetric Soloution')
 
 @section('content')
   <!-- Your hero section -->
