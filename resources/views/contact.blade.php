@@ -33,7 +33,7 @@
                 </div>
                 <div class="method-content">
                     <h4>{{ __('messages.contact_phone_title') }}</h4>
-                    <p><a href="tel:+393510388324">(+39) 351 038 8324</a></p>
+                    <p><a href="tel:+919875439901">(+91) 919875439901</a></p>
                 </div>
             </div>
 
